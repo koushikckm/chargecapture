@@ -15,5 +15,5 @@ public interface ChargeCaptureService {
 
 	List<PatientDetail> getPatientDetailList();
 
-	void submitPatientDetail(PatientServiceDetail patientServiceDetail);
+	void submitPatientServiceDetail(PatientServiceDetail patientServiceDetail);
 }

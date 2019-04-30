@@ -15,5 +15,5 @@ public interface ChargeCaptureDAO {
 
 	List<PatientDetail> getPatientDetailList();
 
-	void submitPatientDetail(PatientServiceDetail patientServiceDetail);
+	void submitPatientServiceDetail(PatientServiceDetail patientServiceDetail);
 }

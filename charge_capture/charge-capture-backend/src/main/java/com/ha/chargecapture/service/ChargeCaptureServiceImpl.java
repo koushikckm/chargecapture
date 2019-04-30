@@ -33,8 +33,8 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 	}
 
 	@Override
-	public void submitPatientDetail(PatientServiceDetail patientServiceDetail) {
-		chargeCaptureDAO.submitPatientDetail(patientServiceDetail);
+	public void submitPatientServiceDetail(PatientServiceDetail patientServiceDetail) {
+		chargeCaptureDAO.submitPatientServiceDetail(patientServiceDetail);
 	}
 
 }

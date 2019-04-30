@@ -27,41 +27,51 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 	@Override
 	public List<ICDCodes> getICDDetail() {
+		List<ICDCodes> icdList = null;
+
 		Session session = (Session) entityManager.getDelegate();
 		Criteria criteria = session.createCriteria(ICDCodes.class, "icdcodes");
-		List<ICDCodes> icdList = criteria.list();
+		icdList = criteria.list();
 		if (null == icdList || icdList.isEmpty()) {
 			return new ArrayList<>();
 		}
+
 		return icdList;
 	}
 
 	@Override
 	public List<CPDCodes> getCPDDetail() {
+		List<CPDCodes> cpdList = null;
 		Session session = (Session) entityManager.getDelegate();
 		Criteria criteria = session.createCriteria(CPDCodes.class, "cpdcodes");
-		List<CPDCodes> cpdList = criteria.list();
+		cpdList = criteria.list();
 		if (null == cpdList || cpdList.isEmpty()) {
 			return new ArrayList<>();
 		}
+
 		return cpdList;
 	}
 
 	@Override
 	public List<PatientDetail> getPatientDetailList() {
+		List<PatientDetail> patientdetailList = null;
+
 		Session session = (Session) entityManager.getDelegate();
 		Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
-		List<PatientDetail> patientdetailList = criteria.list();
+		patientdetailList = criteria.list();
 		if (null == patientdetailList || patientdetailList.isEmpty()) {
 			return new ArrayList<>();
 		}
+
 		return patientdetailList;
 	}
 
 	@Override
-	public void submitPatientDetail(PatientServiceDetail patientServiceDetail) {
+	public void submitPatientServiceDetail(PatientServiceDetail patientServiceDetail) {
+
 		Session session = (Session) entityManager.getDelegate();
 		session.save(patientServiceDetail);
+
 	}
 
 }

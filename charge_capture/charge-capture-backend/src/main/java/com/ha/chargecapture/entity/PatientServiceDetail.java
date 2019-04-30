@@ -1,22 +1,37 @@
 package com.ha.chargecapture.entity;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "patientservicedetail")
-public class PatientServiceDetail {
+public class PatientServiceDetail implements Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 69249409275425137L;
 
 	@Id
 	@GeneratedValue
-	@Column(name = "id")
-	private int id;
+	@Column(name = "service_id")
+	private Integer serviceId;
 
-	@Column(name = "mrn")
-	private String mrn;
+	@Column(name = "patient_id")
+	private String patientId;
+
+	@Column(name = "serviced_provider_id")
+	private Integer servicedProviderId;
 
 	@Column(name = "date_of_service")
 	private String dateOfService;
@@ -24,30 +39,39 @@ public class PatientServiceDetail {
 	@Column(name = "comments")
 	private String comments;
 
-	@Column(name = "icdcodes")
-	private String icdCodes;
+	@Column(name = "charges")
+	private Integer charges;
 
-	@Column(name = "cpdcodes")
-	private String cpdCodes;
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = PatientServiceICDCodes.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "service_id", referencedColumnName = "service_id")
+	private List<PatientServiceICDCodes> icdCodes;
 
-	public int getId() {
-		return id;
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = PatientServiceCPDCodes.class, cascade = CascadeType.ALL)
+	@JoinColumn(name = "service_id", referencedColumnName = "service_id")
+	private List<PatientServiceCPDCodes> cpdCodes;
+
+	public Integer getServiceId() {
+		return serviceId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setServiceId(Integer serviceId) {
+		this.serviceId = serviceId;
 	}
 
-	public String getMrn() {
-		return mrn;
+	public Integer getServicedProviderId() {
+		return servicedProviderId;
 	}
 
-	public void setMrn(String mrn) {
-		this.mrn = mrn;
+	public void setServicedProviderId(Integer servicedProviderId) {
+		this.servicedProviderId = servicedProviderId;
 	}
 
-	public String getComments() {
-		return comments;
+	public Integer getCharges() {
+		return charges;
+	}
+
+	public void setCharges(Integer charges) {
+		this.charges = charges;
 	}
 
 	public String getDateOfService() {
@@ -58,23 +82,35 @@ public class PatientServiceDetail {
 		this.dateOfService = dateOfService;
 	}
 
+	public String getComments() {
+		return comments;
+	}
+
 	public void setComments(String comments) {
 		this.comments = comments;
 	}
 
-	public String getIcdCodes() {
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
+	public List<PatientServiceICDCodes> getIcdCodes() {
 		return icdCodes;
 	}
 
-	public void setIcdCodes(String icdCodes) {
+	public void setIcdCodes(List<PatientServiceICDCodes> icdCodes) {
 		this.icdCodes = icdCodes;
 	}
 
-	public String getCpdCodes() {
+	public List<PatientServiceCPDCodes> getCpdCodes() {
 		return cpdCodes;
 	}
 
-	public void setCpdCodes(String cpdCodes) {
+	public void setCpdCodes(List<PatientServiceCPDCodes> cpdCodes) {
 		this.cpdCodes = cpdCodes;
 	}
 
