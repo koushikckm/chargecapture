@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -30,14 +31,14 @@ public class PatientServiceDetail implements Serializable {
 	@Column(name = "patient_id")
 	private String patientId;
 
-	@Column(name = "serviced_provider_id")
-	private Integer servicedProviderId;
-
 	@Column(name = "date_of_service")
 	private String dateOfService;
 
 	@Column(name = "comments")
 	private String comments;
+
+	@Column(name = "status")
+	private String status;
 
 	@Column(name = "charges")
 	private Integer charges;
@@ -50,20 +51,16 @@ public class PatientServiceDetail implements Serializable {
 	@JoinColumn(name = "service_id", referencedColumnName = "service_id")
 	private List<PatientServiceCPDCodes> cpdCodes;
 
+	@ManyToOne
+	@JoinColumn(name = "provider_id")
+	private Provider provider;
+
 	public Integer getServiceId() {
 		return serviceId;
 	}
 
 	public void setServiceId(Integer serviceId) {
 		this.serviceId = serviceId;
-	}
-
-	public Integer getServicedProviderId() {
-		return servicedProviderId;
-	}
-
-	public void setServicedProviderId(Integer servicedProviderId) {
-		this.servicedProviderId = servicedProviderId;
 	}
 
 	public Integer getCharges() {
@@ -112,6 +109,22 @@ public class PatientServiceDetail implements Serializable {
 
 	public void setCpdCodes(List<PatientServiceCPDCodes> cpdCodes) {
 		this.cpdCodes = cpdCodes;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public Provider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
 	}
 
 }

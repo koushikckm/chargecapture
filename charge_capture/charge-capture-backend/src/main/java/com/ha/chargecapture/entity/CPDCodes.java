@@ -26,8 +26,12 @@ public class CPDCodes implements Serializable {
 	@Column(name = "description")
 	private String description;
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public int getRecordId() {
+		return recordId;
+	}
+
+	public void setRecordId(int recordId) {
+		this.recordId = recordId;
 	}
 
 	public String getCpdcode() {

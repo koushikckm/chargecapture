@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ha.chargecapture.dao.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.PatientDetail;
-import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.service.ChargeCaptureService;
 
 @RestController
@@ -50,11 +50,11 @@ public class ChargeCaptureAPI {
 		return patientDetail;
 	}
 
-	@PostMapping(value = "/submitPatientServiceDetail")
+	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })
 	@CrossOrigin
-	public void submitPatientDetail(@RequestBody PatientServiceDetail patientServiceDetail) {
+	public void submitPatientDetail(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
 
-		chargeCaptureService.submitPatientServiceDetail(patientServiceDetail);
+		chargeCaptureService.submitPatientServiceDetail(patientServiceDetailDTO);
 	}
 
 	/*
