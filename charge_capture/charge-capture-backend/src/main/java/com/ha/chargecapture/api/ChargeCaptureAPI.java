@@ -85,9 +85,11 @@ public class ChargeCaptureAPI {
 
 	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })
 	@CrossOrigin
-	public void submitPatientDetail(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
+	public long submitPatientDetail(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
 
-		chargeCaptureService.submitPatientServiceDetail(patientServiceDetailDTO);
+		long serviceId = chargeCaptureService.submitPatientServiceDetail(patientServiceDetailDTO);
+
+		return serviceId;
 	}
 
 	@PutMapping(value = "/updatePatientDetail", produces = { "application/json" })

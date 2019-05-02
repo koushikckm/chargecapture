@@ -1,6 +1,5 @@
 package com.ha.chargecapture.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,8 @@ import com.ha.chargecapture.entity.CPDCodes;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.PatientDetail;
-import com.ha.chargecapture.entity.PatientServiceCPDCodes;
 import com.ha.chargecapture.entity.PatientServiceDetail;
+import com.ha.chargecapture.entity.Provider;
 
 @Service
 public class ChargeCaptureServiceImpl implements ChargeCaptureService {
@@ -72,27 +71,48 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 	}
 
 	@Override
-	public void submitPatientServiceDetail(PatientServiceDetailDTO patientServiceDetailDTO) {
+	public long submitPatientServiceDetail(PatientServiceDetailDTO patientServiceDetailDTO) {
+
+		long serviceId = 0;
 
 		PatientServiceDetail patientServiceDetail = new PatientServiceDetail();
-		patientServiceDetail.setPatientId(patientServiceDetailDTO.getPatientId());
-		patientServiceDetail.setDateOfService(patientServiceDetailDTO.getDateOfService());
-		patientServiceDetail.setComments(patientServiceDetailDTO.getComments());
-		patientServiceDetail.setStatus(patientServiceDetailDTO.getStatus());
+		if (null != patientServiceDetailDTO.getPatientId()) {
+			patientServiceDetail.setPatientId(patientServiceDetailDTO.getPatientId());
+		}
+		if (null != patientServiceDetailDTO.getDateOfService()) {
+			patientServiceDetail.setDateOfService(patientServiceDetailDTO.getDateOfService());
+		}
+		if (null != patientServiceDetailDTO.getComments()) {
+			patientServiceDetail.setComments(patientServiceDetailDTO.getComments());
+		}
+		if (null != patientServiceDetailDTO.getStatus()) {
+			patientServiceDetail.setStatus(patientServiceDetailDTO.getStatus());
+		}
 		patientServiceDetail.setCharges(patientServiceDetailDTO.getCharges());
 
-		List<PatientServiceCPDCodes> cpdCodes = new ArrayList<>();
+		//get provider details
+		Provider provider = chargeCaptureDAO.getProvider(patientServiceDetailDTO.getProviderId());
+		//set the provider
+		patientServiceDetail.setProvider(provider);
 
-		for (int i = 0; i < patientServiceDetailDTO.getCpdRecordIds().size(); i++) {
+		serviceId = chargeCaptureDAO.submitPatientServiceDetail(patientServiceDetail);
+		Long sId = new Long(serviceId);
 
+		if(null!=patientServiceDetailDTO.getIcdRecordIds() && !patientServiceDetailDTO.getIcdRecordIds().isEmpty()) {
+			//insert to PatientServiceICDCodes with service id and cpd code
+			for (int i = 0; i < patientServiceDetailDTO.getIcdRecordIds().size(); i++) {
+				chargeCaptureDAO.insertToPatientServiceIcdCode(sId.intValue(),patientServiceDetailDTO.getIcdRecordIds().get(i));
+			}
 		}
-		patientServiceDetail.setCpdCodes(cpdCodes);
 
-		// patientServiceDetail.setIcdCodes(icdCodes);
+		/*if(null!=patientServiceDetailDTO.getCpdRecordIds() && !patientServiceDetailDTO.getCpdRecordIds().isEmpty()) {
+			//insert to PatientServiceCPDCodes with service id and cpd code
+			for (int i = 0; i < patientServiceDetailDTO.getCpdRecordIds().size(); i++) {
+				chargeCaptureDAO.insertToPatientServiceCpdCode(serviceId,patientServiceDetailDTO.getCpdRecordIds().get(i));
+			}
+		}*/
 
-		// patientServiceDetail.setProvider(provider);
-
-		chargeCaptureDAO.submitPatientServiceDetail(patientServiceDetail);
+		return serviceId;
 	}
 
 	@Override

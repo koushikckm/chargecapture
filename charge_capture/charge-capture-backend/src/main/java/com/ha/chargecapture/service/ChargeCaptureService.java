@@ -22,7 +22,7 @@ public interface ChargeCaptureService {
 
 	List<PatientDetail> getPatientDetailListForWeb();
 
-	void submitPatientServiceDetail(PatientServiceDetailDTO patientServiceDetailDTO);
+	long submitPatientServiceDetail(PatientServiceDetailDTO patientServiceDetailDTO);
 
 	void updatePatientDetail(PatientDetail patientDetail);
 }

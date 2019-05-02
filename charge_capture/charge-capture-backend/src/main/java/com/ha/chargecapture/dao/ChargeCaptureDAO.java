@@ -7,6 +7,7 @@ import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
+import com.ha.chargecapture.entity.Provider;
 
 public interface ChargeCaptureDAO {
 
@@ -22,7 +23,13 @@ public interface ChargeCaptureDAO {
 
 	List<PatientDetail> getPatientDetailListForWeb();
 
-	void submitPatientServiceDetail(PatientServiceDetail patientServiceDetail);
+	long submitPatientServiceDetail(PatientServiceDetail patientServiceDetail);
 
 	void updatePatientDetail(PatientDetail patientDetail);
+
+	Provider getProvider(int providerId);
+
+	void insertToPatientServiceIcdCode(int serviceId, int icdRecordId);
+
+	void insertToPatientServiceCpdCode(int serviceId, int cpdRecordId);
 }

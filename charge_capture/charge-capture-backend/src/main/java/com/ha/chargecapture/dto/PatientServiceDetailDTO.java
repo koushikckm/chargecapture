@@ -6,6 +6,8 @@ public class PatientServiceDetailDTO {
 
 	private String patientId;
 
+	private int providerId;
+
 	private String dateOfService;
 
 	private String comments;
@@ -73,5 +75,14 @@ public class PatientServiceDetailDTO {
 	public void setCpdRecordIds(List<Integer> cpdRecordIds) {
 		this.cpdRecordIds = cpdRecordIds;
 	}
+
+	public int getProviderId() {
+		return providerId;
+	}
+
+	public void setProviderId(int providerId) {
+		this.providerId = providerId;
+	}
+
 
 }
