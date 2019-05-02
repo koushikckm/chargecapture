@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -16,6 +17,7 @@ import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 
 @Repository
+@Transactional
 public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 	@PersistenceContext
@@ -72,6 +74,28 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		Session session = (Session) entityManager.getDelegate();
 		session.save(patientServiceDetail);
 
+	}
+
+	@Override
+	public void updatePatientDetail(PatientDetail patientDetail) {
+
+		Session session = (Session) entityManager.getDelegate();
+		session.update(patientDetail);
+	}
+
+	@Override
+	public List<PatientDetail> getPatientDetailListForWeb() {
+
+		List<PatientDetail> patientdetailList = null;
+
+		Session session = (Session) entityManager.getDelegate();
+		Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
+		patientdetailList = criteria.list();
+		if (null == patientdetailList || patientdetailList.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		return patientdetailList;
 	}
 
 }

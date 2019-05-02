@@ -1,4 +1,4 @@
-package com.ha.chargecapture.dao;
+package com.ha.chargecapture.dto;
 
 import java.util.List;
 

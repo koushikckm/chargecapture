@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ha.chargecapture.dao.PatientServiceDetailDTO;
+import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.PatientDetail;
@@ -50,6 +51,17 @@ public class ChargeCaptureAPI {
 		return patientDetail;
 	}
 
+	@GetMapping(value = "/getPatientDetailForWeb")
+	@CrossOrigin
+	public List<PatientDetail> getPatientDetailForWeb() {
+
+		List<PatientDetail> patientDetail = null;
+
+		patientDetail = chargeCaptureService.getPatientDetailListForWeb();
+
+		return patientDetail;
+	}
+
 	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })
 	@CrossOrigin
 	public void submitPatientDetail(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
@@ -57,13 +69,10 @@ public class ChargeCaptureAPI {
 		chargeCaptureService.submitPatientServiceDetail(patientServiceDetailDTO);
 	}
 
-	/*
-	 * @PostMapping(value = "/updatePatientDetail", produces = { "application/json"
-	 * })
-	 *
-	 * @CrossOrigin public void submitPatientDetail(@RequestBody List<PatientDetail>
-	 * patientDetail) {
-	 *
-	 * chargeCaptureService.submitPatientDetail(patientServiceDetail); }
-	 */
+	@PutMapping(value = "/updatePatientDetail", produces = { "application/json" })
+	@CrossOrigin
+	public void updatePatientDetail(@RequestBody PatientDetail patientDetail) {
+
+		chargeCaptureService.updatePatientDetail(patientDetail);
+	}
 }
