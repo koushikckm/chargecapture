@@ -5,21 +5,25 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.service.ChargeCaptureService;
 
 @RestController
+@Validated
 @RequestMapping("/chargecapture")
 public class ChargeCaptureAPI {
 
@@ -27,6 +31,23 @@ public class ChargeCaptureAPI {
 
 	@Autowired
 	ChargeCaptureService chargeCaptureService;
+
+	@GetMapping(value = "/getFacilityDetail")
+	@CrossOrigin
+	public List<Facility> getFacilityDetail() {
+		return chargeCaptureService.getFacilityDetail();
+	}
+
+	@GetMapping(value = "/getPatientsForFacility")
+	@CrossOrigin
+	public List<PatientDetail> getPatientsForFacility(@RequestParam(required = true) int facilityId) {
+
+		List<PatientDetail> patientDetail = null;
+
+		patientDetail = chargeCaptureService.getPatientsForFacility(facilityId);
+
+		return patientDetail;
+	}
 
 	@GetMapping(value = "/getICDCodes")
 	@CrossOrigin

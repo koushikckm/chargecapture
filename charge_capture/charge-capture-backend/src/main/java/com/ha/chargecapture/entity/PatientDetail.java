@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -89,6 +90,10 @@ public class PatientDetail implements Serializable {
 	@OneToMany(fetch = FetchType.LAZY, targetEntity = PatientReferringProvider.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
 	private List<PatientReferringProvider> referringProviders;
+
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "facility_id")
+	private Facility facility;
 
 	public String getPatientId() {
 		return patientId;

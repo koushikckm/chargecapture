@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ha.chargecapture.dao.ChargeCaptureDAO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceCPDCodes;
@@ -36,18 +37,30 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 	}
 
 	@Override
+	public List<PatientDetail> getPatientsForFacility(int facilityId) {
+		return chargeCaptureDAO.getPatientsForFacility(facilityId);
+	}
+
+	@Override
+	public List<Facility> getFacilityDetail() {
+
+		return chargeCaptureDAO.getFacilityDetail();
+	}
+
+	@Override
 	public List<PatientDetail> getPatientDetailListForWeb() {
 		List<PatientDetail> patientDetail = null;
 
 		patientDetail = chargeCaptureDAO.getPatientDetailListForWeb();
 
-		//For every patient retain only first service record
+		// For every patient retain only first service record
 
-		for(int i=0;i<patientDetail.size();i++) {
-			if(null!=patientDetail.get(i).getPatientServiceDetail() && !patientDetail.get(i).getPatientServiceDetail().isEmpty()) {
+		for (int i = 0; i < patientDetail.size(); i++) {
+			if (null != patientDetail.get(i).getPatientServiceDetail()
+					&& !patientDetail.get(i).getPatientServiceDetail().isEmpty()) {
 
 				List<PatientServiceDetail> patientServDetail = patientDetail.get(i).getPatientServiceDetail();
-				if(null!=patientServDetail && !patientServDetail.isEmpty()) {
+				if (null != patientServDetail && !patientServDetail.isEmpty()) {
 					PatientServiceDetail servSetail = patientServDetail.get(0);
 					patientServDetail.clear();
 					patientServDetail.add(servSetail);
