@@ -43,7 +43,8 @@ public class ChargeCaptureAPI {
 	@CrossOrigin
 	public List<PatientDetail> getPatientsForFacility(@RequestParam(required = true) int facilityId) {
 
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientsForFacility()");
+		LOGGER.debug(Logger.EVENT_SUCCESS,
+				"Entering ChargeCaptureAPI::getPatientsForFacility() with facility id : " + facilityId);
 		List<PatientDetail> patientDetail = null;
 
 		patientDetail = chargeCaptureService.getPatientsForFacility(facilityId);
