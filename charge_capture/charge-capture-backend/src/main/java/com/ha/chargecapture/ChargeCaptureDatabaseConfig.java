@@ -4,8 +4,8 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.owasp.esapi.ESAPI;
+import org.owasp.esapi.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -32,7 +32,7 @@ public class ChargeCaptureDatabaseConfig {
 	@Value("${hibernate.connection.autocommit}")
 	private String hibernateConnectionAutoCommit;
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(ChargeCaptureDatabaseConfig.class);
+	private static final Logger LOGGER = ESAPI.getLogger(ChargeCaptureDatabaseConfig.class);
 
 	/**
 	 *
@@ -43,7 +43,7 @@ public class ChargeCaptureDatabaseConfig {
 	@ConfigurationProperties(prefix = "db.datasource")
 	public DataSource ccDataSource() {
 
-		LOGGER.debug("-------------- data source init-----------------");
+		LOGGER.debug(Logger.EVENT_SUCCESS, "-------------- data source init-----------------");
 		return DataSourceBuilder.create().build();
 
 	}
@@ -56,7 +56,7 @@ public class ChargeCaptureDatabaseConfig {
 	@Primary
 	public LocalSessionFactoryBean plSessionFactory() {
 		LocalSessionFactoryBean sessionFactoryBean = new LocalSessionFactoryBean();
-		LOGGER.debug("************* datasource : {}", ccDataSource());
+		LOGGER.debug(Logger.EVENT_SUCCESS, "************* datasource : {}" + ccDataSource());
 		sessionFactoryBean.setDataSource(ccDataSource());
 		sessionFactoryBean.setPackagesToScan(entityManagerPackagesToScan);
 		Properties hibernateProperties = new Properties();
