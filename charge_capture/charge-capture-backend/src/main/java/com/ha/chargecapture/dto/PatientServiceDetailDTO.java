@@ -4,6 +4,8 @@ import java.util.List;
 
 public class PatientServiceDetailDTO {
 
+	private int serviceId;
+
 	private String patientId;
 
 	private int providerId;
@@ -19,6 +21,14 @@ public class PatientServiceDetailDTO {
 	private List<Integer> icdRecordIds;
 
 	private List<Integer> cpdRecordIds;
+
+	public int getServiceId() {
+		return serviceId;
+	}
+
+	public void setServiceId(int serviceId) {
+		this.serviceId = serviceId;
+	}
 
 	public String getPatientId() {
 		return patientId;
@@ -83,6 +93,5 @@ public class PatientServiceDetailDTO {
 	public void setProviderId(int providerId) {
 		this.providerId = providerId;
 	}
-
 
 }

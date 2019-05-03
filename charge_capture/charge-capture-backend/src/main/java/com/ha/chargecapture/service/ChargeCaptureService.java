@@ -25,4 +25,6 @@ public interface ChargeCaptureService {
 	long submitPatientServiceDetail(PatientServiceDetailDTO patientServiceDetailDTO);
 
 	void updatePatientDetail(PatientDetail patientDetail);
+
+	void updatePatientServiceStatus(PatientServiceDetailDTO patientServiceDetailDTO);
 }

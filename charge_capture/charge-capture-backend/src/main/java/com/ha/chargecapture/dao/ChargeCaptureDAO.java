@@ -32,4 +32,8 @@ public interface ChargeCaptureDAO {
 	void insertToPatientServiceIcdCode(int serviceId, int icdRecordId);
 
 	void insertToPatientServiceCpdCode(int serviceId, int cpdRecordId);
+
+	PatientServiceDetail getPatientService(int serviceId);
+
+	void updatePatientServiceStatus(PatientServiceDetail patientServiceDetail);
 }

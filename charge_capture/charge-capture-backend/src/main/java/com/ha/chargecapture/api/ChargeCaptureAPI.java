@@ -92,6 +92,13 @@ public class ChargeCaptureAPI {
 		return serviceId;
 	}
 
+	@PutMapping(value = "/updatePatientServiceStatus", produces = { "application/json" })
+	@CrossOrigin
+	public void updatePatientServiceStatus(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
+
+		chargeCaptureService.updatePatientServiceStatus(patientServiceDetailDTO);
+	}
+
 	@PutMapping(value = "/updatePatientDetail", produces = { "application/json" })
 	@CrossOrigin
 	public void updatePatientDetail(@RequestBody PatientDetail patientDetail) {

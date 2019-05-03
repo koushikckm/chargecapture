@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "patientdetail")
@@ -82,6 +83,9 @@ public class PatientDetail implements Serializable {
 
 	@Column(name = "is_processed")
 	private Integer isProcessed;
+
+	@Transient
+	private int age;
 
 	@OneToMany(fetch = FetchType.EAGER, targetEntity = PatientServiceDetail.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
@@ -269,6 +273,22 @@ public class PatientDetail implements Serializable {
 
 	public void setReferringProviders(List<PatientReferringProvider> referringProviders) {
 		this.referringProviders = referringProviders;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public Facility getFacility() {
+		return facility;
+	}
+
+	public void setFacility(Facility facility) {
+		this.facility = facility;
 	}
 
 }

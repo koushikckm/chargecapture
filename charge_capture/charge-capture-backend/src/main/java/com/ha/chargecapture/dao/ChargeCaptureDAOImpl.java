@@ -12,7 +12,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.ResultTransformer;
-import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
@@ -59,7 +58,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		String patientQuery = "SELECT patient_id AS patientId,first_name AS firstName,last_name AS lastName,middle_name AS middleName,name_suffix AS nameSuffix,date_of_birth AS dateOfBirth,gender AS gender,"
 				+ "address_line_1 AS address1,address_line_2 AS address2,city AS city,state AS state,zip AS zip,home_phone AS homePhone,mobile_phone AS mobilePhone,email AS email,work_phone AS workPhone,ssn AS ssn "
 				+ "FROM chargecapturenew.patientdetail where facility_id = :facilityId";
-		query = getSession().createSQLQuery(patientQuery).addScalar("patientId", IntegerType.INSTANCE)
+		query = getSession().createSQLQuery(patientQuery).addScalar("patientId", StringType.INSTANCE)
 				.addScalar("firstName", StringType.INSTANCE).addScalar("lastName", StringType.INSTANCE)
 				.addScalar("middleName", StringType.INSTANCE).addScalar("nameSuffix", StringType.INSTANCE)
 				.addScalar("dateOfBirth", StringType.INSTANCE).addScalar("gender", StringType.INSTANCE)
@@ -180,6 +179,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 		Session session = (Session) entityManager.getDelegate();
 		Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		patientdetailList = criteria.list();
 		if (null == patientdetailList || patientdetailList.isEmpty()) {
 			return new ArrayList<>();
@@ -211,6 +211,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 		Session session = (Session) entityManager.getDelegate();
 		Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		patientdetailList = criteria.list();
 		if (null == patientdetailList || patientdetailList.isEmpty()) {
 			return new ArrayList<>();
@@ -280,6 +281,30 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		query.setParameter("serviceId", serviceId);
 		query.setParameter("cpdCode", cpdCode);
 		query.executeUpdate();
+	}
+
+	@Override
+	public PatientServiceDetail getPatientService(int serviceId) {
+
+		Session session = (Session) entityManager.getDelegate();
+		Criteria criteria = session.createCriteria(PatientServiceDetail.class, "patientservicedetail");
+		criteria.add(Restrictions.eq("patientservicedetail.serviceId", serviceId));
+
+		List<PatientServiceDetail> serviceDetailList = criteria.list();
+
+		PatientServiceDetail patientService = new PatientServiceDetail();
+		if (!serviceDetailList.isEmpty()) {
+			patientService = serviceDetailList.get(0);
+		}
+		return patientService;
+	}
+
+	@Override
+	public void updatePatientServiceStatus(PatientServiceDetail patientServiceDetail) {
+
+		Session session = (Session) entityManager.getDelegate();
+
+		session.update(patientServiceDetail);
 	}
 
 }
