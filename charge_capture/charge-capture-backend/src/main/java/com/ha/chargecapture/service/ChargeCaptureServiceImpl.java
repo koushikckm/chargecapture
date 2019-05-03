@@ -105,12 +105,12 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			}
 		}
 
-		/*if(null!=patientServiceDetailDTO.getCpdRecordIds() && !patientServiceDetailDTO.getCpdRecordIds().isEmpty()) {
+		if(null!=patientServiceDetailDTO.getCpdRecordIds() && !patientServiceDetailDTO.getCpdRecordIds().isEmpty()) {
 			//insert to PatientServiceCPDCodes with service id and cpd code
 			for (int i = 0; i < patientServiceDetailDTO.getCpdRecordIds().size(); i++) {
-				chargeCaptureDAO.insertToPatientServiceCpdCode(serviceId,patientServiceDetailDTO.getCpdRecordIds().get(i));
+				chargeCaptureDAO.insertToPatientServiceCpdCode(sId.intValue(),patientServiceDetailDTO.getCpdRecordIds().get(i));
 			}
-		}*/
+		}
 
 		return serviceId;
 	}
