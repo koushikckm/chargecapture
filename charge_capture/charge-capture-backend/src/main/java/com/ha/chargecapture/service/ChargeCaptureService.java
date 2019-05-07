@@ -2,6 +2,9 @@ package com.ha.chargecapture.service;
 
 import java.util.List;
 
+import com.ha.chargecapture.dto.CPDCodesDTO;
+import com.ha.chargecapture.dto.ICDCodesDTO;
+import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
 import com.ha.chargecapture.entity.Facility;
@@ -27,4 +30,12 @@ public interface ChargeCaptureService {
 	void updatePatientDetail(PatientDetail patientDetail);
 
 	void updatePatientServiceStatus(PatientServiceDetailDTO patientServiceDetailDTO);
+
+	List<PatientDetailDTO> getPatients();
+
+	PatientServiceDetailDTO getServiceForServiceId(int serviceId);
+
+	List<CPDCodesDTO> getCpdsForServiceId(int serviceId);
+
+	List<ICDCodesDTO> getIcdsForServiceId(int serviceId);
 }

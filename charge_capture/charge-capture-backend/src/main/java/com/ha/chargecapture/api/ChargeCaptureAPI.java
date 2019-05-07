@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ha.chargecapture.dto.CPDCodesDTO;
+import com.ha.chargecapture.dto.ICDCodesDTO;
+import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
 import com.ha.chargecapture.entity.Facility;
@@ -112,5 +115,49 @@ public class ChargeCaptureAPI {
 	public void updatePatientDetail(@RequestBody PatientDetail patientDetail) {
 
 		chargeCaptureService.updatePatientDetail(patientDetail);
+	}
+
+	@GetMapping(value = "/getPatients")
+	@CrossOrigin
+	public List<PatientDetailDTO> getPatients() {
+
+		List<PatientDetailDTO> patientDetail = null;
+
+		patientDetail = chargeCaptureService.getPatients();
+
+		return patientDetail;
+	}
+
+	@GetMapping(value = "/getServiceForServiceId")
+	@CrossOrigin
+	public PatientServiceDetailDTO getServiceForServiceId(@RequestParam(required = true) int serviceId) {
+
+		PatientServiceDetailDTO patientService = null;
+
+		patientService = chargeCaptureService.getServiceForServiceId(serviceId);
+
+		return patientService;
+	}
+
+	@GetMapping(value = "/getCpdsForServiceId")
+	@CrossOrigin
+	public List<CPDCodesDTO> getCpdsForServiceId(@RequestParam(required = true) int serviceId) {
+
+		List<CPDCodesDTO> cpdCodes = null;
+
+		cpdCodes = chargeCaptureService.getCpdsForServiceId(serviceId);
+
+		return cpdCodes;
+	}
+
+	@GetMapping(value = "/getIcdsForServiceId")
+	@CrossOrigin
+	public List<ICDCodesDTO> getIcdsForServiceId(@RequestParam(required = true) int serviceId) {
+
+		List<ICDCodesDTO> icdCodes = null;
+
+		icdCodes = chargeCaptureService.getIcdsForServiceId(serviceId);
+
+		return icdCodes;
 	}
 }

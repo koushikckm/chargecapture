@@ -36,4 +36,8 @@ public interface ChargeCaptureDAO {
 	PatientServiceDetail getPatientService(int serviceId);
 
 	void updatePatientServiceStatus(PatientServiceDetail patientServiceDetail);
+
+	List<CPDCodes> getCpdsForServiceId(int serviceId);
+
+	List<ICDCodes> getIcdsForServiceId(int serviceId);
 }
