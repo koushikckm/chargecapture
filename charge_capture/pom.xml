@@ -19,6 +19,7 @@
 	
 	<modules>
 	<module>charge-capture-backend</module>
+	<module>charge-capture-backoffice-ui</module>
 	</modules>
 
 	<name>charge-capture</name>
