@@ -4,4 +4,7 @@ header {
     text-align: left;
     font-size: 35px;
     color: white;
+    position: fixed;
+    width: 100%;
+    z-index: 1;
   }

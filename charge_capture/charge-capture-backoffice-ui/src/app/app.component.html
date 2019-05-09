@@ -19,7 +19,13 @@
 </ul> -->
 <div class="page-wrap">
   <app-header></app-header>
-  <router-outlet></router-outlet>
-</div>
-<app-footer></app-footer>
+  <div class="sidenav">
+    <a routerLink="/patientlist">Patient List</a>
+  </div>
+  <div class="main">
+    <router-outlet></router-outlet>
+  </div>
 
+</div>
+
+<app-footer></app-footer>

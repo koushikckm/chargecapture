@@ -1,11 +1,12 @@
 <form>
   <!-- patient details -->
-  <div class="panel panel-default" style="padding-top: 1%;width: 95%;margin-left: 1%;">
-    <div class="panel-heading" style="background-color: #e9ecef">Patient Details
-      <a (click)="hidePanel('patientDetailsShow')" *ngIf="patientDetailsShow">
+  <br/>
+  <div class="panel panel-default" style="padding-top: 1%;width: 95%;margin-left: 1%;border-style: solid;border-width: 0.01em;border-color: #c2cbd4;">
+    <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Details
+      <a (click)="hidePanel('patientDetailsShow')" *ngIf="patientDetailsShow" class="pull-right">
         <i class="fa fa-angle-up"></i>
       </a>
-      <a (click)="hidePanel('patientDetailsShow')" *ngIf="!patientDetailsShow">
+      <a (click)="hidePanel('patientDetailsShow')" *ngIf="!patientDetailsShow" class="pull-right">
         <i class="fa fa-angle-down"></i>
       </a>
     </div>
@@ -123,8 +124,8 @@
   </div>
 
 
-
-  <table class="table">
+<div *ngIf="patientdetails.patientServiceDetail.length!=0 && patientdetails.patientServiceDetail!=null">
+  <table class="table" style="width: 95%;margin-top: 2%;margin-left: 1%;">
     <thead>
       <tr>
         <th (click)="sort('serviceId')">Service Id
@@ -160,21 +161,25 @@
       </tr>
     </tbody>
   </table>
-  <pagination-controls (pageChange)="pagenumber = $event" style="margin-left: 60%"></pagination-controls>
+  <div style="margin-left: 82%">
+      <pagination-controls (pageChange)="pagenumber = $event"></pagination-controls>
+  </div>
+</div>
 
 
-  <div class="panel panel-default" style="padding-top: 1%;width: 95%;margin-left: 1%;" *ngIf="showPatientServiceDetails">
-    <div class="panel-heading" style="background-color: #e9ecef">Patient Details
-      <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="showPatientServiceDetailsPanel">
+<div class="panel panel-default" style="padding-top: 1%;width: 95%;margin-left: 1%;border-style: solid;border-width: 0.01em;border-color: #c2cbd4;" *ngIf="showPatientServiceDetails">
+    <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Details
+      <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="showPatientServiceDetailsPanel" class="pull-right">
         <i class="fa fa-angle-up"></i>
       </a>
-      <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="!showPatientServiceDetailsPanel">
+      <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="!showPatientServiceDetailsPanel" class="pull-right">
         <i class="fa fa-angle-down"></i>
       </a>
     </div>
     <div class="panel-body" *ngIf="showPatientServiceDetailsPanel">
+      <br/>
       ICD
-      <table class="table">
+      <table class="table" >
         <thead>
           <tr>
             <!-- <th (click)="sort('recordId')">recordId
@@ -183,15 +188,15 @@
             <th (click)="sort('serviceId')">serviceId
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th> -->
-            <th (click)="sort('icdCode')">icdCode
+            <th (click)="sort('icdCode')">ICD Code
               <span class="glyphicon sort-icon" *ngIf="key =='icdCode'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
-            <th (click)="sort('description')">description
+            <th (click)="sort('description')">Description
               <span class="glyphicon sort-icon" *ngIf="key =='icdCodeDescription'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="serviceDetails.icdCodes.length!=0 || serviceDetails.icdCodes!=null">
           <tr *ngFor="let detail of serviceDetails.icdCodes | orderBy: key : reverse ; let i = index">
             <!-- <td>
               <span *ngIf="!isEditable">{{detail.recordId}}</span>
@@ -220,10 +225,13 @@
             </td>
           </tr>
         </tbody>
+        <tbody *ngIf="serviceDetails.icdCodes.length==0 || serviceDetails.icdCodes==null">
+          <tr><span style="text-align: center;float: right;">Data not available</span></tr>
+        </tbody>
       </table>
-
+      <br/>
       CPD
-      <table class="table">
+      <table class="table" >
         <thead>
           <tr>
             <!-- <th (click)="sort('recordId')">recordId
@@ -232,15 +240,15 @@
             <th (click)="sort('serviceId')">serviceId
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th> -->
-            <th (click)="sort('cpdcode')">cpdcode
+            <th (click)="sort('cpdcode')">CPD Code
               <span class="glyphicon sort-icon" *ngIf="key =='cpdcode'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
-            <th (click)="sort('description')">description
+            <th (click)="sort('description')">Description
               <span class="glyphicon sort-icon" *ngIf="key =='description'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="serviceDetails.cpdCodes.length!=0 || serviceDetails.cpdCodes!=null">
           <tr *ngFor="let detail of serviceDetails.cpdCodes | orderBy: key : reverse ; let i = index">
             <!-- <td>
               <span *ngIf="!isEditable">{{detail.recordId}}</span>
@@ -269,13 +277,16 @@
             </td>
           </tr>
         </tbody>
+        <tbody *ngIf="serviceDetails.cpdCodes.length==0 || serviceDetails.cpdCodes==null">
+            <tr><span style="text-align: center;float: right;">Data not available</span></tr>
+          </tbody>
       </table>
     </div>
   </div>
 
-  <div>
+  <div style="margin-left: 95em;padding-top: 1%">
     <button class="btn-primary" (click)="edit()" *ngIf="!isEditable">Edit</button>
-    <button class="btn-primary" (click)="save(patientdetails)" *ngIf="isEditable">Save</button>
+    <button class="btn-primary" (click)="save(patientdetails)" *ngIf="isEditable">Save</button>&nbsp;
     <button class="btn-primary" (click)="cancel()" *ngIf="isEditable">Cancel</button>
   </div>
 </form>
