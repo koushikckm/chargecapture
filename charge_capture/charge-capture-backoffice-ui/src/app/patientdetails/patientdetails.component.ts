@@ -12,7 +12,7 @@ export class PatientdetailsComponent implements OnInit {
     private router:Router,
     private data:DataService
   ) { }
-  patientdetails:any=null;
+  patientdetails:any={};
   patientDetailsShow:boolean=true;
   showPatientServiceDetails:boolean=false;
   showPatientServiceDetailsPanel:boolean=true;
@@ -29,6 +29,7 @@ export class PatientdetailsComponent implements OnInit {
     pagenumber: number = 1;
 
   ngOnInit() {
+    console.log("Details component1");
     if(this.data.getData()!=null){
       this.patientdetails=this.data.getData();
       console.log(this.patientdetails);
@@ -48,6 +49,7 @@ export class PatientdetailsComponent implements OnInit {
 
   serviceDetails:any=null;
   showServiceDetails(details){
+    console.log("Details component2");
     this.serviceDetails=details;
     this.showPatientServiceDetails=true;
     this.showPatientServiceDetailsPanel=true;
@@ -58,5 +60,8 @@ export class PatientdetailsComponent implements OnInit {
   }
   save(patientdetails){
     console.log(patientdetails);
+  }
+  cancel(){
+    this.isEditable=false;
   }
 }

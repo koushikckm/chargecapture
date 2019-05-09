@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { PatientListComponent } from './patientlist/patientlist.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { DataService } from "./services/data.service";
@@ -12,14 +11,11 @@ import { DataService } from "./services/data.service";
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
-import { PatientdetailsComponent } from './patientdetails/patientdetails.component';
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    PatientListComponent,
-    PatientdetailsComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +24,7 @@ import { PatientdetailsComponent } from './patientdetails/patientdetails.compone
     HttpClientModule,
     Ng2SearchPipeModule ,
     Ng2OrderModule,
-    NgxPaginationModule 
+    NgxPaginationModule,
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

@@ -148,7 +148,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key : reverse ; let i = index">
+      <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key | paginate: { itemsPerPage: 5, currentPage: pagenumber }: reverse ; let i = index">
         <td>
           <a (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
         </td>
@@ -177,23 +177,23 @@
       <table class="table">
         <thead>
           <tr>
-            <th (click)="sort('recordId')">recordId
+            <!-- <th (click)="sort('recordId')">recordId
               <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
             <th (click)="sort('serviceId')">serviceId
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-            </th>
+            </th> -->
             <th (click)="sort('icdCode')">icdCode
-              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <span class="glyphicon sort-icon" *ngIf="key =='icdCode'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
             <th (click)="sort('description')">description
-              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <span class="glyphicon sort-icon" *ngIf="key =='icdCodeDescription'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let detail of serviceDetails.icdCodes | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
-            <td>
+          <tr *ngFor="let detail of serviceDetails.icdCodes | orderBy: key : reverse ; let i = index">
+            <!-- <td>
               <span *ngIf="!isEditable">{{detail.recordId}}</span>
               <span *ngIf="isEditable">
                 <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
@@ -204,17 +204,17 @@
               <span *ngIf="isEditable">
                 <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
               </span>
-            </td>
+            </td> -->
             <td>
               <span *ngIf="!isEditable">{{detail.icdCodes.icdCode}}</span>
               <span *ngIf="isEditable">
-                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.icdCodes.icdCode" />
+                <input class="form-control" type="text" maxlength="100" name="icdCode{{i}}" [(ngModel)]="detail.icdCodes.icdCode" />
               </span>
             </td>
             <td>
               <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
               <span *ngIf="isEditable">
-                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.icdCodes.description"
+                <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{i}}" [(ngModel)]="detail.icdCodes.description"
                 />
               </span>
             </td>
@@ -226,23 +226,23 @@
       <table class="table">
         <thead>
           <tr>
-            <th (click)="sort('recordId')">recordId
+            <!-- <th (click)="sort('recordId')">recordId
               <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
             <th (click)="sort('serviceId')">serviceId
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-            </th>
+            </th> -->
             <th (click)="sort('cpdcode')">cpdcode
-              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <span class="glyphicon sort-icon" *ngIf="key =='cpdcode'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
             <th (click)="sort('description')">description
-              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <span class="glyphicon sort-icon" *ngIf="key =='description'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let detail of serviceDetails.cpdCodes | orderBy: key : reverse ; let i = index">
-            <td>
+            <!-- <td>
               <span *ngIf="!isEditable">{{detail.recordId}}</span>
               <span *ngIf="isEditable">
                 <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
@@ -253,17 +253,17 @@
               <span *ngIf="isEditable">
                 <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
               </span>
-            </td>
+            </td> -->
             <td>
               <span *ngIf="!isEditable">{{detail.cpdCodes.cpdcode}}</span>
               <span *ngIf="isEditable">
-                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.cpdCodes.cpdcode" />
+                <input class="form-control" type="text" maxlength="100" name="cpdcode{{i}}" [(ngModel)]="detail.cpdCodes.cpdcode" />
               </span>
             </td>
             <td>
               <span *ngIf="!isEditable">{{detail.cpdCodes.description}}</span>
               <span *ngIf="isEditable">
-                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.cpdCodes.description"
+                <input class="form-control" type="text" maxlength="100" name="description{{i}}" [(ngModel)]="detail.cpdCodes.description"
                 />
               </span>
             </td>
@@ -274,7 +274,8 @@
   </div>
 
   <div>
-    <button class="btn-primary" (click)="edit()">Edit</button>
-    <button class="btn-primary" (click)="save(patientdetails)">Save</button>
+    <button class="btn-primary" (click)="edit()" *ngIf="!isEditable">Edit</button>
+    <button class="btn-primary" (click)="save(patientdetails)" *ngIf="isEditable">Save</button>
+    <button class="btn-primary" (click)="cancel()" *ngIf="isEditable">Cancel</button>
   </div>
 </form>
