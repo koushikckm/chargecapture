@@ -1,0 +1,46 @@
+<header>
+  <nav class="navbar navbar-default">
+    <a class="navbar-brand" >Patient List</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="row">
+    <nav class="navbar">
+      <input class="form-control " type="text" name="search" [(ngModel)]="filter">      
+    </nav>
+    <table class="table">
+      <thead>
+        <tr>
+          <th (click)="sort('patientId')">Patient Id
+            <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('firstName')">Name
+            <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('gender')">Gender
+            <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('address')">Address
+              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th (click)="sort('ssn')">SSN
+              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detail of patientdetails | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
+          <td>
+            <a (click)="navigateToDetails(detail)">{{detail.patientId}}</a>
+          </td>
+          <td>{{getPatientName(detail)}}</td>
+          <td>{{detail.gender}}</td>
+          <td>{{getPatientAddress(detail)}}</td>
+          <td>{{detail.ssn}}</td>
+        </tr>
+      </tbody>      
+    </table>
+    <pagination-controls (pageChange)="pagenumber = $event" style="margin-left: 60%"></pagination-controls>
+  </div>
+</div>

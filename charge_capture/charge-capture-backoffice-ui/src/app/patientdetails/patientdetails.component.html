@@ -1,0 +1,280 @@
+<form>
+  <!-- patient details -->
+  <div class="panel panel-default" style="padding-top: 1%;width: 95%;margin-left: 1%;">
+    <div class="panel-heading" style="background-color: #e9ecef">Patient Details
+      <a (click)="hidePanel('patientDetailsShow')" *ngIf="patientDetailsShow">
+        <i class="fa fa-angle-up"></i>
+      </a>
+      <a (click)="hidePanel('patientDetailsShow')" *ngIf="!patientDetailsShow">
+        <i class="fa fa-angle-down"></i>
+      </a>
+    </div>
+    <div class="panel-body" *ngIf="patientDetailsShow">
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label class="col-sm-2 col-form-label">First Name</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="firstName" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.firstName" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Last Name</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="lastName" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.lastName" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Middle Name</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="middleName" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.middleName" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Date Of Birth</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="dateOfBirth" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.dateOfBirth" /> </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Gender</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="gender" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.gender" /> </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Address Line1</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="addressLine1" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.addressLine1" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Address Line2</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="addressLine2" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.addressLine2" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">City</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="city" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.city" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">State</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="state" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.state" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Zip</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="zip" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.zip" /> </div>
+        </div>
+
+
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Home Phone</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="homePhone" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.homePhone" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Mobile Phone</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="mobilePhone" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.mobilePhone" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Email</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="email" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.email" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Work Phone</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="workPhone" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.workPhone" /> </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Chart Number</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="chartNumber" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.chartNumber" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">SSN</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="ssn" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.ssn" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Age</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="age" [disabled]="!isEditable"
+              [(ngModel)]="this.patientdetails.age" /> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th (click)="sort('serviceId')">Service Id
+          <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+        </th>
+        <th (click)="sort('patientId')">Patient Id
+          <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+        </th>
+        <th (click)="sort('dateOfService')">Date Of Service
+          <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+        </th>
+        <th (click)="sort('comments')">Comments
+          <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+        </th>
+        <th (click)="sort('status')">Status
+          <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+        </th>
+        <th (click)="sort('charges')">Charges
+          <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key : reverse ; let i = index">
+        <td>
+          <a (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
+        </td>
+        <td>{{detail.patientId}}</td>
+        <td>{{detail.dateOfService}}</td>
+        <td>{{detail.comments}}</td>
+        <td>{{detail.status}}</td>
+        <td>{{detail.charges}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="pagenumber = $event" style="margin-left: 60%"></pagination-controls>
+
+
+  <div class="panel panel-default" style="padding-top: 1%;width: 95%;margin-left: 1%;" *ngIf="showPatientServiceDetails">
+    <div class="panel-heading" style="background-color: #e9ecef">Patient Details
+      <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="showPatientServiceDetailsPanel">
+        <i class="fa fa-angle-up"></i>
+      </a>
+      <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="!showPatientServiceDetailsPanel">
+        <i class="fa fa-angle-down"></i>
+      </a>
+    </div>
+    <div class="panel-body" *ngIf="showPatientServiceDetailsPanel">
+      ICD
+      <table class="table">
+        <thead>
+          <tr>
+            <th (click)="sort('recordId')">recordId
+              <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('serviceId')">serviceId
+              <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('icdCode')">icdCode
+              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('description')">description
+              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of serviceDetails.icdCodes | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
+            <td>
+              <span *ngIf="!isEditable">{{detail.recordId}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.serviceId}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.icdCodes.icdCode}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.icdCodes.icdCode" />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.icdCodes.description"
+                />
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      CPD
+      <table class="table">
+        <thead>
+          <tr>
+            <th (click)="sort('recordId')">recordId
+              <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('serviceId')">serviceId
+              <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('cpdcode')">cpdcode
+              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('description')">description
+              <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of serviceDetails.cpdCodes | orderBy: key : reverse ; let i = index">
+            <td>
+              <span *ngIf="!isEditable">{{detail.recordId}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.serviceId}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.cpdCodes.cpdcode}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.cpdCodes.cpdcode" />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.cpdCodes.description}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.cpdCodes.description"
+                />
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div>
+    <button class="btn-primary" (click)="edit()">Edit</button>
+    <button class="btn-primary" (click)="save(patientdetails)">Save</button>
+  </div>
+</form>
