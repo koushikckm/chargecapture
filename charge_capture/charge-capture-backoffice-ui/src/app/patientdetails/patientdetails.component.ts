@@ -27,11 +27,14 @@ export class PatientdetailsComponent implements OnInit {
   
     //initializing p to one
     pagenumber: number = 1;
-
+    oldPatientDetails={};
   ngOnInit() {
     console.log("Details component1");
+    
     if(this.data.getData()!=null){
       this.patientdetails=this.data.getData();
+      
+      this.oldPatientDetails=JSON.parse(JSON.stringify( this.patientdetails ));
       console.log(this.patientdetails);
     }
     else{
@@ -48,9 +51,11 @@ export class PatientdetailsComponent implements OnInit {
   }
 
   serviceDetails:any=null;
+  oldServiceDetails:{};
   showServiceDetails(details){
     console.log("Details component2");
-    this.serviceDetails=details;
+    this.oldServiceDetails=JSON.parse(JSON.stringify( details ));
+    this.serviceDetails=this.oldServiceDetails;
     this.showPatientServiceDetails=true;
     this.showPatientServiceDetailsPanel=true;
   }
@@ -61,7 +66,9 @@ export class PatientdetailsComponent implements OnInit {
   save(patientdetails){
     console.log(patientdetails);
   }
-  cancel(){
+  cancel(){   
+    this.showPatientServiceDetails=false; 
+    this.patientdetails=JSON.parse(JSON.stringify( this.oldPatientDetails ));
     this.isEditable=false;
   }
 }
