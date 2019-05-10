@@ -38,7 +38,7 @@ export class PatientdetailsComponent implements OnInit {
       console.log(this.patientdetails);
     }
     else{
-      this.router.navigate(['/patientlist']); //else call api
+      this.router.navigate(['/home']); //else call api
     }
   }
   hidePanel(prop){
