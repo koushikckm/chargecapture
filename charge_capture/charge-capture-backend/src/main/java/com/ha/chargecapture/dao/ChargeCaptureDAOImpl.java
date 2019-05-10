@@ -404,4 +404,38 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		return icdCodeList;
 	}
 
+	@Override
+	public List<String> getFavouriteIcdsForProvider(int providerId) {
+		Query query = null;
+		List<String> icdList = new ArrayList<>();
+		String icdQuery = "SELECT picd.icdcode FROM patientserviceicdcodes picd "
+				+ "JOIN patientservicedetail psd ON picd.service_id=psd.service_id and psd.provider_id=:providerId ";
+
+		query = getSession().createSQLQuery(icdQuery);
+		query.setParameter("providerId", providerId);
+
+		if (!query.list().isEmpty()) {
+			icdList = query.list();
+		}
+
+		return icdList;
+	}
+
+	@Override
+	public List<String> getFavouriteCpdsForProvider(int providerId) {
+		Query query = null;
+		List<String> cpdList = new ArrayList<>();
+		String cpdQuery = "SELECT pcpd.cpdcode FROM patientservicecpdcodes pcpd "
+				+ "JOIN patientservicedetail psd ON pcpd.service_id=psd.service_id and psd.provider_id=:providerId ";
+
+		query = getSession().createSQLQuery(cpdQuery);
+		query.setParameter("providerId", providerId);
+
+		if (!query.list().isEmpty()) {
+			cpdList = query.list();
+		}
+
+		return cpdList;
+	}
+
 }

@@ -57,16 +57,16 @@ public class ChargeCaptureAPI {
 
 	@GetMapping(value = "/getICDCodes")
 	@CrossOrigin
-	public List<ICDCodes> getICDCodes() {
+	public List<ICDCodes> getICDCodes(@RequestParam(required = false) Integer providerId) {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getICDCodes()");
-		return chargeCaptureService.getICDDetail();
+		return chargeCaptureService.getICDDetail(providerId);
 	}
 
 	@GetMapping(value = "/getCPDCodes")
 	@CrossOrigin
-	public List<CPDCodes> getCPDCodes() {
+	public List<CPDCodes> getCPDCodes(@RequestParam(required = false) Integer providerId) {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getCPDCodes()");
-		return chargeCaptureService.getCPDDetail();
+		return chargeCaptureService.getCPDDetail(providerId);
 	}
 
 	@GetMapping(value = "/getPatientDetail")

@@ -17,9 +17,9 @@ public interface ChargeCaptureService {
 
 	List<PatientDetail> getPatientsForFacility(int facilityId);
 
-	List<ICDCodes> getICDDetail();
+	List<ICDCodes> getICDDetail(Integer providerId);
 
-	List<CPDCodes> getCPDDetail();
+	List<CPDCodes> getCPDDetail(Integer providerId);
 
 	List<PatientDetail> getPatientDetailList();
 
