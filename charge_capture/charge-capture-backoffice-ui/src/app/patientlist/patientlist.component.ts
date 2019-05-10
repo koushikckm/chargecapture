@@ -34,7 +34,7 @@ export class PatientListComponent implements OnInit {
   patientdetails:any;
 
   getPatientDetail(){
-    this.httpClient.get('/chargecapture/getPatientDetail').subscribe((res)=>{
+    this.httpClient.get('https://localhost:8553/chargecapture/getPatientDetail').subscribe((res)=>{
       this.patientdetails=res;
   });
   }
