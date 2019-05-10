@@ -4,7 +4,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
@@ -33,13 +37,23 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 	ChargeCaptureDAO chargeCaptureDAO;
 
 	@Override
-	public List<ICDCodes> getICDDetail() {
-		return chargeCaptureDAO.getICDDetail();
+	public List<ICDCodes> getICDDetail(Integer providerId) {
+		List<ICDCodes> icdList = chargeCaptureDAO.getICDDetail();
+
+		if (null != providerId) {
+			icdList = setFavouriteIcdsForProvider(icdList, providerId);
+		}
+		return icdList;
 	}
 
 	@Override
-	public List<CPDCodes> getCPDDetail() {
-		return chargeCaptureDAO.getCPDDetail();
+	public List<CPDCodes> getCPDDetail(Integer providerId) {
+		List<CPDCodes> cpdList = chargeCaptureDAO.getCPDDetail();
+
+		if (null != providerId) {
+			cpdList = setFavouriteCpdsForProvider(cpdList, providerId);
+		}
+		return cpdList;
 	}
 
 	@Override
@@ -351,4 +365,79 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 		return icdList;
 	}
 
+	public List<ICDCodes> setFavouriteIcdsForProvider(List<ICDCodes> icdList, Integer providerId) {
+
+		List<String> icds = chargeCaptureDAO.getFavouriteIcdsForProvider(providerId);
+		if (!icds.isEmpty()) {
+			Map<String, Integer> icdMap = new HashMap<>();
+			for (String icd : icds) {
+				Integer count = icdMap.get(icd);
+				icdMap.put(icd, (count == null) ? 1 : count + 1);
+			}
+
+			// sort the map in descending order of count
+			LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
+			icdMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+					.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+
+			// get top 5 from map and put it to list
+			int mapCount = 0;
+			icds.clear();
+			for (Map.Entry<String, Integer> entry : reverseSortedMap.entrySet()) {
+				if (mapCount > 4) {
+					break;
+				}
+				icds.add(entry.getKey());
+				mapCount++;
+			}
+		}
+
+		// if icddlist has icds set fav flag as 1
+		for (int i = 0; i < icdList.size(); i++) {
+			for (String s : icds) {
+				if (icdList.get(i).getIcdCode().equals(s)) {
+					icdList.get(i).setFavouriteForProvider(true);
+				}
+			}
+		}
+		return icdList;
+	}
+
+	public List<CPDCodes> setFavouriteCpdsForProvider(List<CPDCodes> cpdList, Integer providerId) {
+
+		List<String> cpds = chargeCaptureDAO.getFavouriteCpdsForProvider(providerId);
+		if (!cpds.isEmpty()) {
+			Map<String, Integer> cpdMap = new HashMap<>();
+			for (String cpd : cpds) {
+				Integer count = cpdMap.get(cpd);
+				cpdMap.put(cpd, (count == null) ? 1 : count + 1);
+			}
+
+			// sort the map in descending order of count
+			LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
+			cpdMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+					.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+
+			// get top 5 from map and put it to list
+			int mapCount = 0;
+			cpds.clear();
+			for (Map.Entry<String, Integer> entry : reverseSortedMap.entrySet()) {
+				if (mapCount > 4) {
+					break;
+				}
+				cpds.add(entry.getKey());
+				mapCount++;
+			}
+		}
+
+		// if cpddlist has cpds set fav flag as 1
+		for (int i = 0; i < cpdList.size(); i++) {
+			for (String s : cpds) {
+				if (cpdList.get(i).getCpdcode().equals(s)) {
+					cpdList.get(i).setFavouriteForProvider(true);
+				}
+			}
+		}
+		return cpdList;
+	}
 }

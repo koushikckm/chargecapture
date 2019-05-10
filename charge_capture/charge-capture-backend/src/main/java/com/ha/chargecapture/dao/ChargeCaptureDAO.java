@@ -40,4 +40,8 @@ public interface ChargeCaptureDAO {
 	List<CPDCodes> getCpdsForServiceId(int serviceId);
 
 	List<ICDCodes> getIcdsForServiceId(int serviceId);
+
+	List<String> getFavouriteIcdsForProvider(int providerId);
+
+	List<String> getFavouriteCpdsForProvider(int providerId);
 }

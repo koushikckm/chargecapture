@@ -35,8 +35,10 @@ public class PatientServiceCPDCodes implements Serializable {
 	@JoinColumn(name = "cpdcode", referencedColumnName = "cpdcode")
 	private CPDCodes cpdCodes;
 
-	//@OneToMany(fetch = FetchType.LAZY, targetEntity = PatientServiceCPDModifierMapping.class, cascade = CascadeType.ALL)
-	//@JoinColumn(name = "record_id", referencedColumnName = "service_cpd_record_id")
+	// @OneToMany(fetch = FetchType.LAZY, targetEntity =
+	// PatientServiceCPDModifierMapping.class, cascade = CascadeType.ALL)
+	// @JoinColumn(name = "record_id", referencedColumnName =
+	// "service_cpd_record_id")
 	@OneToMany(targetEntity = PatientServiceCPDModifierMapping.class, mappedBy = "patientServiceCpdRecordId")
 	private List<PatientServiceCPDModifierMapping> serviceCpdModifiers;
 
