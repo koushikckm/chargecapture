@@ -1,12 +1,8 @@
-<header>
-    <nav class="navbar navbar-default">
-      <a class="navbar-brand" >Patient List</a>
-    </nav>
-  </header>
+
 <form>
   <!-- patient details -->
   <br/>
-  <div class="panel panel-default" style="padding-top: 1%;width: 95%;margin-left: 1%;border-style: solid;border-width: 0.01em;border-color: #c2cbd4;">
+  <div class="panel panel-default" style="padding-top: 1%;width: 99%;">
     <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Details
       <a (click)="hidePanel('patientDetailsShow')" *ngIf="patientDetailsShow" class="pull-right">
         <i class="fa fa-angle-up"></i>
@@ -18,7 +14,7 @@
     <div class="panel-body" *ngIf="patientDetailsShow">
       <div class="row">
         <div class="col-md-6 form-group">
-          <label class="col-sm-2 col-form-label">First Name</label>
+          <label class="control-label col-lg-4">First Name</label>
           <div class="col-lg-6">
             <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="firstName" [disabled]="!isEditable"
               [(ngModel)]="this.patientdetails.firstName" /> </div>
@@ -128,51 +124,63 @@
     </div>
   </div>
 
+  <div class="panel panel-default" style="padding-top: 1%;width: 99%;" *ngIf="patientdetails.patientServiceDetail && patientdetails.patientServiceDetail.length!=0 && patientdetails.patientServiceDetail!=null">
+      <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Service Details
+        <a (click)="hidePanel('patientServiceDetailsShow')" *ngIf="patientServiceDetailsShow" class="pull-right">
+          <i class="fa fa-angle-up"></i>
+        </a>
+        <a (click)="hidePanel('patientServiceDetailsShow')" *ngIf="!patientServiceDetailsShow" class="pull-right">
+          <i class="fa fa-angle-down"></i>
+        </a>
+      </div>
+      <div class="panel-body" *ngIf="patientServiceDetailsShow">
+          <div>
+              <table class="table" style="width: 95%;margin-top: 2%;margin-left: 1%;">
+                <thead>
+                  <tr>
+                    <th (click)="sort('serviceId')">Service Id
+                      <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('patientId')">Patient Id
+                      <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('dateOfService')">Date Of Service
+                      <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('comments')">Comments
+                      <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('status')">Status
+                      <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                    <th (click)="sort('charges')">Charges
+                      <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key | paginate: { itemsPerPage: 5, currentPage: pagenumber }: reverse ; let i = index">
+                    <td>
+                      <a style="cursor: pointer;" (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
+                    </td>
+                    <td>{{detail.patientId}}</td>
+                    <td>{{detail.dateOfService}}</td>
+                    <td>{{detail.comments}}</td>
+                    <td>{{detail.status}}</td>
+                    <td>{{detail.charges}}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="margin-left: 82%">
+                  <pagination-controls (pageChange)="pagenumber = $event"></pagination-controls>
+              </div>
+            </div>
+      </div>
+      </div>
 
-<div *ngIf="patientdetails.patientServiceDetail.length!=0 && patientdetails.patientServiceDetail!=null">
-  <table class="table" style="width: 95%;margin-top: 2%;margin-left: 1%;">
-    <thead>
-      <tr>
-        <th (click)="sort('serviceId')">Service Id
-          <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-        </th>
-        <th (click)="sort('patientId')">Patient Id
-          <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-        </th>
-        <th (click)="sort('dateOfService')">Date Of Service
-          <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-        </th>
-        <th (click)="sort('comments')">Comments
-          <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-        </th>
-        <th (click)="sort('status')">Status
-          <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-        </th>
-        <th (click)="sort('charges')">Charges
-          <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key | paginate: { itemsPerPage: 5, currentPage: pagenumber }: reverse ; let i = index">
-        <td>
-          <a (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
-        </td>
-        <td>{{detail.patientId}}</td>
-        <td>{{detail.dateOfService}}</td>
-        <td>{{detail.comments}}</td>
-        <td>{{detail.status}}</td>
-        <td>{{detail.charges}}</td>
-      </tr>
-    </tbody>
-  </table>
-  <div style="margin-left: 82%">
-      <pagination-controls (pageChange)="pagenumber = $event"></pagination-controls>
-  </div>
-</div>
 
 
-<div class="panel panel-default" style="padding-top: 1%;width: 95%;margin-left: 1%;border-style: solid;border-width: 0.01em;border-color: #c2cbd4;" *ngIf="showPatientServiceDetails">
+<div class="panel panel-default" style="padding-top: 1%;width: 99%" *ngIf="showPatientServiceDetails">
     <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Details
       <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="showPatientServiceDetailsPanel" class="pull-right">
         <i class="fa fa-angle-up"></i>
@@ -194,10 +202,10 @@
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th> -->
             <th (click)="sort('icdCode')">ICD Code
-              <span class="glyphicon sort-icon" *ngIf="key =='icdCode'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <span *ngIf="key =='icdCode'"></span>
             </th>
             <th (click)="sort('description')">Description
-              <span class="glyphicon sort-icon" *ngIf="key =='icdCodeDescription'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <span *ngIf="key =='icdCodeDescription'"></span>
             </th>
           </tr>
         </thead>
@@ -246,10 +254,10 @@
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th> -->
             <th (click)="sort('cpdcode')">CPD Code
-              <span class="glyphicon sort-icon" *ngIf="key =='cpdcode'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <span *ngIf="key =='cpdcode'"></span>
             </th>
             <th (click)="sort('description')">Description
-              <span class="glyphicon sort-icon" *ngIf="key =='description'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <span *ngIf="key =='description'"></span>
             </th>
           </tr>
         </thead>
@@ -289,7 +297,7 @@
     </div>
   </div>
 
-  <div style="margin-left: 95em;padding-top: 1%">
+  <div class="pull-right" style="margin-right: 1%">
     <button class="btn-primary" (click)="edit()" *ngIf="!isEditable">Edit</button>
     <button class="btn-primary" (click)="save(patientdetails)" *ngIf="isEditable">Save</button>&nbsp;
     <button class="btn-primary" (click)="cancel()" *ngIf="isEditable">Cancel</button>

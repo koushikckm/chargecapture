@@ -16,6 +16,7 @@ export class PatientdetailsComponent implements OnInit {
   patientDetailsShow:boolean=true;
   showPatientServiceDetails:boolean=false;
   showPatientServiceDetailsPanel:boolean=true;
+  patientServiceDetailsShow:boolean=true;
   isEditable:boolean=false;
     //sorting
     key: string = 'patientId'; //set default
