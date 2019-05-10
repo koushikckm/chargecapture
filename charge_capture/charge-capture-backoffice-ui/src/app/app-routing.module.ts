@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes , RouterModule, Router} from '@angular/router';
-import { PatientdetailsComponent } from './patientdetails/patientdetails.component';
+import { PatientListComponent } from './patientlist/patientlist.component';
 
 const routes:Routes=[
-  { path: '',  redirectTo: '/patientlist', pathMatch: 'full' },
-  { path: 'patientlist',loadChildren:'./patientlist/patientlist.module#PatientlistModule'},
+  { path: '',  redirectTo: '/home', pathMatch: 'full' },
+  { path: 'home',component:PatientListComponent},
   { path: 'patientdetails',loadChildren:'./patientdetails/patientdetails.module#PatientDetailsModule'}
     
 ];
