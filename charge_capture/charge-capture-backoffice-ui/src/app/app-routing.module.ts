@@ -5,7 +5,7 @@ import { PatientListComponent } from './patientlist/patientlist.component';
 
 const routes:Routes=[
   { path: '',  redirectTo: '/home', pathMatch: 'full' },
-  { path: 'home',component:PatientListComponent},
+  { path: 'home',loadChildren:'./patientlist/patientlist.module#PatientlistModule'},
   { path: 'patientdetails',loadChildren:'./patientdetails/patientdetails.module#PatientDetailsModule'}
     
 ];
