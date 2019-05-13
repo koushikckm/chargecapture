@@ -44,4 +44,6 @@ public interface ChargeCaptureDAO {
 	List<String> getFavouriteIcdsForProvider(int providerId);
 
 	List<String> getFavouriteCpdsForProvider(int providerId);
+
+	PatientDetail getPatient(String patientId);
 }
