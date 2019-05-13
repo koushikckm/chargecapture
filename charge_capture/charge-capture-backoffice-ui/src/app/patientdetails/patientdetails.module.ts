@@ -8,8 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
+import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
+import * as $ from 'jquery';
+import {OnlyNumber} from '../Directives/numberDirective.directive';
 @NgModule({
   declarations: [
+    OnlyNumber,
     PatientdetailsComponent
   ],
   imports: [
@@ -19,7 +23,8 @@ import {NgxPaginationModule} from 'ngx-pagination';
     Ng2SearchPipeModule,
     Ng2OrderModule,
     NgxPaginationModule,
-    PatientListRoutingModule
+    PatientListRoutingModule,
+    A2Edatetimepicker
   ],
 })
 export class PatientDetailsModule { }

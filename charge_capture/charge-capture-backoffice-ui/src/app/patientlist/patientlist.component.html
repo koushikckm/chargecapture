@@ -1,14 +1,14 @@
-<h3>Patient List</h3>
+<h3 style="margin-top: -2%">Patient List</h3>
 
 <div class="panel panel-default" style="padding-top: 1%;width: 99%;">
   <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Details
     
   </div>
   <div class="panel-body">
-    <div class="container">
+    <div class="container" style="width: 100%">
       <div class="row">
-        <nav class="navbar">
-          <input class="form-control " type="text" name="search" [(ngModel)]="filter">
+        <nav class="navbar" style="width: 30%">
+          <input class="form-control " placeholder="Search with Patient Name/SSN" type="text" name="search" [(ngModel)]="filter">
         </nav>
         <table class="table">
           <thead>
@@ -28,17 +28,19 @@
               <th (click)="sort('ssn')">SSN
                 <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let detail of patientdetails | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
-              <td>
-                <a style="cursor: pointer;" (click)="navigateToDetails(detail)">{{detail.patientId}}</a>
-              </td>
+              <td>{{detail.patientId}}</td>
               <td>{{getPatientName(detail)}}</td>
               <td>{{detail.gender}}</td>
               <td>{{getPatientAddress(detail)}}</td>
               <td>{{detail.ssn}}</td>
+              <td>
+                <button class="btn btn-default" (click)="navigateToDetails(detail)" title="Edit patient details">Edit</button>
+              </td>
             </tr>
           </tbody>
         </table>
