@@ -212,6 +212,52 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 	}
 
 	@Override
+	public void updatePatientDetails(PatientDetailDTO patientDetailDto) {
+
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::updatePatientDetail() ");
+		// get the patient detail
+		PatientDetail patient = chargeCaptureDAO.getPatient(patientDetailDto.getPatientId());
+
+		// set patient details to be updated
+		patient.setFirstName(patientDetailDto.getFirstName());
+		patient.setLastName(patientDetailDto.getLastName());
+		patient.setMiddleName(patientDetailDto.getMiddleName());
+		patient.setDateOfBirth(patientDetailDto.getDateOfBirth());
+		patient.setGender(patientDetailDto.getGender());
+		patient.setAddressLine1(patientDetailDto.getAddressLine1());
+		patient.setAddressLine2(patientDetailDto.getAddressLine2());
+		patient.setCity(patientDetailDto.getCity());
+		patient.setState(patientDetailDto.getState());
+		patient.setZip(patientDetailDto.getZip());
+		patient.setHomePhone(patientDetailDto.getHomePhone());
+		patient.setMobilePhone(patientDetailDto.getMobilePhone());
+		patient.setEmail(patientDetailDto.getEmail());
+		patient.setWorkPhone(patientDetailDto.getWorkPhone());
+		patient.setChartNumber(patientDetailDto.getChartNumber());
+		patient.setSsn(patientDetailDto.getSsn());
+		patient.setAge(patientDetailDto.getAge());
+
+		/*List<PatientServiceDetail> patientServiceList = null;
+
+		if(null!=patient.getPatientServiceDetail() && !patient.getPatientServiceDetail().isEmpty()) {
+			patientServiceList = patient.getPatientServiceDetail();
+
+			//Testing : Update for one icd
+
+			List<PatientServiceICDCodes> icdList = patientServiceList.get(0).getIcdCodes();
+			PatientServiceICDCodes icdCode = icdList.get(0);
+			ICDCodes icd = icdCode.getIcdCodes();
+			icd.setIcdCode("ICD-272.2");
+
+			icdCode.setIcdCodes(icd);
+		}
+
+		patient.setPatientServiceDetail(patientServiceList);*/
+
+		chargeCaptureDAO.updatePatientDetail(patient);
+	}
+
+	@Override
 	public void updatePatientServiceStatus(PatientServiceDetailDTO patientServiceDetailDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::updatePatientServiceStatus() ");
@@ -378,7 +424,7 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			// sort the map in descending order of count
 			LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
 			icdMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-					.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+			.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
 			// get top 5 from map and put it to list
 			int mapCount = 0;
@@ -416,7 +462,7 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			// sort the map in descending order of count
 			LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
 			cpdMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-					.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+			.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
 			// get top 5 from map and put it to list
 			int mapCount = 0;

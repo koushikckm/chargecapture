@@ -29,6 +29,8 @@ public interface ChargeCaptureService {
 
 	void updatePatientDetail(PatientDetail patientDetail);
 
+	void updatePatientDetails(PatientDetailDTO patientDetailDto);
+
 	void updatePatientServiceStatus(PatientServiceDetailDTO patientServiceDetailDTO);
 
 	List<PatientDetailDTO> getPatients();

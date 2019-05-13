@@ -16,6 +16,8 @@ public class PatientDetailDTO {
 
 	private String gender;
 
+	private String dateOfBirth;
+
 	private String addressLine1;
 
 	private String addressLine2;
@@ -35,6 +37,8 @@ public class PatientDetailDTO {
 	private String workPhone;
 
 	private String primaryLanguage;
+
+	private String chartNumber;
 
 	private String ssn;
 
@@ -212,6 +216,22 @@ public class PatientDetailDTO {
 
 	public void setServiceIds(List<Integer> serviceIds) {
 		this.serviceIds = serviceIds;
+	}
+
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
+	public String getChartNumber() {
+		return chartNumber;
+	}
+
+	public void setChartNumber(String chartNumber) {
+		this.chartNumber = chartNumber;
 	}
 
 }
