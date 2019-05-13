@@ -1,0 +1,396 @@
+<form style="margin-top: -3%">
+  <!-- patient details -->
+  <br/>
+  <div class="panel panel-default" style="padding-top: 1%;width: 99%;">
+    <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Details
+      <a (click)="hidePanel('patientDetailsShow')" *ngIf="patientDetailsShow" class="pull-right">
+        <i class="fa fa-angle-up"></i>
+      </a>
+      <a (click)="hidePanel('patientDetailsShow')" *ngIf="!patientDetailsShow" class="pull-right">
+        <i class="fa fa-angle-down"></i>
+      </a>
+    </div>
+    <div class="panel-body" *ngIf="patientDetailsShow">
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label class="control-label col-lg-4">First Name</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="50" name="firstName" 
+              [(ngModel)]="this.patientdetails.firstName" /> 
+              <!-- <span class="help-block" *ngIf="isfirstNameValid">{{isfirstNameValidMsg}}</span> -->
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Last Name</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="50" name="lastName" 
+              [(ngModel)]="this.patientdetails.lastName" /> 
+              <!-- <span class="help-block" *ngIf="islastNameValid">{{islastNameValidMsg}}</span> -->
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Middle Name</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="50" name="middleName" 
+              [(ngModel)]="this.patientdetails.middleName" /> 
+              <!-- <span class="help-block" *ngIf="ismiddleNameValid">{{ismiddleNameValidMsg}}</span> -->
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Date Of Birth</label>
+          <div class="col-lg-6">
+            <!-- <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="dateOfBirth" 
+              [(ngModel)]="this.patientdetails.dateOfBirth" />  -->
+              <div class='input-group date' id='datetimepicker4'>
+                <input class="form-control" a2e-datetimepicker name="memberDOB" [(ngModel)]="this.patientdetails.dateOfBirth" [options]="a2eOptions" placeholder="MM/dd/yyyy" 
+                 readonly="readonly"/>
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+              <!-- <span class="help-block" *ngIf="isDOBRequired">{{memberDOBValidationMsg}}</span> -->
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Gender</label>
+          <div class="col-lg-6">
+            <!-- <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="gender" 
+              [(ngModel)]="this.patientdetails.gender" />  -->
+              <!-- <label class="form-check-inline">
+                <input class="form-check-input" type="radio" name="GenderMale" [value]="M" [(ngModel)]="this.patientdetails.gender" checked>
+            </label>
+            <label class="form-check-inline">
+                <input class="form-check-input" type="radio" name="GenderFemale" [value]="F" [(ngModel)]="this.patientdetails.gender">
+            </label> -->
+            <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="M">
+            Male
+            <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="F">
+            Female
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Age</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="3" name="age" 
+              [(ngModel)]="this.patientdetails.age" onlynumber="true"/> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">SSN</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="ssn" 
+              [(ngModel)]="this.patientdetails.ssn" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Email</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100"  name="email" 
+              [(ngModel)]="this.patientdetails.email" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Address Line1</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="addressLine1" 
+              [(ngModel)]="this.patientdetails.addressLine1" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Address Line2</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="addressLine2" 
+              [(ngModel)]="this.patientdetails.addressLine2" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">City</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="city" 
+              [(ngModel)]="this.patientdetails.city" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">State</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="state" 
+              [(ngModel)]="this.patientdetails.state" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Zip</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="5" name="zip"  onlynumber="true"
+              [(ngModel)]="this.patientdetails.zip" /> </div>
+        </div>
+
+
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Home Phone</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search"  name="homePhone" 
+              [(ngModel)]="this.patientdetails.homePhone" maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.homePhone,'homePhone')" onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Mobile Phone</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search"  name="mobilePhone" 
+              [(ngModel)]="this.patientdetails.mobilePhone"  maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.mobilePhone,'mobilePhone')"  onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
+        </div>
+        
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Work Phone</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" name="workPhone" 
+              [(ngModel)]="this.patientdetails.workPhone"  maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.workPhone,'workPhone')" onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Chart Number</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" name="chartNumber" 
+              [(ngModel)]="this.patientdetails.chartNumber"  maxlength="12" onlynumber="true" /> </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="panel panel-default" style="padding-top: 1%;width: 99%;" *ngIf="patientdetails.patientServiceDetail && patientdetails.patientServiceDetail.length!=0 && patientdetails.patientServiceDetail!=null">
+    <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Service Details
+      <a (click)="hidePanel('patientServiceDetailsShow')" *ngIf="patientServiceDetailsShow" class="pull-right">
+        <i class="fa fa-angle-up"></i>
+      </a>
+      <a (click)="hidePanel('patientServiceDetailsShow')" *ngIf="!patientServiceDetailsShow" class="pull-right">
+        <i class="fa fa-angle-down"></i>
+      </a>
+    </div>
+    <div class="panel-body" *ngIf="patientServiceDetailsShow">
+      <div>
+        <table class="table" style="width: 95%;margin-top: 2%;margin-left: 1%;">
+          <thead>
+            <tr>
+              <th (click)="sort('serviceId')">Service Id
+                <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('patientId')">Patient Id
+                <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('dateOfService')">Date Of Service
+                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('comments')">Comments
+                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('status')">Status
+                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('charges')">Charges
+                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key | paginate: { itemsPerPage: 5, currentPage: pagenumber }: reverse ; let i = index">
+              <td>
+                <a title="View Servcie Details" style="cursor: pointer;" (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
+              </td>
+              <td>{{detail.patientId}}</td>
+              <td>{{detail.dateOfService}}</td>
+              <td>{{detail.comments}}</td>
+              <td>{{detail.status}}</td>
+              <td>{{detail.charges}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="margin-left: 82%">
+          <pagination-controls (pageChange)="pagenumber = $event"></pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="panel panel-default" style="padding-top: 1%;width: 99%" *ngIf="showPatientServiceDetails">
+    <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Details
+      <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="showPatientServiceDetailsPanel" class="pull-right">
+        <i class="fa fa-angle-up"></i>
+      </a>
+      <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="!showPatientServiceDetailsPanel" class="pull-right">
+        <i class="fa fa-angle-down"></i>
+      </a>
+    </div>
+    <div class="panel-body" *ngIf="showPatientServiceDetailsPanel">
+      <br/> ICD
+      <table class="table">
+        <thead>
+          <tr>
+            <!-- <th (click)="sort('recordId')">recordId
+              <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('serviceId')">serviceId
+              <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th> -->
+            <th (click)="sort('icdCode')">ICD Code
+              <span *ngIf="key =='icdCode'"></span>
+            </th>
+            <th (click)="sort('description')">Description
+              <span *ngIf="key =='icdCodeDescription'"></span>
+            </th>
+          </tr>
+        </thead>
+        <tbody *ngIf="serviceDetails.icdCodes.length!=0 || serviceDetails.icdCodes!=null">
+          <tr *ngFor="let detail of serviceDetails.icdCodes | orderBy: key : reverse ; let i = index">
+            <!-- <td>
+              <span *ngIf="!isEditable">{{detail.recordId}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.serviceId}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
+              </span>
+            </td> -->
+            <td>
+              <span *ngIf="!isEditable">{{detail.icdCodes.icdCode}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="icdCode{{i}}" [(ngModel)]="detail.icdCodes.icdCode" />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{i}}" [(ngModel)]="detail.icdCodes.description"
+                />
+              </span>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="serviceDetails.icdCodes.length==0 || serviceDetails.icdCodes==null">
+          <tr>
+            <span style="text-align: center;float: right;">Data not available</span>
+          </tr>
+        </tbody>
+      </table>
+      <br/> CPD
+      <table class="table">
+        <thead>
+          <tr>
+            <!-- <th (click)="sort('recordId')">recordId
+              <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('serviceId')">serviceId
+              <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            </th> -->
+            <th (click)="sort('cpdcode')">CPD Code
+              <span *ngIf="key =='cpdcode'"></span>
+            </th>
+            <th (click)="sort('description')">Description
+              <span *ngIf="key =='description'"></span>
+            </th>
+            <th>Code</th>
+            <th>Desc</th>
+          </tr>
+        </thead>
+        <tbody *ngFor="let detail of serviceDetails.cpdCodes | orderBy: key : reverse ; let i = index">
+          <tr>
+            <!-- <td>
+              <span *ngIf="!isEditable">{{detail.recordId}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.serviceId}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
+              </span>
+            </td> -->
+            <td>
+              <span *ngIf="!isEditable">
+                <a (click)="parentIndex=i;selectTableRow($index,detail,serviceDetails)" style="cursor: pointer;">{{detail.cpdCodes.cpdcode}}</a>
+              </span>
+              <span *ngIf="isEditable">
+                <input class="form-control col-sm-4" type="text" maxlength="100" name="cpdcode{{i}}" [(ngModel)]="detail.cpdCodes.cpdcode"
+                />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{detail.cpdCodes.description}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="description{{i}}" [(ngModel)]="detail.cpdCodes.description"
+                />
+              </span>
+            </td>
+            <!-- <td>
+              <table>
+                <thead>
+                  <th></th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let serviceDetail of detail.serviceCpdModifiers">
+                    <td>{{serviceDetail.cpdModifiers.modifierCode}}</td>
+                    <td>{{serviceDetail.cpdModifiers.description}}</td>
+                  </tr>
+                </tbody>
+              </table>    
+            </td> -->
+          </tr>
+          <tr *ngFor="let serviceDetail of detail.serviceCpdModifiers" [hidden]="!detail.isExpanded">
+            <td></td>
+            <td></td>
+            <td>
+              <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.modifierCode}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="modifierCode{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.modifierCode"
+                />
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.description}}</span>
+              <span *ngIf="isEditable">
+                <input class="form-control" type="text" maxlength="100" name="modifierdescription{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.description"
+                />
+              </span>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="serviceDetails.cpdCodes.length==0 || serviceDetails.cpdCodes==null">
+          <tr>
+            <span style="text-align: center;float: right;">Data not available</span>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="pull-right" style="margin-right: 1%">    
+    <button class="btn-primary" (click)="save(patientdetails)">Save</button>&nbsp;
+    <button class="btn-primary" (click)="cancel()">Cancel</button>
+  </div>
+</form>
+<button id="modelPopUpButton" data-toggle="modal" data-target="#myModal" [hidden]="true">Open Modal</button>
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Submitted Patient Details</h4>
+      </div>
+      <div class="modal-body" id="submitModelMessage">
+        <p [hidden]="printToggle">Patient Details successfully.</p>
+      
+  <p [hidden]="!printToggle"><img [src]="labelPath" ></p>
+      
+      </div>
+      <div class="modal-footer">
+      	  <!-- <button type="button" *ngIf="printToggle" class="btn btn-default" data-dismiss="modal"  style="background-color:#faa730;color:white;font-weight: bold;" (click)="printDiv()" >Print</button> -->
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeButtonModel()" style="background-color:#faa730;color:white;font-weight: bold;" >Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "icdcodes")
@@ -25,6 +26,9 @@ public class ICDCodes implements Serializable {
 
 	@Column(name = "description")
 	private String description;
+
+	@Transient
+	private boolean isFavouriteForProvider;
 
 	public int getRecordId() {
 		return recordId;
@@ -48,6 +52,14 @@ public class ICDCodes implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public boolean isFavouriteForProvider() {
+		return isFavouriteForProvider;
+	}
+
+	public void setFavouriteForProvider(boolean isFavouriteForProvider) {
+		this.isFavouriteForProvider = isFavouriteForProvider;
 	}
 
 }

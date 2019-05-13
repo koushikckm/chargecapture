@@ -319,4 +319,138 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		session.update(patientServiceDetail);
 	}
 
+	@Override
+	public List<CPDCodes> getCpdsForServiceId(int serviceId) {
+
+		Query query = null;
+		List<CPDCodes> cpdCodeList = new ArrayList<>();
+		String cpdQuery = "SELECT pscpd.cpdcode AS cpdCode,cpd.description AS description "
+				+ "FROM patientservicecpdcodes pscpd " + "JOIN cpdcodes cpd ON pscpd.cpdcode=cpd.cpdcode "
+				+ "WHERE pscpd.service_id=:serviceId ";
+
+		query = getSession().createSQLQuery(cpdQuery).addScalar("cpdCode", StringType.INSTANCE).addScalar("description",
+				StringType.INSTANCE);
+		query.setParameter("serviceId", serviceId);
+
+		query.setResultTransformer(new ResultTransformer() {
+			@Override
+			public Object transformTuple(Object[] arg0, String[] arg1) {
+				CPDCodes dto = new CPDCodes();
+				if (null != arg0[0]) {
+					dto.setCpdcode(arg0[0].toString());
+				}
+				if (null != arg0[1]) {
+					dto.setDescription(arg0[1].toString());
+				}
+				return dto;
+			}
+
+			@SuppressWarnings("rawtypes")
+			@Override
+			public List transformList(List arg0) {
+				List<CPDCodes> cpdList = new ArrayList<>();
+				for (Object objRule : arg0) {
+					cpdList.add((CPDCodes) objRule);
+				}
+				return cpdList;
+			}
+		});
+		if (!query.list().isEmpty()) {
+			cpdCodeList = query.list();
+		}
+
+		return cpdCodeList;
+	}
+
+	@Override
+	public List<ICDCodes> getIcdsForServiceId(int serviceId) {
+		Query query = null;
+		List<ICDCodes> icdCodeList = new ArrayList<>();
+		String icdQuery = "SELECT psicd.icdcode AS icdCode,icd.description AS description "
+				+ "FROM patientserviceicdcodes psicd JOIN icdcodes icd ON psicd.icdcode=icd.icdcode "
+				+ "WHERE psicd.service_id=:serviceId ";
+
+		query = getSession().createSQLQuery(icdQuery).addScalar("icdCode", StringType.INSTANCE).addScalar("description",
+				StringType.INSTANCE);
+		query.setParameter("serviceId", serviceId);
+
+		query.setResultTransformer(new ResultTransformer() {
+			@Override
+			public Object transformTuple(Object[] arg0, String[] arg1) {
+				ICDCodes dto = new ICDCodes();
+				if (null != arg0[0]) {
+					dto.setIcdCode(arg0[0].toString());
+				}
+				if (null != arg0[1]) {
+					dto.setDescription(arg0[1].toString());
+				}
+				return dto;
+			}
+
+			@SuppressWarnings("rawtypes")
+			@Override
+			public List transformList(List arg0) {
+				List<ICDCodes> icdList = new ArrayList<>();
+				for (Object objRule : arg0) {
+					icdList.add((ICDCodes) objRule);
+				}
+				return icdList;
+			}
+		});
+		if (!query.list().isEmpty()) {
+			icdCodeList = query.list();
+		}
+
+		return icdCodeList;
+	}
+
+	@Override
+	public List<String> getFavouriteIcdsForProvider(int providerId) {
+		Query query = null;
+		List<String> icdList = new ArrayList<>();
+		String icdQuery = "SELECT picd.icdcode FROM patientserviceicdcodes picd "
+				+ "JOIN patientservicedetail psd ON picd.service_id=psd.service_id and psd.provider_id=:providerId ";
+
+		query = getSession().createSQLQuery(icdQuery);
+		query.setParameter("providerId", providerId);
+
+		if (!query.list().isEmpty()) {
+			icdList = query.list();
+		}
+
+		return icdList;
+	}
+
+	@Override
+	public List<String> getFavouriteCpdsForProvider(int providerId) {
+		Query query = null;
+		List<String> cpdList = new ArrayList<>();
+		String cpdQuery = "SELECT pcpd.cpdcode FROM patientservicecpdcodes pcpd "
+				+ "JOIN patientservicedetail psd ON pcpd.service_id=psd.service_id and psd.provider_id=:providerId ";
+
+		query = getSession().createSQLQuery(cpdQuery);
+		query.setParameter("providerId", providerId);
+
+		if (!query.list().isEmpty()) {
+			cpdList = query.list();
+		}
+
+		return cpdList;
+	}
+
+	@Override
+	public PatientDetail getPatient(String patientId) {
+		Session session = (Session) entityManager.getDelegate();
+		List<PatientDetail> patientList = null;
+		PatientDetail patient = null;
+		Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
+		criteria.add(Restrictions.eq("patientdetail.patientId", patientId));
+		patientList = criteria.list();
+		if (null != patientList && !patientList.isEmpty()) {
+			patient = patientList.get(0);
+		}
+
+		return patient;
+	}
+
 }
