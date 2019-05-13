@@ -259,10 +259,12 @@
             <th (click)="sort('description')">Description
               <span *ngIf="key =='description'"></span>
             </th>
+            <th>Code</th>
+            <th>Desc</th>
           </tr>
         </thead>
-        <tbody *ngIf="serviceDetails.cpdCodes.length!=0 || serviceDetails.cpdCodes!=null">
-          <tr *ngFor="let detail of serviceDetails.cpdCodes | orderBy: key : reverse ; let i = index">
+        <tbody *ngFor="let detail of serviceDetails.cpdCodes | orderBy: key : reverse ; let i = index">
+          <tr>
             <!-- <td>
               <span *ngIf="!isEditable">{{detail.recordId}}</span>
               <span *ngIf="isEditable">
@@ -276,9 +278,11 @@
               </span>
             </td> -->
             <td>
-              <span *ngIf="!isEditable">{{detail.cpdCodes.cpdcode}}</span>
+              <span *ngIf="!isEditable">
+                <a title="View Service Details" (click)="parentIndex=i;selectTableRow($index,detail,serviceDetails)" style="cursor: pointer;">{{detail.cpdCodes.cpdcode}}</a>
+              </span>
               <span *ngIf="isEditable">
-                <input class="form-control" type="text" maxlength="100" name="cpdcode{{i}}" [(ngModel)]="detail.cpdCodes.cpdcode" />
+                <input class="form-control col-sm-4" type="text" maxlength="100" name="cpdcode{{i}}" [(ngModel)]="detail.cpdCodes.cpdcode" />
               </span>
             </td>
             <td>
@@ -288,6 +292,37 @@
                 />
               </span>
             </td>
+            <!-- <td>
+              <table>
+                <thead>
+                  <th></th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let serviceDetail of detail.serviceCpdModifiers">
+                    <td>{{serviceDetail.cpdModifiers.modifierCode}}</td>
+                    <td>{{serviceDetail.cpdModifiers.description}}</td>
+                  </tr>
+                </tbody>
+              </table>    
+            </td> -->
+          </tr>
+          <tr *ngFor="let serviceDetail of detail.serviceCpdModifiers" [hidden]="!detail.isExpanded">
+            <td></td>
+            <td></td>
+            <td>
+                <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.modifierCode}}</span>
+                <span *ngIf="isEditable">
+                  <input class="form-control" type="text" maxlength="100" name="modifierCode{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.modifierCode" />
+                </span>
+              </td>
+              <td>
+                <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.description}}</span>
+                <span *ngIf="isEditable">
+                  <input class="form-control" type="text" maxlength="100" name="modifierdescription{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.description"
+                  />
+                </span>
+              </td>
           </tr>
         </tbody>
         <tbody *ngIf="serviceDetails.cpdCodes.length==0 || serviceDetails.cpdCodes==null">
