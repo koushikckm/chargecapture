@@ -257,24 +257,24 @@
               </span>
             </td> -->
             <td width="50%">
-              <span *ngIf="!isEditable">{{detail.icdCodes.icdCode}}</span>
-              <span *ngIf="isEditable">
+              <!-- <span *ngIf="!isEditable">{{detail.icdCodes.icdCode}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="icdCode{{i}}" [(ngModel)]="detail.icdCodes.icdCode" />
-              </span>
+              <!-- </span> -->
             </td>
             <td width="50%">
-              <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
-              <span *ngIf="isEditable">
+              <!-- <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{i}}" [(ngModel)]="detail.icdCodes.description"
                 />
-              </span>
+              <!-- </span> -->
             </td>
           </tr>
         </tbody>
         <tbody *ngIf="serviceDetails.icdCodes.length==0 || serviceDetails.icdCodes==null">
-          <tr>
-            <span style="text-align: center;float: right;">Data not available</span>
-          </tr>
+            <tr>
+                <td colspan="4" width="100%"><span style="margin-left: 42%;color: #b93a3a">Data not available</span></td>
+              </tr>
         </tbody>
       </table>
 
@@ -312,18 +312,18 @@
               </span>
             </td> -->
             <td width="25%">
-              <span *ngIf="!isEditable">{{detail.cpdCodes.cpdcode}}</span>
-              <span *ngIf="isEditable">
+              <!-- <span *ngIf="!isEditable">{{detail.cpdCodes.cpdcode}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control col-sm-4" type="text" maxlength="100" name="cpdcode{{i}}" [(ngModel)]="detail.cpdCodes.cpdcode"
                 />
-              </span>
+              <!-- </span> -->
             </td>
             <td width="25%">
-              <span *ngIf="!isEditable">{{detail.cpdCodes.description}}</span>
-              <span *ngIf="isEditable">
+              <!-- <span *ngIf="!isEditable">{{detail.cpdCodes.description}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="description{{i}}" [(ngModel)]="detail.cpdCodes.description"
                 />
-              </span>
+              <!-- </span> -->
             </td>
             <td colspan="2" style=""  width="50%">
               <span *ngIf="detail.serviceCpdModifiers && detail.serviceCpdModifiers.length !=0" style="margin-left: 30%">
@@ -351,24 +351,24 @@
             <td  width="25%"></td>
             <td width="25%"></td>
             <td width="25%">
-              <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.modifierCode}}</span>
-              <span *ngIf="isEditable">
+              <!-- <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.modifierCode}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="modifierCode{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.modifierCode"
                 />
-              </span>
+              <!-- </span> -->
             </td>
             <td width="25%">
-              <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.description}}</span>
-              <span *ngIf="isEditable">
+              <!-- <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.description}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="modifierdescription{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.description"
                 />
-              </span>
+              <!-- </span> -->
             </td>
           </tr>
         </tbody>
         <tbody *ngIf="serviceDetails.cpdCodes.length==0 || serviceDetails.cpdCodes==null">
           <tr>
-            <span style="text-align: center;float: right;">Data not available</span>
+              <td colspan="4" width="100%"><span style="margin-left: 42%;color: #b93a3a">Data not available</span></td>
           </tr>
         </tbody>
       </table>
