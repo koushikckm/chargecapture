@@ -21,8 +21,10 @@ import com.ha.chargecapture.dto.ICDCodesDTO;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.CPDGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
+import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.entity.Provider;
@@ -237,22 +239,24 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 		patient.setSsn(patientDetailDto.getSsn());
 		patient.setAge(patientDetailDto.getAge());
 
-		/*List<PatientServiceDetail> patientServiceList = null;
-
-		if(null!=patient.getPatientServiceDetail() && !patient.getPatientServiceDetail().isEmpty()) {
-			patientServiceList = patient.getPatientServiceDetail();
-
-			//Testing : Update for one icd
-
-			List<PatientServiceICDCodes> icdList = patientServiceList.get(0).getIcdCodes();
-			PatientServiceICDCodes icdCode = icdList.get(0);
-			ICDCodes icd = icdCode.getIcdCodes();
-			icd.setIcdCode("ICD-272.2");
-
-			icdCode.setIcdCodes(icd);
-		}
-
-		patient.setPatientServiceDetail(patientServiceList);*/
+		/*
+		 * List<PatientServiceDetail> patientServiceList = null;
+		 *
+		 * if(null!=patient.getPatientServiceDetail() &&
+		 * !patient.getPatientServiceDetail().isEmpty()) { patientServiceList =
+		 * patient.getPatientServiceDetail();
+		 *
+		 * //Testing : Update for one icd
+		 *
+		 * List<PatientServiceICDCodes> icdList =
+		 * patientServiceList.get(0).getIcdCodes(); PatientServiceICDCodes icdCode =
+		 * icdList.get(0); ICDCodes icd = icdCode.getIcdCodes();
+		 * icd.setIcdCode("ICD-272.2");
+		 *
+		 * icdCode.setIcdCodes(icd); }
+		 *
+		 * patient.setPatientServiceDetail(patientServiceList);
+		 */
 
 		chargeCaptureDAO.updatePatientDetail(patient);
 	}
@@ -485,5 +489,17 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			}
 		}
 		return cpdList;
+	}
+
+	@Override
+	public List<ICDGroup> getIcdGroups() {
+
+		return chargeCaptureDAO.getIcdGroups();
+	}
+
+	@Override
+	public List<CPDGroup> getCpdGroups() {
+
+		return chargeCaptureDAO.getCpdGroups();
 	}
 }

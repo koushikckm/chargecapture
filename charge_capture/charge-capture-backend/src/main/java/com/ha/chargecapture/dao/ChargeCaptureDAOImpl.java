@@ -18,8 +18,10 @@ import org.owasp.esapi.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.CPDGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
+import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.entity.Provider;
@@ -451,6 +453,34 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		}
 
 		return patient;
+	}
+
+	@Override
+	public List<ICDGroup> getIcdGroups() {
+
+		List<ICDGroup> icdGroups = null;
+		Session session = (Session) entityManager.getDelegate();
+		Criteria criteria = session.createCriteria(ICDGroup.class, "icdgroup");
+		icdGroups = criteria.list();
+		if (null == icdGroups || icdGroups.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		return icdGroups;
+	}
+
+	@Override
+	public List<CPDGroup> getCpdGroups() {
+
+		List<CPDGroup> cpdGroups = null;
+		Session session = (Session) entityManager.getDelegate();
+		Criteria criteria = session.createCriteria(CPDGroup.class, "cpdgroup");
+		cpdGroups = criteria.list();
+		if (null == cpdGroups || cpdGroups.isEmpty()) {
+			return new ArrayList<>();
+		}
+
+		return cpdGroups;
 	}
 
 }

@@ -20,8 +20,10 @@ import com.ha.chargecapture.dto.ICDCodesDTO;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.CPDGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
+import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.service.ChargeCaptureService;
 
@@ -159,5 +161,27 @@ public class ChargeCaptureAPI {
 		icdCodes = chargeCaptureService.getIcdsForServiceId(serviceId);
 
 		return icdCodes;
+	}
+
+	@GetMapping(value = "/getIcdGroups")
+	@CrossOrigin
+	public List<ICDGroup> getIcdGroups() {
+
+		List<ICDGroup> icdGroups = null;
+
+		icdGroups = chargeCaptureService.getIcdGroups();
+
+		return icdGroups;
+	}
+
+	@GetMapping(value = "/getCpdGroups")
+	@CrossOrigin
+	public List<CPDGroup> getCpdGroups() {
+
+		List<CPDGroup> cpdGroups = null;
+
+		cpdGroups = chargeCaptureService.getCpdGroups();
+
+		return cpdGroups;
 	}
 }
