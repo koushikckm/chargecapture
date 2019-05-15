@@ -428,7 +428,7 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			// sort the map in descending order of count
 			LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
 			icdMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-			.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+					.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
 			// get top 5 from map and put it to list
 			int mapCount = 0;
@@ -466,7 +466,7 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			// sort the map in descending order of count
 			LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
 			cpdMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-			.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
+					.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
 			// get top 5 from map and put it to list
 			int mapCount = 0;

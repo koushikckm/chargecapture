@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ha.chargecapture.dto.AppointmentDetailDTO;
+import com.ha.chargecapture.dto.AppointmentRequestDTO;
 import com.ha.chargecapture.dto.CPDCodesDTO;
 import com.ha.chargecapture.dto.ICDCodesDTO;
 import com.ha.chargecapture.dto.PatientDetailDTO;
@@ -25,6 +27,7 @@ import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
+import com.ha.chargecapture.service.AppointmentService;
 import com.ha.chargecapture.service.ChargeCaptureService;
 
 @RestController
@@ -36,6 +39,9 @@ public class ChargeCaptureAPI {
 
 	@Autowired
 	ChargeCaptureService chargeCaptureService;
+
+	@Autowired
+	AppointmentService appointmentService;
 
 	@GetMapping(value = "/getFacilityDetail")
 	@CrossOrigin
@@ -161,6 +167,15 @@ public class ChargeCaptureAPI {
 		icdCodes = chargeCaptureService.getIcdsForServiceId(serviceId);
 
 		return icdCodes;
+	}
+
+	@PostMapping(value = "/appointments", produces = { "application/json" })
+	@CrossOrigin
+	public List<AppointmentDetailDTO> getAppointments(@RequestBody AppointmentRequestDTO appointmentDTO) {
+
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getAppointments()");
+		return appointmentService.getAppointments(appointmentDTO);
+
 	}
 
 	@GetMapping(value = "/getIcdGroups")
