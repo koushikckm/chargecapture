@@ -2,7 +2,6 @@ package com.ha.chargecapture.api;
 
 import java.util.List;
 
-import org.json.JSONObject;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,10 @@ import com.ha.chargecapture.dto.ICDCodesDTO;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.CPDGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
+import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.service.AppointmentService;
 import com.ha.chargecapture.service.ChargeCaptureService;
@@ -38,8 +39,7 @@ public class ChargeCaptureAPI {
 
 	@Autowired
 	ChargeCaptureService chargeCaptureService;
-	
-	
+
 	@Autowired
 	AppointmentService appointmentService;
 
@@ -168,17 +168,35 @@ public class ChargeCaptureAPI {
 
 		return icdCodes;
 	}
-	
-	
+
 	@PostMapping(value = "/appointments", produces = { "application/json" })
 	@CrossOrigin
 	public List<AppointmentDetailDTO> getAppointments(@RequestBody AppointmentRequestDTO appointmentDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getAppointments()");
 		return appointmentService.getAppointments(appointmentDTO);
-		
-		
-	
-		
+
+	}
+
+	@GetMapping(value = "/getIcdGroups")
+	@CrossOrigin
+	public List<ICDGroup> getIcdGroups() {
+
+		List<ICDGroup> icdGroups = null;
+
+		icdGroups = chargeCaptureService.getIcdGroups();
+
+		return icdGroups;
+	}
+
+	@GetMapping(value = "/getCpdGroups")
+	@CrossOrigin
+	public List<CPDGroup> getCpdGroups() {
+
+		List<CPDGroup> cpdGroups = null;
+
+		cpdGroups = chargeCaptureService.getCpdGroups();
+
+		return cpdGroups;
 	}
 }

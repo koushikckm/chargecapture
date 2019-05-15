@@ -3,38 +3,36 @@ package com.ha.chargecapture.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-
 @Service
 public class AuthService {
 
-	
 	@Value("${auth.UserName}")
 	private String UserName;
-	
+
 	@Value("${auth.Password}")
 	private String Password;
-	
+
 	@Value("${auth.BaseAddress}")
 	private String BaseAddress;
-	
+
 	@Value("${auth.TokenEndpoint}")
 	private String TokenEndpoint;
-	
+
 	@Value("${auth.ClientID}")
 	private String ClientID;
-	
+
 	@Value("${auth.AdapterURL}")
 	private String AdapterURL;
-	
+
 	@Value("${auth.AdminURL}")
 	private String AdminURL;
-	
+
 	@Value("${auth.APICommunicatorURL}")
 	private String APICommunicatorURL;
-	
+
 	@Value("${auth.GECPSDatabaseConnection}")
 	private String GECPSDatabaseConnection;
-	
+
 	@Value("${auth.CADatabaseConnection}")
 	private String CADatabaseConnection;
 
@@ -117,6 +115,5 @@ public class AuthService {
 	public void setCADatabaseConnection(String cADatabaseConnection) {
 		CADatabaseConnection = cADatabaseConnection;
 	}
-	
-	
+
 }

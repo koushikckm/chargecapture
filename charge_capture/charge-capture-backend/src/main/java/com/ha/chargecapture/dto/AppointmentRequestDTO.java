@@ -1,15 +1,15 @@
 package com.ha.chargecapture.dto;
 
 public class AppointmentRequestDTO {
-	
+
 	private String startDate;
-	
+
 	private String endDate;
-	
+
 	private String location;
-	
+
 	private String status;
-	
+
 	private String practitioner;
 
 	public String getStartDate() {
@@ -51,7 +51,5 @@ public class AppointmentRequestDTO {
 	public void setPractitioner(String practitioner) {
 		this.practitioner = practitioner;
 	}
-	
-	
 
 }
