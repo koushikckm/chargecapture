@@ -91,10 +91,6 @@ public class PatientDetail implements Serializable {
 	@JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
 	private List<PatientServiceDetail> patientServiceDetail;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = PatientReferringProvider.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "patient_id", referencedColumnName = "patient_id")
-	private List<PatientReferringProvider> referringProviders;
-
 	@ManyToOne(optional = false)
 	@JoinColumn(name = "facility_id")
 	private Facility facility;
@@ -265,14 +261,6 @@ public class PatientDetail implements Serializable {
 
 	public void setPatientServiceDetail(List<PatientServiceDetail> patientServiceDetail) {
 		this.patientServiceDetail = patientServiceDetail;
-	}
-
-	public List<PatientReferringProvider> getReferringProviders() {
-		return referringProviders;
-	}
-
-	public void setReferringProviders(List<PatientReferringProvider> referringProviders) {
-		this.referringProviders = referringProviders;
 	}
 
 	public int getAge() {

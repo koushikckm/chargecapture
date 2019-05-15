@@ -32,6 +32,7 @@ import com.ha.chargecapture.service.ChargeCaptureService;
 
 @RestController
 @Validated
+@CrossOrigin
 @RequestMapping("/chargecapture")
 public class ChargeCaptureAPI {
 
@@ -44,14 +45,12 @@ public class ChargeCaptureAPI {
 	AppointmentService appointmentService;
 
 	@GetMapping(value = "/getFacilityDetail")
-	@CrossOrigin
 	public List<Facility> getFacilityDetail() {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getFacilityDetail()");
 		return chargeCaptureService.getFacilityDetail();
 	}
 
 	@GetMapping(value = "/getPatientsForFacility")
-	@CrossOrigin
 	public List<PatientDetail> getPatientsForFacility(@RequestParam(required = true) int facilityId) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS,
@@ -64,21 +63,18 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getICDCodes")
-	@CrossOrigin
 	public List<ICDCodes> getICDCodes(@RequestParam(required = false) Integer providerId) {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getICDCodes()");
 		return chargeCaptureService.getICDDetail(providerId);
 	}
 
 	@GetMapping(value = "/getCPDCodes")
-	@CrossOrigin
 	public List<CPDCodes> getCPDCodes(@RequestParam(required = false) Integer providerId) {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getCPDCodes()");
 		return chargeCaptureService.getCPDDetail(providerId);
 	}
 
 	@GetMapping(value = "/getPatientDetail")
-	@CrossOrigin
 	public List<PatientDetail> getPatientDetail() {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetail()");
@@ -90,7 +86,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getPatientDetailForWeb")
-	@CrossOrigin
 	public List<PatientDetail> getPatientDetailForWeb() {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetailForWeb()");
@@ -102,7 +97,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })
-	@CrossOrigin
 	public long submitPatientDetail(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::submitPatientServiceDetail()");
@@ -110,7 +104,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@PutMapping(value = "/updatePatientServiceStatus", produces = { "application/json" })
-	@CrossOrigin
 	public void updatePatientServiceStatus(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::updatePatientServiceStatus() for service id : "
@@ -119,14 +112,12 @@ public class ChargeCaptureAPI {
 	}
 
 	@PutMapping(value = "/updatePatientDetail", produces = { "application/json" })
-	@CrossOrigin
 	public void updatePatientDetail(@RequestBody PatientDetailDTO patientDetailDto) {
 
 		chargeCaptureService.updatePatientDetails(patientDetailDto);
 	}
 
 	@GetMapping(value = "/getPatients")
-	@CrossOrigin
 	public List<PatientDetailDTO> getPatients() {
 
 		List<PatientDetailDTO> patientDetail = null;
@@ -137,7 +128,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getServiceForServiceId")
-	@CrossOrigin
 	public PatientServiceDetailDTO getServiceForServiceId(@RequestParam(required = true) int serviceId) {
 
 		PatientServiceDetailDTO patientService = null;
@@ -148,7 +138,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getCpdsForServiceId")
-	@CrossOrigin
 	public List<CPDCodesDTO> getCpdsForServiceId(@RequestParam(required = true) int serviceId) {
 
 		List<CPDCodesDTO> cpdCodes = null;
@@ -159,7 +148,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getIcdsForServiceId")
-	@CrossOrigin
 	public List<ICDCodesDTO> getIcdsForServiceId(@RequestParam(required = true) int serviceId) {
 
 		List<ICDCodesDTO> icdCodes = null;
@@ -179,7 +167,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getIcdGroups")
-	@CrossOrigin
 	public List<ICDGroup> getIcdGroups() {
 
 		List<ICDGroup> icdGroups = null;
@@ -190,7 +177,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getCpdGroups")
-	@CrossOrigin
 	public List<CPDGroup> getCpdGroups() {
 
 		List<CPDGroup> cpdGroups = null;
