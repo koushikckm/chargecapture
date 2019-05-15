@@ -15,40 +15,40 @@
         <div class="col-md-6 form-group">
           <label class="control-label col-lg-4">First Name</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="50" name="firstName" 
-              [(ngModel)]="this.patientdetails.firstName" /> 
-              <!-- <span class="help-block" *ngIf="isfirstNameValid">{{isfirstNameValidMsg}}</span> -->
-            </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="50" name="firstName" [(ngModel)]="this.patientdetails.firstName"
+            />
+            <!-- <span class="help-block" *ngIf="isfirstNameValid">{{isfirstNameValidMsg}}</span> -->
+          </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Last Name</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="50" name="lastName" 
-              [(ngModel)]="this.patientdetails.lastName" /> 
-              <!-- <span class="help-block" *ngIf="islastNameValid">{{islastNameValidMsg}}</span> -->
-            </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="50" name="lastName" [(ngModel)]="this.patientdetails.lastName"
+            />
+            <!-- <span class="help-block" *ngIf="islastNameValid">{{islastNameValidMsg}}</span> -->
+          </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Middle Name</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="50" name="middleName" 
-              [(ngModel)]="this.patientdetails.middleName" /> 
-              <!-- <span class="help-block" *ngIf="ismiddleNameValid">{{ismiddleNameValidMsg}}</span> -->
-            </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="50" name="middleName" [(ngModel)]="this.patientdetails.middleName"
+            />
+            <!-- <span class="help-block" *ngIf="ismiddleNameValid">{{ismiddleNameValidMsg}}</span> -->
+          </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Date Of Birth</label>
           <div class="col-lg-6">
             <!-- <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="dateOfBirth" 
               [(ngModel)]="this.patientdetails.dateOfBirth" />  -->
-              <div class='input-group date' id='datetimepicker4'>
-                <input class="form-control" a2e-datetimepicker name="memberDOB" [(ngModel)]="this.patientdetails.dateOfBirth" [options]="a2eOptions" placeholder="MM/dd/yyyy" 
-                 readonly="readonly"/>
-                <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-              </div>
-              <!-- <span class="help-block" *ngIf="isDOBRequired">{{memberDOBValidationMsg}}</span> -->
+            <div class='input-group date' id='datetimepicker4'>
+              <input class="form-control" a2e-datetimepicker name="memberDOB" [(ngModel)]="this.patientdetails.dateOfBirth" [options]="a2eOptions"
+                placeholder="MM/dd/yyyy" readonly="readonly" />
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+            <!-- <span class="help-block" *ngIf="isDOBRequired">{{memberDOBValidationMsg}}</span> -->
           </div>
         </div>
 
@@ -57,96 +57,97 @@
           <div class="col-lg-6">
             <!-- <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="gender" 
               [(ngModel)]="this.patientdetails.gender" />  -->
-              <!-- <label class="form-check-inline">
+            <!-- <label class="form-check-inline">
                 <input class="form-check-input" type="radio" name="GenderMale" [value]="M" [(ngModel)]="this.patientdetails.gender" checked>
             </label>
             <label class="form-check-inline">
                 <input class="form-check-input" type="radio" name="GenderFemale" [value]="F" [(ngModel)]="this.patientdetails.gender">
             </label> -->
-            <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="M">
-            Male
-            <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="F">
-            Female
-            </div>
+            <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="M"> Male
+            <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="F"> Female
+          </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Age</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="3" name="age" 
-              [(ngModel)]="this.patientdetails.age" onlynumber="true"/> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="3" name="age" [(ngModel)]="this.patientdetails.age"
+              onlynumber="true" /> </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">SSN</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="ssn" 
-              [(ngModel)]="this.patientdetails.ssn" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="ssn" [(ngModel)]="this.patientdetails.ssn"
+            /> </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Email</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100"  name="email" 
-              [(ngModel)]="this.patientdetails.email" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="email" [(ngModel)]="this.patientdetails.email"
+            /> </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Address Line1</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="addressLine1" 
-              [(ngModel)]="this.patientdetails.addressLine1" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="addressLine1" [(ngModel)]="this.patientdetails.addressLine1"
+            /> </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Address Line2</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="addressLine2" 
-              [(ngModel)]="this.patientdetails.addressLine2" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="addressLine2" [(ngModel)]="this.patientdetails.addressLine2"
+            /> </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">City</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="city" 
-              [(ngModel)]="this.patientdetails.city" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="city" [(ngModel)]="this.patientdetails.city"
+            /> </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">State</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="state" 
-              [(ngModel)]="this.patientdetails.state" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="state" [(ngModel)]="this.patientdetails.state"
+            /> </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Zip</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="5" name="zip"  onlynumber="true"
-              [(ngModel)]="this.patientdetails.zip" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="5" name="zip" onlynumber="true" [(ngModel)]="this.patientdetails.zip"
+            /> </div>
         </div>
 
 
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Home Phone</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search"  name="homePhone" 
-              [(ngModel)]="this.patientdetails.homePhone" maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.homePhone,'homePhone')" onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" name="homePhone" [(ngModel)]="this.patientdetails.homePhone"
+              maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.homePhone,'homePhone')"
+              onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Mobile Phone</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search"  name="mobilePhone" 
-              [(ngModel)]="this.patientdetails.mobilePhone"  maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.mobilePhone,'mobilePhone')"  onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" name="mobilePhone" [(ngModel)]="this.patientdetails.mobilePhone"
+              maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.mobilePhone,'mobilePhone')"
+              onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
         </div>
-        
+
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Work Phone</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" name="workPhone" 
-              [(ngModel)]="this.patientdetails.workPhone"  maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.workPhone,'workPhone')" onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" name="workPhone" [(ngModel)]="this.patientdetails.workPhone"
+              maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.workPhone,'workPhone')"
+              onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
         </div>
 
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Chart Number</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Keyword Search" name="chartNumber" 
-              [(ngModel)]="this.patientdetails.chartNumber"  maxlength="12" onlynumber="true" /> </div>
+            <input class="form-control" type="text" id="" placeholder="Keyword Search" name="chartNumber" [(ngModel)]="this.patientdetails.chartNumber"
+              maxlength="12" onlynumber="true" /> </div>
         </div>
-        
-        
+
+
       </div>
     </div>
   </div>
@@ -192,7 +193,14 @@
               </td>
               <td>{{detail.patientId}}</td>
               <td>{{detail.dateOfService}}</td>
-              <td>{{detail.comments}}</td>
+              <td>
+                <div *ngIf="detail.comments !=null && detail.comments !='' ">
+                  <div class="commenttooltip">Show comment
+                    <span class="commenttooltiptext">{{detail.comments}}</span>
+                  </div>
+                </div>
+
+              </td>
               <td>{{detail.status}}</td>
               <td>{{detail.charges}}</td>
             </tr>
@@ -217,7 +225,6 @@
       </a>
     </div>
     <div class="panel-body" *ngIf="showPatientServiceDetailsPanel">
-      <br/> ICD
       <table class="table">
         <thead>
           <tr>
@@ -249,28 +256,28 @@
                 <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
               </span>
             </td> -->
-            <td>
-              <span *ngIf="!isEditable">{{detail.icdCodes.icdCode}}</span>
-              <span *ngIf="isEditable">
+            <td width="50%">
+              <!-- <span *ngIf="!isEditable">{{detail.icdCodes.icdCode}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="icdCode{{i}}" [(ngModel)]="detail.icdCodes.icdCode" />
-              </span>
+              <!-- </span> -->
             </td>
-            <td>
-              <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
-              <span *ngIf="isEditable">
+            <td width="50%">
+              <!-- <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{i}}" [(ngModel)]="detail.icdCodes.description"
                 />
-              </span>
+              <!-- </span> -->
             </td>
           </tr>
         </tbody>
         <tbody *ngIf="serviceDetails.icdCodes.length==0 || serviceDetails.icdCodes==null">
-          <tr>
-            <span style="text-align: center;float: right;">Data not available</span>
-          </tr>
+            <tr>
+                <td colspan="4" width="100%"><span style="margin-left: 42%;color: #b93a3a">Data not available</span></td>
+              </tr>
         </tbody>
       </table>
-      <br/> CPD
+
       <table class="table">
         <thead>
           <tr>
@@ -304,21 +311,26 @@
                 <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
               </span>
             </td> -->
-            <td>
-              <span *ngIf="!isEditable">
-                <a (click)="parentIndex=i;selectTableRow($index,detail,serviceDetails)" style="cursor: pointer;">{{detail.cpdCodes.cpdcode}}</a>
-              </span>
-              <span *ngIf="isEditable">
+            <td width="25%">
+              <!-- <span *ngIf="!isEditable">{{detail.cpdCodes.cpdcode}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control col-sm-4" type="text" maxlength="100" name="cpdcode{{i}}" [(ngModel)]="detail.cpdCodes.cpdcode"
                 />
-              </span>
+              <!-- </span> -->
             </td>
-            <td>
-              <span *ngIf="!isEditable">{{detail.cpdCodes.description}}</span>
-              <span *ngIf="isEditable">
+            <td width="25%">
+              <!-- <span *ngIf="!isEditable">{{detail.cpdCodes.description}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="description{{i}}" [(ngModel)]="detail.cpdCodes.description"
                 />
+              <!-- </span> -->
+            </td>
+            <td colspan="2" style=""  width="50%">
+              <span *ngIf="detail.serviceCpdModifiers && detail.serviceCpdModifiers.length !=0" style="margin-left: 30%">
+                <a (click)="parentIndex=i;selectTableRow($index,detail,serviceDetails)" style="cursor: pointer;" *ngIf="!detail.isExpanded">Show Service Modifiers</a>
+                <a (click)="parentIndex=i;selectTableRow($index,detail,serviceDetails)" style="cursor: pointer;" *ngIf="detail.isExpanded">Hide Service Modifiers</a>
               </span>
+
             </td>
             <!-- <td>
               <table>
@@ -336,34 +348,34 @@
             </td> -->
           </tr>
           <tr *ngFor="let serviceDetail of detail.serviceCpdModifiers" [hidden]="!detail.isExpanded">
-            <td></td>
-            <td></td>
-            <td>
-              <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.modifierCode}}</span>
-              <span *ngIf="isEditable">
+            <td  width="25%"></td>
+            <td width="25%"></td>
+            <td width="25%">
+              <!-- <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.modifierCode}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="modifierCode{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.modifierCode"
                 />
-              </span>
+              <!-- </span> -->
             </td>
-            <td>
-              <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.description}}</span>
-              <span *ngIf="isEditable">
+            <td width="25%">
+              <!-- <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.description}}</span>
+              <span *ngIf="isEditable"> -->
                 <input class="form-control" type="text" maxlength="100" name="modifierdescription{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.description"
                 />
-              </span>
+              <!-- </span> -->
             </td>
           </tr>
         </tbody>
         <tbody *ngIf="serviceDetails.cpdCodes.length==0 || serviceDetails.cpdCodes==null">
           <tr>
-            <span style="text-align: center;float: right;">Data not available</span>
+              <td colspan="4" width="100%"><span style="margin-left: 42%;color: #b93a3a">Data not available</span></td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <div class="pull-right" style="margin-right: 1%">    
+  <div class="pull-right" style="margin-right: 1%">
     <button class="btn-primary" (click)="save(patientdetails)">Save</button>&nbsp;
     <button class="btn-primary" (click)="cancel()">Cancel</button>
   </div>
@@ -382,13 +394,15 @@
       </div>
       <div class="modal-body" id="submitModelMessage">
         <p [hidden]="printToggle">Patient Details successfully.</p>
-      
-  <p [hidden]="!printToggle"><img [src]="labelPath" ></p>
-      
+
+        <p [hidden]="!printToggle">
+          <img [src]="labelPath">
+        </p>
+
       </div>
       <div class="modal-footer">
-      	  <!-- <button type="button" *ngIf="printToggle" class="btn btn-default" data-dismiss="modal"  style="background-color:#faa730;color:white;font-weight: bold;" (click)="printDiv()" >Print</button> -->
-        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeButtonModel()" style="background-color:#faa730;color:white;font-weight: bold;" >Close</button>
+        <!-- <button type="button" *ngIf="printToggle" class="btn btn-default" data-dismiss="modal"  style="background-color:#faa730;color:white;font-weight: bold;" (click)="printDiv()" >Print</button> -->
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeButtonModel()" style="background-color:#faa730;color:white;font-weight: bold;">Close</button>
       </div>
     </div>
 
