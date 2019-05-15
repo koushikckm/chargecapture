@@ -14,8 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.ha.chargecapture.dto.AppointListDTO;
-import com.ha.chargecapture.dto.AppointmentDTO;
+import com.google.gson.GsonBuilder;
+import com.ha.chargecapture.dto.AppointmentDetailDTO;
+import com.ha.chargecapture.dto.AppointmentRequestDTO;
 
 
 @Service
@@ -30,24 +31,40 @@ public class AppointmentService {
 	
 	private static final Logger LOGGER = ESAPI.getLogger(AppointmentService.class);
 	
-	public List<AppointListDTO> getAppointments(AppointmentDTO appointmentDto){
+	public List<AppointmentDetailDTO> getAppointments(AppointmentRequestDTO appointmentDto){
 		
 		String postResp = null;
 		
 		
+		StringBuilder url = new StringBuilder(appointmentUrl);
 		
-		PostMethod post = new PostMethod(appointmentUrl);
+		if(appointmentDto.getStartDate()!=null)
+			url.append("startDate="+appointmentDto.getStartDate()+"&");
 		
-		List<AppointListDTO>  appointmentList= new ArrayList<>();
+		if(appointmentDto.getEndDate()!=null)
+			url.append("endDate="+appointmentDto.getEndDate()+"&");
+			
+		if(appointmentDto.getStatus()!=null)
+			url.append("status="+appointmentDto.getStatus()+"&");
+			
+		if(appointmentDto.getPractitioner()!=null)
+			url.append("practitioner="+appointmentDto.getPractitioner()+"&");
+			
+		if(appointmentDto.getLocation()!=null)
+			url.append("location="+appointmentDto.getLocation());
+		
+		
+		
+		
+		PostMethod post = new PostMethod(url.toString());
+		
+		List<AppointmentDetailDTO>  appointmentList= new ArrayList<>();
 		
 		try {
-		Gson gson = new Gson();
 		
-		authservice.setTokenEndpoint("https://172.16.60.10:9443/gedemoAPIServer/oauth2/token?state=defaultState&scope=user/*.*&grant_type=password&");
+			Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 		
-		authservice.setGECPSDatabaseConnection("Server=172.16.60.10\\\\MSSQLSERVER2014;Database=GEDemo;User Id=sa;password=Server@2014;");
 		
-		authservice.setCADatabaseConnection("data source=DEVSRV2012;initial catalog=CAIntergy64;user id=sa;pwd=Health@1234;");
 		
 		String authArgs = gson.toJson(authservice);
 		
@@ -55,16 +72,7 @@ public class AppointmentService {
 		
 		post.setRequestHeader("authArgs", authArgs);
 		post.setRequestHeader("Content-Type", "application/json");
-		if(appointmentDto.getStartDate()!=null)
-			post.setParameter("startDate", appointmentDto.getStartDate());
-		if(appointmentDto.getEndDate()!=null)
-			post.setParameter("endDate", appointmentDto.getEndDate());
-		if(appointmentDto.getStatus()!=null)
-			post.setParameter("status", appointmentDto.getStatus());
-		if(appointmentDto.getPractitioner()!=null)
-			post.setParameter("practitioner", appointmentDto.getPractitioner());
-		if(appointmentDto.getPractitioner()!=null)
-			post.setParameter("location", appointmentDto.getLocation());
+		
 		
 		
 		HttpClient httpclient = new HttpClient();
@@ -75,7 +83,7 @@ public class AppointmentService {
 	    
 	    postResp= post.getResponseBodyAsString();
 	    
-	    appointmentList = new Gson().fromJson(post.getResponseBodyAsString(), new TypeToken<List<AppointListDTO>>() {
+	    appointmentList = new Gson().fromJson(post.getResponseBodyAsString(), new TypeToken<List<AppointmentDetailDTO>>() {
 		}.getType());
 	    
 	    

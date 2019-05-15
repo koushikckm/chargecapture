@@ -1,6 +1,6 @@
 package com.ha.chargecapture.dto;
 
-public class AppointListDTO {
+public class AppointmentDetailDTO {
 	
 	private String appointmentId;
 	

@@ -1,6 +1,6 @@
 package com.ha.chargecapture.dto;
 
-public class AppointmentDTO {
+public class AppointmentRequestDTO {
 	
 	private String startDate;
 	

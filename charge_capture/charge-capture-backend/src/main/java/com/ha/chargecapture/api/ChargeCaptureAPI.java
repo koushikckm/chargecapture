@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ha.chargecapture.dto.AppointListDTO;
-import com.ha.chargecapture.dto.AppointmentDTO;
+import com.ha.chargecapture.dto.AppointmentDetailDTO;
+import com.ha.chargecapture.dto.AppointmentRequestDTO;
 import com.ha.chargecapture.dto.CPDCodesDTO;
 import com.ha.chargecapture.dto.ICDCodesDTO;
 import com.ha.chargecapture.dto.PatientDetailDTO;
@@ -172,7 +172,7 @@ public class ChargeCaptureAPI {
 	
 	@PostMapping(value = "/appointments", produces = { "application/json" })
 	@CrossOrigin
-	public List<AppointListDTO> getAppointments(@RequestBody AppointmentDTO appointmentDTO) {
+	public List<AppointmentDetailDTO> getAppointments(@RequestBody AppointmentRequestDTO appointmentDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getAppointments()");
 		return appointmentService.getAppointments(appointmentDTO);
