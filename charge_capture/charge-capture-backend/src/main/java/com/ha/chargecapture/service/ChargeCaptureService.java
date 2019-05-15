@@ -7,8 +7,10 @@ import com.ha.chargecapture.dto.ICDCodesDTO;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.CPDGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
+import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 
 public interface ChargeCaptureService {
@@ -40,4 +42,8 @@ public interface ChargeCaptureService {
 	List<CPDCodesDTO> getCpdsForServiceId(int serviceId);
 
 	List<ICDCodesDTO> getIcdsForServiceId(int serviceId);
+
+	List<ICDGroup> getIcdGroups();
+
+	List<CPDGroup> getCpdGroups();
 }

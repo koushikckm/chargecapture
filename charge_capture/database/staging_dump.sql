@@ -83,7 +83,7 @@ CREATE TABLE `cpdcodes` (
   `description` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`record_id`),
   UNIQUE KEY `cpdcode_UNIQUE` (`cpdcode`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,6 +97,58 @@ INSERT INTO `cpdcodes` VALUES (1,'CPT-10040','Incision and Drainage Procedures o
 UNLOCK TABLES;
 
 --
+-- Table structure for table `cpdgroup`
+--
+
+DROP TABLE IF EXISTS `cpdgroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cpdgroup` (
+  `record_id` int(11) NOT NULL AUTO_INCREMENT,
+  `groupname` varchar(100) NOT NULL,
+  PRIMARY KEY (`record_id`),
+  UNIQUE KEY `groupname_UNIQUE` (`groupname`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cpdgroup`
+--
+
+LOCK TABLES `cpdgroup` WRITE;
+/*!40000 ALTER TABLE `cpdgroup` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cpdgroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cpdgroupcodemapping`
+--
+
+DROP TABLE IF EXISTS `cpdgroupcodemapping`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cpdgroupcodemapping` (
+  `record_id` int(19) NOT NULL AUTO_INCREMENT,
+  `cpd_group_record_id` int(11) NOT NULL,
+  `cpdcode` varchar(45) NOT NULL,
+  PRIMARY KEY (`record_id`),
+  KEY `fk_cpd_group_record_id_idx` (`cpd_group_record_id`),
+  KEY `fk_cpdcode1_idx` (`cpdcode`),
+  CONSTRAINT `fk_cpd_group_record_id` FOREIGN KEY (`cpd_group_record_id`) REFERENCES `cpdgroup` (`record_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_cpdcode1` FOREIGN KEY (`cpdcode`) REFERENCES `cpdcodes` (`cpdcode`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cpdgroupcodemapping`
+--
+
+LOCK TABLES `cpdgroupcodemapping` WRITE;
+/*!40000 ALTER TABLE `cpdgroupcodemapping` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cpdgroupcodemapping` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cpdmodifiers`
 --
 
@@ -105,7 +157,7 @@ DROP TABLE IF EXISTS `cpdmodifiers`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `cpdmodifiers` (
   `modifier_code` varchar(45) NOT NULL,
-  `description` varchar(45) NOT NULL,
+  `description` varchar(200) NOT NULL,
   PRIMARY KEY (`modifier_code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -116,7 +168,7 @@ CREATE TABLE `cpdmodifiers` (
 
 LOCK TABLES `cpdmodifiers` WRITE;
 /*!40000 ALTER TABLE `cpdmodifiers` DISABLE KEYS */;
-INSERT INTO `cpdmodifiers` VALUES ('m1','m1 description'),('m2','m2 description'),('m3','m3 description'),('m4','m4 description'),('m5','m5 description'),('m6','m6 description'),('m7','m7 description');
+INSERT INTO `cpdmodifiers` VALUES ('WP','Designated Doctor Exam'),('WX','ADMINISTERED BY NURSE'),('XE','Separate Encounter: A service that is distinct because it occurred during a separate encounter.'),('XP','Separate Practitioner: A service that is distinct because it was performed by a different practitioner.'),('XS','Separate Structure: A service that is distinct because it was performed on a separate organ/structure.'),('XU','Unusual Non-Overlapping Service: The use of a service that is distinct because it does not overlap usual components of the main service.'),('ZA','Novartis/Sandoz'),('ZB','Pfizer/Hospira'),('ZD','Local Modifier used for global diagnostic test'),('ZK','Primary Surgeon');
 /*!40000 ALTER TABLE `cpdmodifiers` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -273,8 +325,62 @@ CREATE TABLE `icdcodes` (
 
 LOCK TABLES `icdcodes` WRITE;
 /*!40000 ALTER TABLE `icdcodes` DISABLE KEYS */;
-INSERT INTO `icdcodes` VALUES (1,'ICD-280.0','Iron deficiency anemia secondary to blood loss (chronic)'),(2,'ICD-411.1','SYNDROME, INTERMEDIATE CORONARY'),(7,'ICD-413.0','ANGINA DECUBITUS'),(8,'ICD-413.1','ANGINA, PRINZMETAL'),(9,'ICD-413.9','ANGINA PECTORIS NEC/NOS'),(10,'ICD-272.2','HYPERLIPIDEMIA, MIXED'),(11,'ICD-272.4','HYPERLIPIDEMIA NEC/NOS'),(12,'ICD-396.0','STENOSIS, MITRAL AND AORTIC VALVES'),(13,'ICD-396.3','INSUFFICIENCY, MITRAL/AORTIC VALVES'),(14,'ICD-397.0','DISEASE, TRICUSPID VALVE'),(15,'ICD-397.1','DISEASE, RHEUMATIC PULMONARY VALVE'),(16,'ICD-401.0','HYPERTENSION, MALIGNANT ESSENTIAL'),(17,'ICD-401.1','HYPERTENSION, BENIGN ESSENTIAL'),(18,'ICD-401.9','HYPERTENSION, ESSENTIAL NOS'),(19,'ICD-402.90','DISEASE, HYPERTENSIVE HEART NOS'),(20,'ICD-403.90','DISEASE, HYPERTENSIVE RENAL NOS'),(21,'ICD-405.19','HYPERTENSION, SECONDARY, MLG NEC'),(22,'ICD-411.0','SYNDROME, POSTMYOCARDIAL INFARCTIO'),(23,'ICD-426.89','DISORDER, CONDUCTION NEC'),(25,'ICD-H35.341','Macular cyst, hole, or pseudohole, right eye'),(27,'ICD-H35.3231','Exudative age-related macular degeneration, bilateral, with active choroidal neovascularization'),(28,'ICD-H353211','Exudative age-related macular degeneration, right eye, with active choroidal neovascularization'),(29,'ICD-H353221','Exudative age-related macular degeneration, left eye, with active choroidal neovascularization');
+INSERT INTO `icdcodes` VALUES (1,'ICD-280.0','Iron deficiency anemia secondary to blood loss (chronic)'),(2,'ICD-411.1','SYNDROME, INTERMEDIATE CORONARY'),(7,'ICD-413.0','ANGINA DECUBITUS'),(8,'ICD-413.1','ANGINA, PRINZMETAL'),(9,'ICD-413.9','ANGINA PECTORIS NEC/NOS'),(10,'ICD-272.2','ICD-280.0'),(11,'ICD-272.4','HYPERLIPIDEMIA NEC/NOS'),(12,'ICD-396.0','STENOSIS, MITRAL AND AORTIC VALVES'),(13,'ICD-396.3','INSUFFICIENCY, MITRAL/AORTIC VALVES'),(14,'ICD-397.0','DISEASE, TRICUSPID VALVE'),(15,'ICD-397.1','DISEASE, RHEUMATIC PULMONARY VALVE'),(16,'ICD-401.0','HYPERTENSION, MALIGNANT ESSENTIAL'),(17,'ICD-401.1','HYPERTENSION, BENIGN ESSENTIAL'),(18,'ICD-401.9','HYPERTENSION, ESSENTIAL NOS'),(19,'ICD-402.90','DISEASE, HYPERTENSIVE HEART NOS'),(20,'ICD-403.90','DISEASE, HYPERTENSIVE RENAL NOS'),(21,'ICD-405.19','HYPERTENSION, SECONDARY, MLG NEC'),(22,'ICD-411.0','SYNDROME, POSTMYOCARDIAL INFARCTIO'),(23,'ICD-426.89','DISORDER, CONDUCTION NEC'),(25,'ICD-H35.341','Macular cyst, hole, or pseudohole, right eye'),(27,'ICD-H35.3231','Exudative age-related macular degeneration, bilateral, with active choroidal neovascularization'),(28,'ICD-H353211','Exudative age-related macular degeneration, right eye, with active choroidal neovascularization'),(29,'ICD-H353221','Exudative age-related macular degeneration, left eye, with active choroidal neovascularization');
 /*!40000 ALTER TABLE `icdcodes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `icdgroup`
+--
+
+DROP TABLE IF EXISTS `icdgroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `icdgroup` (
+  `record_id` int(11) NOT NULL AUTO_INCREMENT,
+  `groupname` varchar(100) NOT NULL,
+  PRIMARY KEY (`record_id`),
+  UNIQUE KEY `groupname_UNIQUE` (`groupname`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `icdgroup`
+--
+
+LOCK TABLES `icdgroup` WRITE;
+/*!40000 ALTER TABLE `icdgroup` DISABLE KEYS */;
+INSERT INTO `icdgroup` VALUES (1,'Abnormalities of Heart Rhythm'),(2,'Atrial Fibrillation and Flutter'),(3,'Cardiac Arrhythmias (Other)'),(4,'Chest Pain'),(5,'Heart Failure'),(6,'Hypertension'),(7,'Nonrheumatic Valve Disorders'),(8,'Selected Atherosclerosis, Ischemia, and Infarction'),(9,'Syncope and Collapse');
+/*!40000 ALTER TABLE `icdgroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `icdgroupcodemapping`
+--
+
+DROP TABLE IF EXISTS `icdgroupcodemapping`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `icdgroupcodemapping` (
+  `record_id` int(19) NOT NULL AUTO_INCREMENT,
+  `icd_group_record_id` int(11) NOT NULL,
+  `icdcode` varchar(45) NOT NULL,
+  PRIMARY KEY (`record_id`),
+  KEY `fk_icdcode_idx` (`icdcode`),
+  KEY `fk_icd_group_record_id_idx` (`icd_group_record_id`),
+  CONSTRAINT `fk_icd_group_record_id` FOREIGN KEY (`icd_group_record_id`) REFERENCES `icdgroup` (`record_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_icdcode` FOREIGN KEY (`icdcode`) REFERENCES `icdcodes` (`icdcode`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `icdgroupcodemapping`
+--
+
+LOCK TABLES `icdgroupcodemapping` WRITE;
+/*!40000 ALTER TABLE `icdgroupcodemapping` DISABLE KEYS */;
+INSERT INTO `icdgroupcodemapping` VALUES (18,1,'ICD-280.0'),(19,1,'ICD-413.0'),(20,2,'ICD-413.9'),(21,3,'ICD-272.2'),(22,3,'ICD-413.0');
+/*!40000 ALTER TABLE `icdgroupcodemapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -414,7 +520,7 @@ CREATE TABLE `patientdetail` (
 
 LOCK TABLES `patientdetail` WRITE;
 /*!40000 ALTER TABLE `patientdetail` DISABLE KEYS */;
-INSERT INTO `patientdetail` VALUES ('1751',3,'Mike','Hussey','','','1997-10-11','M',NULL,'1201','1201','Dunwoody','AL','23212','(322)431-4324','(123)213-2131','','(123)213-2131','',NULL,NULL,'',NULL,0,'2019-05-03 15:06:53',NULL),('1762',3,'Marissa','DeRossi','','','1972-03-04','F',NULL,'1 NEW Street','1 NEW Street','Charleston','SC','29414','(843)730-2811','(123)456-7899','NEW@email.com','(123)456-7899','',NULL,NULL,'',NULL,1,'2019-05-03 15:06:53',NULL),('1764',3,'Deepika','Aiyappa','','','1989-05-18','F',NULL,'St.Louis','St.Louis','Missouri','MO','63141','(785)114-2456','','deepika.aiyappa@healthasyst.com','','',NULL,NULL,'748-55-5555',NULL,0,'2019-05-03 15:06:53','2019-05-06 11:29:21'),('18',3,'Peggy1','Parker','','','1991-06-03','F',NULL,'222 Atlantic Boulevard1','222 Atlantic Boulevard1','Atlantic City','NJ','00255','(212)555-1113','(212)545-7856','Peggy.parker@mail.com','(212)545-7856','',NULL,NULL,'522-46-5321',NULL,0,'2019-05-03 15:06:53','2019-05-06 18:44:52'),('197',5,'Martin','Gary','','','1957-03-30','M',NULL,'8041 N MacArthur Blvd','8041 N MacArthur Blvd','Carrollton','IL','60215','(972)386-9688','(972)247-5492','Test.k@healthasyst.com','(972)247-5492','',NULL,NULL,'357-87-4020',NULL,1,'2019-05-03 15:06:53',NULL),('4340612',6990,'MARTIN','MORRISON','M','','1984-10-10','m',NULL,'101 ROAD','101 ROAD','HOUSTON','TX','77074-1010','','','','','English',NULL,NULL,'101010101',NULL,0,'2019-05-06 13:03:24','2019-05-06 13:18:24'),('4341081',6990,'MARTIN','BLACK','','','1990-10-10','m',NULL,'999 STREET','999 STREET','ST.CHARLES','MO','77070-3212','','','','','English',NULL,NULL,'333121211',NULL,0,'2019-05-03 19:43:54','2019-05-03 19:55:49'),('822',3,'damodar','prabu','','','2000-01-01','',NULL,'lane 1','lane 1','','','','','','','','',NULL,NULL,'',NULL,0,'2019-05-09 11:35:16','2019-05-09 11:35:22');
+INSERT INTO `patientdetail` VALUES ('1751',3,'Mike','Hussey','','','2000-10-10T00:00:00.000Z','M',NULL,'1201','1201','Dunwoody','AL','23212','1234567890','98765432','','(123)213-2131','',NULL,NULL,'',NULL,0,'2019-05-03 15:06:53','2019-05-13 18:19:21'),('1762',3,'Marissa','DeRossi','','','1972-03-04T00:00:00.000Z','F',NULL,'1 NEW Street','1 NEW Street','Charleston','SC','29414','(843)730-2811','(123)456-7899','NEW@email.com','(123)456-7899','',NULL,NULL,'',NULL,1,'2019-05-03 15:06:53','2019-05-13 18:19:05'),('1764',3,'Deepika','Aiyappa','','','1989-05-18T00:00:00.000Z','F',NULL,'St.Louis','St.Louis','Missouri','MO','63141','(785)114-2456','3333333333','deepika.aiyappa@healthasyst.com','888-888-8888','',NULL,NULL,'748-55-5555',NULL,0,'2019-05-03 15:06:53','2019-05-14 11:09:39'),('18',3,'Peggy','Parker','','','1991-06-03','F',NULL,'222 Atlantic Boulevard1','222 Atlantic Boulevard1','Atlantic City','NJ','00255','(212)555-1113','(212)545-7856','Peggy.parker@mail.com','(212)545-7856','',NULL,NULL,'522-46-5321',NULL,0,'2019-05-03 15:06:53','2019-05-13 16:58:29'),('197',5,'Martin','Gary','','','1957-03-30','M',NULL,'8041 N MacArthur Blvd','8041 N MacArthur Blvd','Carrollton','IL','60215','(972)386-9688','(972)247-5492','Test.k@healthasyst.com','(972)247-5492','',NULL,NULL,'357-87-4020',NULL,1,'2019-05-03 15:06:53',NULL),('4340612',6990,'MARTIN','MORRISON','M','','1984-10-10','m',NULL,'101 ROAD','101 ROAD','HOUSTON','TX','77074-1010','','','','','English',NULL,NULL,'101010101',NULL,0,'2019-05-06 13:03:24','2019-05-06 13:18:24'),('4341081',6990,'MARTIN','BLACK','','','1950-10-10','m',NULL,'999 STREET','999 STREET','ST.CHARLES','MO','77070-3212','1234567890','98765432','','','English',NULL,NULL,'333121211',NULL,0,'2019-05-03 19:43:54','2019-05-13 11:30:00'),('822',3,'damodar','prabu','','','2000-01-01','',NULL,'lane 1','lane 1','','','','','','','','',NULL,NULL,'',NULL,0,'2019-05-09 11:35:16','2019-05-09 11:35:22');
 /*!40000 ALTER TABLE `patientdetail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -556,7 +662,7 @@ CREATE TABLE `patientservicecpdmodifiermapping` (
   KEY `fk_patient_service_cpd_record_id_idx` (`service_cpd_record_id`),
   CONSTRAINT `fk_modifier_code` FOREIGN KEY (`modifier_code`) REFERENCES `cpdmodifiers` (`modifier_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_patient_service_cpd_record_id` FOREIGN KEY (`service_cpd_record_id`) REFERENCES `patientservicecpdcodes` (`record_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -565,7 +671,7 @@ CREATE TABLE `patientservicecpdmodifiermapping` (
 
 LOCK TABLES `patientservicecpdmodifiermapping` WRITE;
 /*!40000 ALTER TABLE `patientservicecpdmodifiermapping` DISABLE KEYS */;
-INSERT INTO `patientservicecpdmodifiermapping` VALUES (1,4,'m2'),(2,9,'m1'),(3,10,'m4'),(4,10,'m5');
+INSERT INTO `patientservicecpdmodifiermapping` VALUES (9,4,'WP'),(10,9,'WX'),(11,9,'XE'),(12,10,'XP');
 /*!40000 ALTER TABLE `patientservicecpdmodifiermapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -589,7 +695,7 @@ CREATE TABLE `patientservicedetail` (
   KEY `fk_provider_id_idx` (`provider_id`),
   CONSTRAINT `fk_patient_id6` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_provider_id` FOREIGN KEY (`provider_id`) REFERENCES `provider` (`provider_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=192 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -598,7 +704,7 @@ CREATE TABLE `patientservicedetail` (
 
 LOCK TABLES `patientservicedetail` WRITE;
 /*!40000 ALTER TABLE `patientservicedetail` DISABLE KEYS */;
-INSERT INTO `patientservicedetail` VALUES (1,'197',0,'2019-05-03','Diagnosis done',10,'Processed'),(140,'1764',0,'2019-05-04','service 1',500,'Processed'),(145,'1751',0,'2019-02-11','service 1',500,'Processed'),(154,'1762',0,'2019-05-03',NULL,500,'Processed'),(179,'1764',NULL,'2019-05-06','Scanning recorded',20,'Processed'),(180,'1762',0,'2019-05-06',NULL,0,'Processed'),(182,'1762',0,'2019-05-04',NULL,0,'PendingReview'),(184,'1751',0,'2019-05-05',NULL,0,'PendingReview'),(185,'197',0,'2019-05-06',NULL,0,'Processed'),(186,'1762',0,'2019-05-03',NULL,0,'PendingReview'),(189,'18',0,'2019-05-06','Accute chest pain',0,'Processed'),(190,'4340612',97674,'2019-05-07','Chest Pain',20,'Processed'),(191,'1751',0,'2019-05-08',NULL,0,'PendingReview');
+INSERT INTO `patientservicedetail` VALUES (1,'197',1,'2019-05-03','Diagnosis done',10,'Processed'),(140,'1764',1,'2019-05-04','service 1',500,'Processed'),(145,'1751',1,'2019-02-11','service 1',500,'Processed'),(154,'1762',1,'2019-05-03',NULL,500,'Processed'),(179,'1764',NULL,'2019-05-06','Scanning recorded',20,'Processed'),(180,'1762',1,'2019-05-06',NULL,0,'Processed'),(182,'1762',1,'2019-05-04',NULL,0,'PendingReview'),(184,'1751',1,'2019-05-05',NULL,0,'PendingReview'),(185,'197',1,'2019-05-06',NULL,0,'Processed'),(186,'1762',1,'2019-05-03',NULL,0,'PendingReview'),(189,'18',1,'2019-05-06','Accute chest pain',0,'Processed'),(190,'4340612',97674,'2019-05-07','Chest Pain',20,'Processed'),(191,'1751',1,'2019-05-08',NULL,0,'PendingReview'),(196,'1751',1,'2019-02-11','service 1',500,'PendingReview'),(197,'1751',1,'2019-05-10',NULL,0,'PendingReview');
 /*!40000 ALTER TABLE `patientservicedetail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -627,7 +733,7 @@ CREATE TABLE `patientserviceicdcodes` (
 
 LOCK TABLES `patientserviceicdcodes` WRITE;
 /*!40000 ALTER TABLE `patientserviceicdcodes` DISABLE KEYS */;
-INSERT INTO `patientserviceicdcodes` VALUES (1,1,'ICD-280.0'),(2,1,'ICD-411.1'),(14,140,'ICD-280.0'),(15,140,'ICD-411.1'),(22,145,'ICD-413.1'),(28,154,'ICD-272.2'),(29,154,'ICD-397.0'),(39,180,'ICD-411.1'),(40,182,'ICD-426.89'),(47,189,'ICD-401.1'),(48,189,'ICD-401.9'),(49,189,'ICD-426.89'),(51,190,'ICD-H35.341'),(52,190,'ICD-H35.3231');
+INSERT INTO `patientserviceicdcodes` VALUES (1,1,'ICD-280.0'),(2,1,'ICD-411.1'),(14,140,'ICD-272.2'),(15,140,'ICD-411.1'),(22,145,'ICD-413.1'),(28,154,'ICD-272.2'),(29,154,'ICD-397.0'),(39,180,'ICD-411.1'),(40,182,'ICD-426.89'),(47,189,'ICD-401.1'),(48,189,'ICD-401.9'),(49,189,'ICD-426.89'),(51,190,'ICD-H35.341'),(52,190,'ICD-H35.3231');
 /*!40000 ALTER TABLE `patientserviceicdcodes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -711,7 +817,7 @@ CREATE TABLE `provider` (
 
 LOCK TABLES `provider` WRITE;
 /*!40000 ALTER TABLE `provider` DISABLE KEYS */;
-INSERT INTO `provider` VALUES (0,0,0,'Richard','Chase',NULL,'Dr',0,0,'0',2015,'0000-00-00 00:00:00',0,'0',0,0,'0','2019-02-02 00:00:00','0','2019-02-02 00:00:00'),(97674,NULL,NULL,'TESTGEORGE','JOHNTEST',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `provider` VALUES (1,0,0,'Richard','Chase',NULL,'Dr',0,0,'0',2015,'0000-00-00 00:00:00',0,'0',0,0,'0','2019-02-02 00:00:00','0','2019-02-02 00:00:00'),(97674,NULL,NULL,'TESTGEORGE','JOHNTEST',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `provider` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -783,4 +889,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-10 11:09:19
+-- Dump completed on 2019-05-14 20:49:13
