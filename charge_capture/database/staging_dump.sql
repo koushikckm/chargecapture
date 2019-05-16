@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 5.6.23, for Win64 (x86_64)
 --
--- Host: 192.168.1.186    Database: chargecapturenew
+-- Host: 192.168.1.186    Database: chargecapture
 -- ------------------------------------------------------
 -- Server version	5.5.5-10.3.14-MariaDB-1:10.3.14+maria~bionic
 
@@ -16,29 +16,39 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `attendingdoctor`
+-- Table structure for table `appointment`
 --
 
-DROP TABLE IF EXISTS `attendingdoctor`;
+DROP TABLE IF EXISTS `appointment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `attendingdoctor` (
+CREATE TABLE `appointment` (
+  `appointment_id` int(11) NOT NULL,
+  `appointment_type` varchar(45) DEFAULT NULL,
+  `appointment_type_desc` varchar(100) DEFAULT NULL,
+  `appointmant_length` int(11) DEFAULT NULL,
+  `appointment_start_datetime` varchar(45) NOT NULL,
+  `appointment_end_datetime` varchar(45) DEFAULT NULL,
+  `placer_user` varchar(45) DEFAULT NULL,
+  `patient_id` varchar(45) NOT NULL,
   `provider_id` int(11) NOT NULL,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`provider_id`),
-  UNIQUE KEY `provider_id_UNIQUE` (`provider_id`)
+  `appointment_status` varchar(45) DEFAULT NULL,
+  `appointment_reason` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`appointment_id`),
+  KEY `fk_app_patient_id_idx` (`patient_id`),
+  KEY `fk_app_provider_id_idx` (`provider_id`),
+  CONSTRAINT `fk_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_app_provider_id` FOREIGN KEY (`provider_id`) REFERENCES `provider` (`provider_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `attendingdoctor`
+-- Dumping data for table `appointment`
 --
 
-LOCK TABLES `attendingdoctor` WRITE;
-/*!40000 ALTER TABLE `attendingdoctor` DISABLE KEYS */;
-INSERT INTO `attendingdoctor` VALUES (97674,'TESTGEORGE','JOHNTEST');
-/*!40000 ALTER TABLE `attendingdoctor` ENABLE KEYS */;
+LOCK TABLES `appointment` WRITE;
+/*!40000 ALTER TABLE `appointment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `appointment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -108,7 +118,7 @@ CREATE TABLE `cpdgroup` (
   `groupname` varchar(100) NOT NULL,
   PRIMARY KEY (`record_id`),
   UNIQUE KEY `groupname_UNIQUE` (`groupname`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,6 +127,7 @@ CREATE TABLE `cpdgroup` (
 
 LOCK TABLES `cpdgroup` WRITE;
 /*!40000 ALTER TABLE `cpdgroup` DISABLE KEYS */;
+INSERT INTO `cpdgroup` VALUES (1,'cpd group 1'),(2,'cpd group 2'),(3,'cpd group 3'),(4,'cpd group 4');
 /*!40000 ALTER TABLE `cpdgroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -136,7 +147,7 @@ CREATE TABLE `cpdgroupcodemapping` (
   KEY `fk_cpdcode1_idx` (`cpdcode`),
   CONSTRAINT `fk_cpd_group_record_id` FOREIGN KEY (`cpd_group_record_id`) REFERENCES `cpdgroup` (`record_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_cpdcode1` FOREIGN KEY (`cpdcode`) REFERENCES `cpdcodes` (`cpdcode`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -145,6 +156,7 @@ CREATE TABLE `cpdgroupcodemapping` (
 
 LOCK TABLES `cpdgroupcodemapping` WRITE;
 /*!40000 ALTER TABLE `cpdgroupcodemapping` DISABLE KEYS */;
+INSERT INTO `cpdgroupcodemapping` VALUES (1,1,'CPT-10040'),(2,1,'CPT-52601'),(3,2,'CPT-92014'),(4,2,'CPT-19240'),(5,2,'CPT-52601'),(6,3,'CPT-27447');
 /*!40000 ALTER TABLE `cpdgroupcodemapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -236,7 +248,7 @@ CREATE TABLE `facility` (
 
 LOCK TABLES `facility` WRITE;
 /*!40000 ALTER TABLE `facility` DISABLE KEYS */;
-INSERT INTO `facility` VALUES (3,0,NULL,'River Oaks',1,0,'(214) 662-2000',' (214) 662-2189',NULL,NULL,0,0,NULL,NULL,0),(5,0,NULL,'Western Medical Hospital',3,0,NULL,NULL,NULL,NULL,0,0,NULL,NULL,0),(13,0,NULL,'Loma Linda Multispecialty Group',2,0,'(818) 555-1239','(818) 555-1233',NULL,NULL,0,0,NULL,NULL,0),(6990,0,NULL,'TESTRETINA ',4,0,'(281) 495-2222',NULL,NULL,NULL,0,0,NULL,NULL,0);
+INSERT INTO `facility` VALUES (3,1,NULL,'River Oaks',1,0,'(214) 662-2000',' (214) 662-2189',NULL,NULL,0,0,NULL,NULL,0),(5,1,NULL,'Western Medical Hospital',3,0,NULL,NULL,NULL,NULL,0,0,NULL,NULL,0),(13,1,NULL,'Loma Linda Multispecialty Group',2,0,'(818) 555-1239','(818) 555-1233',NULL,NULL,0,0,NULL,NULL,0),(6990,1,NULL,'TESTRETINA ',4,0,'(281) 495-2222',NULL,NULL,NULL,0,0,NULL,NULL,0);
 /*!40000 ALTER TABLE `facility` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -299,7 +311,7 @@ CREATE TABLE `facilitygroup` (
 
 LOCK TABLES `facilitygroup` WRITE;
 /*!40000 ALTER TABLE `facilitygroup` DISABLE KEYS */;
-INSERT INTO `facilitygroup` VALUES (0,0,'group','g',1,0,'npi','tax','clia');
+INSERT INTO `facilitygroup` VALUES (1,1,'Facility Group 1',NULL,1,NULL,NULL,NULL,NULL),(2,2,'Facility Group 2',NULL,2,NULL,NULL,NULL,NULL),(3,3,'Facility Group 3',NULL,3,NULL,NULL,NULL,NULL),(4,4,'Facility Group 4',NULL,4,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `facilitygroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -384,38 +396,6 @@ INSERT INTO `icdgroupcodemapping` VALUES (18,1,'ICD-280.0'),(19,1,'ICD-413.0'),(
 UNLOCK TABLES;
 
 --
--- Table structure for table `insuranceplan`
---
-
-DROP TABLE IF EXISTS `insuranceplan`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `insuranceplan` (
-  `plan_id` int(11) NOT NULL,
-  `plan_name` varchar(45) DEFAULT NULL,
-  `company_address_line1` varchar(45) DEFAULT NULL,
-  `company_address_line2` varchar(45) DEFAULT NULL,
-  `city` varchar(45) DEFAULT NULL,
-  `state` varchar(2) DEFAULT NULL,
-  `zip` varchar(10) DEFAULT NULL,
-  `phone` varchar(15) DEFAULT NULL,
-  `plan_group_number` varchar(15) DEFAULT NULL,
-  `effective_date` datetime DEFAULT NULL,
-  `termination_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`plan_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `insuranceplan`
---
-
-LOCK TABLES `insuranceplan` WRITE;
-/*!40000 ALTER TABLE `insuranceplan` DISABLE KEYS */;
-/*!40000 ALTER TABLE `insuranceplan` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `maritalstatusdetail`
 --
 
@@ -441,30 +421,62 @@ INSERT INTO `maritalstatusdetail` VALUES (0,'UnMarried');
 UNLOCK TABLES;
 
 --
--- Table structure for table `patientattendingdoctormapping`
+-- Table structure for table `organisation`
 --
 
-DROP TABLE IF EXISTS `patientattendingdoctormapping`;
+DROP TABLE IF EXISTS `organisation`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `patientattendingdoctormapping` (
-  `patient_id` varchar(8) NOT NULL,
-  `provider_id` int(11) NOT NULL,
-  KEY `fk_patient_id_idx` (`patient_id`),
-  KEY `fk_provider_id_1_idx` (`provider_id`),
-  CONSTRAINT `fk_patient_id1` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_provider_id_1` FOREIGN KEY (`provider_id`) REFERENCES `attendingdoctor` (`provider_id`) ON DELETE CASCADE ON UPDATE NO ACTION
+CREATE TABLE `organisation` (
+  `organisation_id` int(11) NOT NULL,
+  `name` varchar(45) DEFAULT NULL,
+  `address_line_1` varchar(45) DEFAULT NULL,
+  `address_line_2` varchar(45) DEFAULT NULL,
+  `city` varchar(45) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `zipcode` varchar(10) DEFAULT NULL,
+  `phone_number` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`organisation_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `patientattendingdoctormapping`
+-- Dumping data for table `organisation`
 --
 
-LOCK TABLES `patientattendingdoctormapping` WRITE;
-/*!40000 ALTER TABLE `patientattendingdoctormapping` DISABLE KEYS */;
-INSERT INTO `patientattendingdoctormapping` VALUES ('4340612',97674);
-/*!40000 ALTER TABLE `patientattendingdoctormapping` ENABLE KEYS */;
+LOCK TABLES `organisation` WRITE;
+/*!40000 ALTER TABLE `organisation` DISABLE KEYS */;
+INSERT INTO `organisation` VALUES (111,'Practice Admin','aaa','qqqq','dsd','NY','99501','2121212121'),(222,'GE','das','fsd','sdfsd','MI','63141','1212121212');
+/*!40000 ALTER TABLE `organisation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `organisationfacilitygroupmapping`
+--
+
+DROP TABLE IF EXISTS `organisationfacilitygroupmapping`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `organisationfacilitygroupmapping` (
+  `record_id` int(11) NOT NULL AUTO_INCREMENT,
+  `organisation_id` int(11) NOT NULL,
+  `facility_group_id` int(11) NOT NULL,
+  PRIMARY KEY (`record_id`),
+  KEY `fk_org_organisation_id_idx` (`organisation_id`),
+  KEY `fk_org_facility_group_id_idx` (`facility_group_id`),
+  CONSTRAINT `fk_org_facility_group_id` FOREIGN KEY (`facility_group_id`) REFERENCES `facilitygroup` (`facility_group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_org_organisation_id` FOREIGN KEY (`organisation_id`) REFERENCES `organisation` (`organisation_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `organisationfacilitygroupmapping`
+--
+
+LOCK TABLES `organisationfacilitygroupmapping` WRITE;
+/*!40000 ALTER TABLE `organisationfacilitygroupmapping` DISABLE KEYS */;
+INSERT INTO `organisationfacilitygroupmapping` VALUES (1,111,1),(2,111,2),(3,222,3),(4,222,4);
+/*!40000 ALTER TABLE `organisationfacilitygroupmapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -475,8 +487,9 @@ DROP TABLE IF EXISTS `patientdetail`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `patientdetail` (
-  `patient_id` varchar(8) NOT NULL,
+  `patient_id` varchar(45) NOT NULL,
   `facility_id` int(11) DEFAULT NULL,
+  `facility_group_id` int(11) DEFAULT NULL,
   `first_name` varchar(45) NOT NULL,
   `last_name` varchar(45) NOT NULL,
   `middle_name` varchar(45) DEFAULT NULL,
@@ -507,9 +520,11 @@ CREATE TABLE `patientdetail` (
   KEY `fk_marital_status_code_idx` (`martial_status_code`),
   KEY ` fk_ethnicity_id_idx` (`ethnicity_id`),
   KEY `fk_facility_id_idx` (`facility_id`),
+  KEY `fk_patient_facility_group_id_idx` (`facility_group_id`),
   CONSTRAINT ` fk_ethnicity_id` FOREIGN KEY (`ethnicity_id`) REFERENCES `ethnicitydetail` (`ethnicity_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_facility_id` FOREIGN KEY (`facility_id`) REFERENCES `facility` (`facility_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_marital_status_code` FOREIGN KEY (`martial_status_code`) REFERENCES `maritalstatusdetail` (`marital_status_code`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_patient_facility_group_id` FOREIGN KEY (`facility_group_id`) REFERENCES `facilitygroup` (`facility_group_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `fk_race_id` FOREIGN KEY (`race_id`) REFERENCES `racedetail` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -520,100 +535,8 @@ CREATE TABLE `patientdetail` (
 
 LOCK TABLES `patientdetail` WRITE;
 /*!40000 ALTER TABLE `patientdetail` DISABLE KEYS */;
-INSERT INTO `patientdetail` VALUES ('1751',3,'Mike','Hussey','','','2000-10-10T00:00:00.000Z','M',NULL,'1201','1201','Dunwoody','AL','23212','1234567890','98765432','','(123)213-2131','',NULL,NULL,'',NULL,0,'2019-05-03 15:06:53','2019-05-13 18:19:21'),('1762',3,'Marissa','DeRossi','','','1972-03-04T00:00:00.000Z','F',NULL,'1 NEW Street','1 NEW Street','Charleston','SC','29414','(843)730-2811','(123)456-7899','NEW@email.com','(123)456-7899','',NULL,NULL,'',NULL,1,'2019-05-03 15:06:53','2019-05-13 18:19:05'),('1764',3,'Deepika','Aiyappa','','','1989-05-18T00:00:00.000Z','F',NULL,'St.Louis','St.Louis','Missouri','MO','63141','(785)114-2456','3333333333','deepika.aiyappa@healthasyst.com','888-888-8888','',NULL,NULL,'748-55-5555',NULL,0,'2019-05-03 15:06:53','2019-05-14 11:09:39'),('18',3,'Peggy','Parker','','','1991-06-03','F',NULL,'222 Atlantic Boulevard1','222 Atlantic Boulevard1','Atlantic City','NJ','00255','(212)555-1113','(212)545-7856','Peggy.parker@mail.com','(212)545-7856','',NULL,NULL,'522-46-5321',NULL,0,'2019-05-03 15:06:53','2019-05-13 16:58:29'),('197',5,'Martin','Gary','','','1957-03-30','M',NULL,'8041 N MacArthur Blvd','8041 N MacArthur Blvd','Carrollton','IL','60215','(972)386-9688','(972)247-5492','Test.k@healthasyst.com','(972)247-5492','',NULL,NULL,'357-87-4020',NULL,1,'2019-05-03 15:06:53',NULL),('4340612',6990,'MARTIN','MORRISON','M','','1984-10-10','m',NULL,'101 ROAD','101 ROAD','HOUSTON','TX','77074-1010','','','','','English',NULL,NULL,'101010101',NULL,0,'2019-05-06 13:03:24','2019-05-06 13:18:24'),('4341081',6990,'MARTIN','BLACK','','','1950-10-10','m',NULL,'999 STREET','999 STREET','ST.CHARLES','MO','77070-3212','1234567890','98765432','','','English',NULL,NULL,'333121211',NULL,0,'2019-05-03 19:43:54','2019-05-13 11:30:00'),('822',3,'damodar','prabu','','','2000-01-01','',NULL,'lane 1','lane 1','','','','','','','','',NULL,NULL,'',NULL,0,'2019-05-09 11:35:16','2019-05-09 11:35:22');
+INSERT INTO `patientdetail` VALUES ('1751',3,NULL,'Mike','Hussey','','','2000-10-10T00:00:00.000Z','M',NULL,'1201','1201','Dunwoody','AL','23212','1234567890','98765432','','(123)213-2131','',NULL,NULL,'',NULL,0,'2019-05-03 15:06:53','2019-05-13 18:19:21'),('1762',3,NULL,'Marissa','DeRossi','','','1972-03-04T00:00:00.000Z','F',NULL,'1 NEW Street','1 NEW Street','Charleston','SC','29414','843-730-2811','123-456-1212','NEW@email.com','123-456-7899','',NULL,NULL,NULL,NULL,1,'2019-05-03 15:06:53','2019-05-15 18:33:22'),('1764',3,NULL,'Deepika','Aiyappa','','','1989-05-18T00:00:00.000Z','F',NULL,'St.Louis','St.Louis','Missouri','MO','63141','785-114-2456','333-333-3333','deepika.aiyappa@healthasyst.com','888-888-8888','',NULL,NULL,'748-55-5555',NULL,0,'2019-05-03 15:06:53','2019-05-15 17:24:12'),('18',3,NULL,'Peggy','Parker','','','1991-06-03','F',NULL,'222 Atlantic Boulevard1','222 Atlantic Boulevard1','Atlantic City','NJ','00255','(212)555-1113','(212)545-7856','Peggy.parker@mail.com','(212)545-7856','',NULL,NULL,'522-46-5321',NULL,0,'2019-05-03 15:06:53','2019-05-13 16:58:29'),('197',5,NULL,'Martin','Gary','','','1967-03-30','M',NULL,'8041 N MacArthur Blvd','8041 N MacArthur Blvd','Carrollton','IL','60215','(972)386-9688','(972)247-5492','Test.k@healthasyst.com','(972)247-5492','',NULL,NULL,'357-87-4020',NULL,1,'2019-05-03 15:06:53','2019-05-15 19:40:05'),('4340612',6990,NULL,'MARTIN','MORRISON','M','','1984-10-10','m',NULL,'101 ROAD','101 ROAD','HOUSTON','TX','77074-1010','','','','','English',NULL,NULL,'101010101',NULL,0,'2019-05-06 13:03:24','2019-05-06 13:18:24'),('4341081',6990,NULL,'MARTIN','BLACK','','','1950-10-10','m',NULL,'999 STREET','999 STREET','ST.CHARLES','MO','77070-3212','1234567890','98765432','','','English',NULL,NULL,'333121211',NULL,0,'2019-05-03 19:43:54','2019-05-13 11:30:00'),('822',3,NULL,'damodar','prabu','','','2000-01-01','',NULL,'lane 1','lane 1','','','','','','','','',NULL,NULL,'',NULL,0,'2019-05-09 11:35:16','2019-05-09 11:35:22');
 /*!40000 ALTER TABLE `patientdetail` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `patientguarantor`
---
-
-DROP TABLE IF EXISTS `patientguarantor`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `patientguarantor` (
-  `patient_id` varchar(8) NOT NULL,
-  `guarantor_id` varchar(7) NOT NULL,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `middle_name` varchar(45) DEFAULT NULL,
-  `suffix` varchar(5) DEFAULT NULL,
-  `address_line1` varchar(45) DEFAULT NULL,
-  `address_line2` varchar(45) DEFAULT NULL,
-  `city` varchar(45) DEFAULT NULL,
-  `state` varchar(2) DEFAULT NULL,
-  `zip` varchar(10) DEFAULT NULL,
-  `home_phone` varchar(15) DEFAULT NULL,
-  `work_phone` varchar(15) DEFAULT NULL,
-  `date_of_birth` datetime DEFAULT NULL,
-  `gender` varchar(1) DEFAULT NULL,
-  `ssn` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`patient_id`,`guarantor_id`),
-  CONSTRAINT `fk_patient_id3` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `patientguarantor`
---
-
-LOCK TABLES `patientguarantor` WRITE;
-/*!40000 ALTER TABLE `patientguarantor` DISABLE KEYS */;
-/*!40000 ALTER TABLE `patientguarantor` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `patientinsuranceplanmapping`
---
-
-DROP TABLE IF EXISTS `patientinsuranceplanmapping`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `patientinsuranceplanmapping` (
-  `patient_id` varchar(8) NOT NULL,
-  `plan_id` int(11) NOT NULL,
-  KEY `fk_patient_id4_idx` (`patient_id`),
-  KEY `fk_plan_id_idx` (`plan_id`),
-  CONSTRAINT `fk_patient_id4` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_plan_id` FOREIGN KEY (`plan_id`) REFERENCES `insuranceplan` (`plan_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `patientinsuranceplanmapping`
---
-
-LOCK TABLES `patientinsuranceplanmapping` WRITE;
-/*!40000 ALTER TABLE `patientinsuranceplanmapping` DISABLE KEYS */;
-/*!40000 ALTER TABLE `patientinsuranceplanmapping` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `patientreferringprovidermapping`
---
-
-DROP TABLE IF EXISTS `patientreferringprovidermapping`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `patientreferringprovidermapping` (
-  `record_id` int(11) NOT NULL AUTO_INCREMENT,
-  `patient_id` varchar(8) NOT NULL,
-  `provider_id` int(11) NOT NULL,
-  PRIMARY KEY (`record_id`),
-  KEY `fk_patient_id2_idx` (`patient_id`),
-  KEY `fk_provider_id2_idx` (`provider_id`),
-  CONSTRAINT `fk_patient_id2` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
-  CONSTRAINT `fk_provider_id2` FOREIGN KEY (`provider_id`) REFERENCES `referringprovider` (`provider_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `patientreferringprovidermapping`
---
-
-LOCK TABLES `patientreferringprovidermapping` WRITE;
-/*!40000 ALTER TABLE `patientreferringprovidermapping` DISABLE KEYS */;
-/*!40000 ALTER TABLE `patientreferringprovidermapping` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -695,7 +618,7 @@ CREATE TABLE `patientservicedetail` (
   KEY `fk_provider_id_idx` (`provider_id`),
   CONSTRAINT `fk_patient_id6` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
   CONSTRAINT `fk_provider_id` FOREIGN KEY (`provider_id`) REFERENCES `provider` (`provider_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=199 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -704,7 +627,7 @@ CREATE TABLE `patientservicedetail` (
 
 LOCK TABLES `patientservicedetail` WRITE;
 /*!40000 ALTER TABLE `patientservicedetail` DISABLE KEYS */;
-INSERT INTO `patientservicedetail` VALUES (1,'197',1,'2019-05-03','Diagnosis done',10,'Processed'),(140,'1764',1,'2019-05-04','service 1',500,'Processed'),(145,'1751',1,'2019-02-11','service 1',500,'Processed'),(154,'1762',1,'2019-05-03',NULL,500,'Processed'),(179,'1764',NULL,'2019-05-06','Scanning recorded',20,'Processed'),(180,'1762',1,'2019-05-06',NULL,0,'Processed'),(182,'1762',1,'2019-05-04',NULL,0,'PendingReview'),(184,'1751',1,'2019-05-05',NULL,0,'PendingReview'),(185,'197',1,'2019-05-06',NULL,0,'Processed'),(186,'1762',1,'2019-05-03',NULL,0,'PendingReview'),(189,'18',1,'2019-05-06','Accute chest pain',0,'Processed'),(190,'4340612',97674,'2019-05-07','Chest Pain',20,'Processed'),(191,'1751',1,'2019-05-08',NULL,0,'PendingReview'),(196,'1751',1,'2019-02-11','service 1',500,'PendingReview'),(197,'1751',1,'2019-05-10',NULL,0,'PendingReview');
+INSERT INTO `patientservicedetail` VALUES (1,'197',1,'2019-05-03','Diagnosis done',10,'Processed'),(140,'1764',1,'2019-05-04','service 1',500,'Processed'),(145,'1751',1,'2019-02-11','service 1',500,'Processed'),(154,'1762',1,'2019-05-03',NULL,500,'Processed'),(179,'1764',NULL,'2019-05-06','Scanning recorded',20,'Processed'),(180,'1762',1,'2019-05-06',NULL,0,'Processed'),(182,'1762',1,'2019-05-04',NULL,0,'PendingReview'),(184,'1751',1,'2019-05-05',NULL,0,'PendingReview'),(185,'197',1,'2019-05-06',NULL,0,'Processed'),(186,'1762',1,'2019-05-03',NULL,0,'PendingReview'),(189,'18',1,'2019-05-06','Accute chest pain',0,'Processed'),(190,'4340612',97674,'2019-05-07','Chest Pain',20,'Processed'),(191,'1751',1,'2019-05-08',NULL,0,'PendingReview'),(196,'1751',1,'2019-02-11','service 1',500,'PendingReview'),(197,'1751',1,'2019-05-10',NULL,0,'PendingReview'),(198,'1751',1,'2019-02-11','service 1',500,'PendingReview');
 /*!40000 ALTER TABLE `patientservicedetail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -735,46 +658,6 @@ LOCK TABLES `patientserviceicdcodes` WRITE;
 /*!40000 ALTER TABLE `patientserviceicdcodes` DISABLE KEYS */;
 INSERT INTO `patientserviceicdcodes` VALUES (1,1,'ICD-280.0'),(2,1,'ICD-411.1'),(14,140,'ICD-272.2'),(15,140,'ICD-411.1'),(22,145,'ICD-413.1'),(28,154,'ICD-272.2'),(29,154,'ICD-397.0'),(39,180,'ICD-411.1'),(40,182,'ICD-426.89'),(47,189,'ICD-401.1'),(48,189,'ICD-401.9'),(49,189,'ICD-426.89'),(51,190,'ICD-H35.341'),(52,190,'ICD-H35.3231');
 /*!40000 ALTER TABLE `patientserviceicdcodes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `patientsubscriber`
---
-
-DROP TABLE IF EXISTS `patientsubscriber`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `patientsubscriber` (
-  `subscriber_id` varchar(45) NOT NULL,
-  `patient_id` varchar(8) NOT NULL,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  `middle_name` varchar(45) DEFAULT NULL,
-  `relationship_to_insured` varchar(15) DEFAULT NULL,
-  `date_of_birth` datetime DEFAULT NULL,
-  `address_line1` varchar(45) DEFAULT NULL,
-  `address_line2` varchar(45) DEFAULT NULL,
-  `city` varchar(45) DEFAULT NULL,
-  `state` varchar(2) DEFAULT NULL,
-  `zip` varchar(10) DEFAULT NULL,
-  `policy_number` varchar(45) DEFAULT NULL,
-  `gender` varchar(1) DEFAULT NULL,
-  `ssn` varchar(15) DEFAULT NULL,
-  `home_phone` varchar(15) DEFAULT NULL,
-  `work_phone` varchar(15) DEFAULT NULL,
-  PRIMARY KEY (`subscriber_id`),
-  KEY `fk_patient_id5_idx` (`patient_id`),
-  CONSTRAINT `fk_patient_id5` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE CASCADE ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `patientsubscriber`
---
-
-LOCK TABLES `patientsubscriber` WRITE;
-/*!40000 ALTER TABLE `patientsubscriber` DISABLE KEYS */;
-/*!40000 ALTER TABLE `patientsubscriber` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -817,7 +700,7 @@ CREATE TABLE `provider` (
 
 LOCK TABLES `provider` WRITE;
 /*!40000 ALTER TABLE `provider` DISABLE KEYS */;
-INSERT INTO `provider` VALUES (1,0,0,'Richard','Chase',NULL,'Dr',0,0,'0',2015,'0000-00-00 00:00:00',0,'0',0,0,'0','2019-02-02 00:00:00','0','2019-02-02 00:00:00'),(97674,NULL,NULL,'TESTGEORGE','JOHNTEST',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `provider` VALUES (1,1,0,'Richard','Chase',NULL,'Dr',0,0,'0',2015,'0000-00-00 00:00:00',0,'0',0,0,'0','2019-02-02 00:00:00','0','2019-02-02 00:00:00'),(97674,NULL,NULL,'TESTGEORGE','JOHNTEST',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `provider` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -847,37 +730,11 @@ INSERT INTO `racedetail` VALUES (1234567,'race','racedetail');
 UNLOCK TABLES;
 
 --
--- Table structure for table `referringprovider`
---
-
-DROP TABLE IF EXISTS `referringprovider`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `referringprovider` (
-  `record_id` int(11) NOT NULL AUTO_INCREMENT,
-  `provider_id` int(11) NOT NULL,
-  `first_name` varchar(45) DEFAULT NULL,
-  `last_name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`record_id`),
-  UNIQUE KEY `provider_id_UNIQUE` (`provider_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `referringprovider`
---
-
-LOCK TABLES `referringprovider` WRITE;
-/*!40000 ALTER TABLE `referringprovider` DISABLE KEYS */;
-/*!40000 ALTER TABLE `referringprovider` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping events for database 'chargecapturenew'
+-- Dumping events for database 'chargecapture'
 --
 
 --
--- Dumping routines for database 'chargecapturenew'
+-- Dumping routines for database 'chargecapture'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -889,4 +746,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-14 20:49:13
+-- Dump completed on 2019-05-16 10:34:50
