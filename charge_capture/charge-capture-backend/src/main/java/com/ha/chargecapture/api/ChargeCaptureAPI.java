@@ -2,7 +2,6 @@ package com.ha.chargecapture.api;
 
 import java.util.List;
 
-import org.json.JSONObject;
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
