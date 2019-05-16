@@ -1,47 +1,47 @@
 package com.ha.chargecapture.dto;
 
 public class AppointmentDetailDTO {
-
+	
 	private String appointmentId;
-
+	
 	private String date;
-
+	
 	private String time;
-
-	private String dateTime;
-
+	
+    private String dateTime;
+	
 	private String appNo;
-
+	
 	private String duration;
-
-	private String locationCode;
-
+	
+   private String locationCode;
+	
 	private String locationDesc;
-
+	
 	private String statusCode;
-
-	private String statusDesc;
-
+	
+    private String statusDesc;
+	
 	private String procedureCode;
-
+	
 	private String procedureDesc;
-
-	private String departmentCode;
-
+	
+    private String departmentCode;
+	
 	private String departmentDesc;
-
-	private String mobility;
-
+	
+    private String mobility;
+	
 	private String typeCode;
-
+	
 	private String typeDesc;
-
-	private String reasonForVisit;
-
-	private String comments;
-
+	
+    private String reasonForVisit;
+	
+    private String comments;
+	
 	private String patientId;
-
+	
 	private String providerId;
 
 	public String getAppointmentId() {
@@ -197,7 +197,7 @@ public class AppointmentDetailDTO {
 	}
 
 	public String getPatientId() {
-		return patientId;
+		return patientId.replace("Patient/", "").trim();
 	}
 
 	public void setPatientId(String patientId) {
@@ -211,5 +211,10 @@ public class AppointmentDetailDTO {
 	public void setProviderId(String providerId) {
 		this.providerId = providerId;
 	}
+	
+	
+	
+	
+	
 
 }

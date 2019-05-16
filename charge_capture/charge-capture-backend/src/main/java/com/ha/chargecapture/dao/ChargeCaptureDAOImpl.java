@@ -482,5 +482,18 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 		return cpdGroups;
 	}
+	
+	@Override
+	public List<PatientDetail> getPatientDetailListById(
+			List<String> patientIdList) {
+		Session session = (Session) entityManager.getDelegate();
+		List<PatientDetail> patientList = null;
+		PatientDetail patient = null;
+		Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
+		criteria.add(Restrictions.in("patientdetail.patientId", patientIdList));
+		patientList = criteria.list();
+		
+		return patientList;
+	}
 
 }
