@@ -23,17 +23,22 @@ DROP TABLE IF EXISTS `appointment`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `appointment` (
-  `visit_id` int(11) NOT NULL,
+  `appointment_id` int(11) NOT NULL,
   `appointment_type` varchar(45) DEFAULT NULL,
   `appointment_type_desc` varchar(100) DEFAULT NULL,
   `appointmant_length` int(11) DEFAULT NULL,
-  `appointment_date` varchar(45) NOT NULL,
+  `appointment_start_datetime` varchar(45) NOT NULL,
+  `appointment_end_datetime` varchar(45) DEFAULT NULL,
   `placer_user` varchar(45) DEFAULT NULL,
-  `appointmentcol` varchar(45) DEFAULT NULL,
   `patient_id` varchar(45) NOT NULL,
-  PRIMARY KEY (`visit_id`),
+  `provider_id` int(11) NOT NULL,
+  `appointment_status` varchar(45) DEFAULT NULL,
+  `appointment_reason` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`appointment_id`),
   KEY `fk_app_patient_id_idx` (`patient_id`),
-  CONSTRAINT `fk_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_app_provider_id_idx` (`provider_id`),
+  CONSTRAINT `fk_app_patient_id` FOREIGN KEY (`patient_id`) REFERENCES `patientdetail` (`patient_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_app_provider_id` FOREIGN KEY (`provider_id`) REFERENCES `provider` (`provider_id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -741,4 +746,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-05-15 20:34:17
+-- Dump completed on 2019-05-16 10:34:50
