@@ -1,7 +1,6 @@
 .commenttooltip {
     position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
+    display: inline-block;    
   }
   
   .commenttooltip .commenttooltiptext {

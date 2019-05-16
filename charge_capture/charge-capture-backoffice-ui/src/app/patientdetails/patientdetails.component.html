@@ -413,20 +413,20 @@
               </table>    
             </td> -->
           </tr>
-          <tr *ngFor="let serviceDetail of detail.serviceCpdModifiers" [hidden]="!detail.isExpanded">
+          <tr *ngFor="let serviceDetail of detail.serviceCpdModifiers;let j = index" [hidden]="!detail.isExpanded">
             <td  width="25%"></td>
             <td width="25%"></td>
             <td width="25%">
               <!-- <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.modifierCode}}</span>
               <span *ngIf="isEditable"> -->
-                <input class="form-control" type="text" maxlength="100" name="modifierCode{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.modifierCode"
+                <input class="form-control" type="text" maxlength="100" name="modifierCode{{j}}" [(ngModel)]="serviceDetail.cpdModifiers.modifierCode"
                 />
               <!-- </span> -->
             </td>
             <td width="25%">
               <!-- <span *ngIf="!isEditable">{{serviceDetail.cpdModifiers.description}}</span>
               <span *ngIf="isEditable"> -->
-                <input class="form-control" type="text" maxlength="100" name="modifierdescription{{i}}" [(ngModel)]="serviceDetail.cpdModifiers.description"
+                <input class="form-control" type="text" maxlength="100" name="modifierdescription{{j}}" [(ngModel)]="serviceDetail.cpdModifiers.description"
                 />
               <!-- </span> -->
             </td>
