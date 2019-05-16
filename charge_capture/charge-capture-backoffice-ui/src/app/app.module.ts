@@ -25,7 +25,7 @@ import * as $ from 'jquery';
     HttpClientModule,
     Ng2SearchPipeModule ,
     Ng2OrderModule,
-    NgxPaginationModule,
+    NgxPaginationModule
   ],
   providers: [DataService],
   bootstrap: [AppComponent]

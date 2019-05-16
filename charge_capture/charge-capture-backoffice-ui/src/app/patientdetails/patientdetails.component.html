@@ -248,7 +248,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key | paginate: { itemsPerPage: 5, currentPage: pagenumber }: reverse ; let i = index">
+            <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key : reverse | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
               <td>
                 <a title="View Servcie Details" style="cursor: pointer;" (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
               </td>
@@ -298,16 +298,16 @@
             <th (click)="sort('serviceId')">serviceId
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th> -->
-            <th (click)="sort('icdCode')">ICD Code
+            <th>ICD Code
               <span *ngIf="key =='icdCode'"></span>
             </th>
-            <th (click)="sort('description')">Description
+            <th>Description
               <span *ngIf="key =='icdCodeDescription'"></span>
             </th>
           </tr>
         </thead>
         <tbody *ngIf="serviceDetails.icdCodes.length!=0 || serviceDetails.icdCodes!=null">
-          <tr *ngFor="let detail of serviceDetails.icdCodes | orderBy: key : reverse ; let i = index">
+          <tr *ngFor="let detail of serviceDetails.icdCodes ; let i = index">
             <!-- <td>
               <span *ngIf="!isEditable">{{detail.recordId}}</span>
               <span *ngIf="isEditable">
@@ -353,17 +353,17 @@
             <th (click)="sort('serviceId')">serviceId
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th> -->
-            <th (click)="sort('cpdcode')">CPT Code
+            <th>CPT Code
               <span *ngIf="key =='cpdcode'"></span>
             </th>
-            <th (click)="sort('description')">Description
+            <th>Description
               <span *ngIf="key =='description'"></span>
             </th>
             <th>Modifier</th>
             <th>Description</th>
           </tr>
         </thead>
-        <tbody *ngFor="let detail of serviceDetails.cpdCodes | orderBy: key : reverse ; let i = index">
+        <tbody *ngFor="let detail of serviceDetails.cpdCodes ; let i = index">
           <tr>
             <!-- <td>
               <span *ngIf="!isEditable">{{detail.recordId}}</span>
