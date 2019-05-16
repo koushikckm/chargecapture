@@ -52,4 +52,6 @@ public interface ChargeCaptureDAO {
 	List<ICDGroup> getIcdGroups();
 
 	List<CPDGroup> getCpdGroups();
+	
+	List<PatientDetail> getPatientDetailListById(List<String> patientIdList);
 }

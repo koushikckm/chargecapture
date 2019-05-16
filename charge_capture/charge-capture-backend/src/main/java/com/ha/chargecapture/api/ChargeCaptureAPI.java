@@ -19,6 +19,7 @@ import com.ha.chargecapture.dto.AppointmentDetailDTO;
 import com.ha.chargecapture.dto.AppointmentRequestDTO;
 import com.ha.chargecapture.dto.CPDCodesDTO;
 import com.ha.chargecapture.dto.ICDCodesDTO;
+import com.ha.chargecapture.dto.PatientAppointmentDetail;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
@@ -159,11 +160,14 @@ public class ChargeCaptureAPI {
 
 	@PostMapping(value = "/appointments", produces = { "application/json" })
 	@CrossOrigin
-	public List<AppointmentDetailDTO> getAppointments(@RequestBody AppointmentRequestDTO appointmentDTO) {
+	public List<PatientAppointmentDetail> getAppointments(@RequestBody AppointmentRequestDTO appointmentDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getAppointments()");
 		return appointmentService.getAppointments(appointmentDTO);
-
+		
+		
+	
+		
 	}
 
 	@GetMapping(value = "/getIcdGroups")
