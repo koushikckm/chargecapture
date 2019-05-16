@@ -6,10 +6,10 @@
   
   .commenttooltip .commenttooltiptext {
     visibility: hidden;
-    width: 120px;
+    width: 374px;
     background-color: #dadfe4;
     color: black;
-    text-align: center;
+    text-align: justify;
     border-radius: 6px;
     padding: 5px 0;
   
@@ -17,9 +17,16 @@
     position: absolute;
     z-index: 1;
     top: -5px;
-    left: 105%;
+    left: 126%;
   }
   
   .commenttooltip:hover .commenttooltiptext {
     visibility: visible;
+  }
+  
+  .help-block{
+    color: red
+  }
+  .mandatory-star{
+    color:red;font-size:15px;
   }
