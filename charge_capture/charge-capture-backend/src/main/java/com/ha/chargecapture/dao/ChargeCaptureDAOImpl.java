@@ -68,7 +68,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 			String patientQuery = "SELECT patient_id AS patientId,first_name AS firstName,last_name AS lastName,middle_name AS middleName,name_suffix AS nameSuffix,date_of_birth AS dateOfBirth,gender AS gender,"
 					+ "address_line_1 AS address1,address_line_2 AS address2,city AS city,state AS state,zip AS zip,home_phone AS homePhone,mobile_phone AS mobilePhone,email AS email,work_phone AS workPhone,ssn AS ssn "
-					+ "FROM chargecapturenew.patientdetail where facility_id = :facilityId";
+					+ "FROM patientdetail where facility_id = :facilityId";
 			query = getSession().createSQLQuery(patientQuery).addScalar("patientId", StringType.INSTANCE)
 					.addScalar("firstName", StringType.INSTANCE).addScalar("lastName", StringType.INSTANCE)
 					.addScalar("middleName", StringType.INSTANCE).addScalar("nameSuffix", StringType.INSTANCE)
