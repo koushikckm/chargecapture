@@ -2,6 +2,8 @@ package com.ha.chargecapture.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,14 +86,14 @@ public class ChargeCaptureAPI {
 	}
 
 	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })
-	public long submitPatientDetail(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
+	public long submitPatientDetail(@RequestBody @Valid PatientServiceDetailDTO patientServiceDetailDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::submitPatientServiceDetail()");
 		return chargeCaptureService.submitPatientServiceDetail(patientServiceDetailDTO);
 	}
 
 	@PutMapping(value = "/updatePatientDetail", produces = { "application/json" })
-	public void updatePatientDetail(@RequestBody PatientDetailDTO patientDetailDto) {
+	public void updatePatientDetail(@RequestBody @Valid PatientDetailDTO patientDetailDto) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::updatePatientDetail()");
 		chargeCaptureService.updatePatientDetails(patientDetailDto);
