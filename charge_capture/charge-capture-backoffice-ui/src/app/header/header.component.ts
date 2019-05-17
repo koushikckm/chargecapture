@@ -8,11 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class HeaderComponent implements OnInit {
   imagePath:any = "FocusScript_logo.jpg";
   constructor() { }
+  
+  ngOnInit() {}
 
-  ngOnInit() {
-    document.documentElement.style.setProperty('--customPrimaryColor', '#faa730');
-  	document.documentElement.style.setProperty('--customSecondaryColor', '#acacac');
-  	document.documentElement.style.setProperty('--customThirdColor', '#666666');
+  toggleSideMenu(){
+    $('#my-wrapper').toggleClass('sidebar-open toggled');
+    $('#my-sidebar-wrapper').toggleClass('toggled');
+    //$('#app-content-wrapper').toggleClass('my-content-wrapper');
   }
 
 }
