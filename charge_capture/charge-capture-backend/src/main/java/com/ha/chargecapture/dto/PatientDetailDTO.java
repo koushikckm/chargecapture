@@ -2,12 +2,17 @@ package com.ha.chargecapture.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 public class PatientDetailDTO {
 
+	@NotNull(message = "Patient Id cannot be null")
 	private String patientId;
 
+	@NotNull(message = "First Name cannot be null")
 	private String firstName;
 
+	@NotNull(message = "Last Name cannot be null")
 	private String lastName;
 
 	private String middleName;
@@ -16,6 +21,7 @@ public class PatientDetailDTO {
 
 	private String gender;
 
+	@NotNull(message = "Date of birth cannot be null")
 	private String dateOfBirth;
 
 	private String addressLine1;

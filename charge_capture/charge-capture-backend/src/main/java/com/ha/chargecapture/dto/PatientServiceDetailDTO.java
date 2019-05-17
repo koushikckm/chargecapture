@@ -2,14 +2,19 @@ package com.ha.chargecapture.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 public class PatientServiceDetailDTO {
 
 	private int serviceId;
 
+	@NotNull(message = "Patient ID cannot be null")
 	private String patientId;
 
+	@NotNull(message = "Provider ID cannot be null")
 	private int providerId;
 
+	@NotNull(message = "Date of service cannot be null")
 	private String dateOfService;
 
 	private String comments;
