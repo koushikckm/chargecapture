@@ -23,8 +23,6 @@ public interface ChargeCaptureDAO {
 
 	List<PatientDetail> getPatientDetailList();
 
-	List<PatientDetail> getPatientDetailListForWeb();
-
 	long submitPatientServiceDetail(PatientServiceDetail patientServiceDetail);
 
 	void updatePatientDetail(PatientDetail patientDetail);
@@ -35,14 +33,6 @@ public interface ChargeCaptureDAO {
 
 	void insertToPatientServiceCpdCode(int serviceId, int cpdRecordId);
 
-	PatientServiceDetail getPatientService(int serviceId);
-
-	void updatePatientServiceStatus(PatientServiceDetail patientServiceDetail);
-
-	List<CPDCodes> getCpdsForServiceId(int serviceId);
-
-	List<ICDCodes> getIcdsForServiceId(int serviceId);
-
 	List<String> getFavouriteIcdsForProvider(int providerId);
 
 	List<String> getFavouriteCpdsForProvider(int providerId);
@@ -52,6 +42,6 @@ public interface ChargeCaptureDAO {
 	List<ICDGroup> getIcdGroups();
 
 	List<CPDGroup> getCpdGroups();
-	
+
 	List<PatientDetail> getPatientDetailListById(List<String> patientIdList);
 }
