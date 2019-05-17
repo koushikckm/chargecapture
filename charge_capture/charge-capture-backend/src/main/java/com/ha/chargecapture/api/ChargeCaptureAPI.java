@@ -15,10 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ha.chargecapture.dto.AppointmentDetailDTO;
 import com.ha.chargecapture.dto.AppointmentRequestDTO;
-import com.ha.chargecapture.dto.CPDCodesDTO;
-import com.ha.chargecapture.dto.ICDCodesDTO;
 import com.ha.chargecapture.dto.PatientAppointmentDetail;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
@@ -86,17 +83,6 @@ public class ChargeCaptureAPI {
 		return patientDetail;
 	}
 
-	@GetMapping(value = "/getPatientDetailForWeb")
-	public List<PatientDetail> getPatientDetailForWeb() {
-
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetailForWeb()");
-		List<PatientDetail> patientDetail = null;
-
-		patientDetail = chargeCaptureService.getPatientDetailListForWeb();
-
-		return patientDetail;
-	}
-
 	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })
 	public long submitPatientDetail(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
 
@@ -104,58 +90,22 @@ public class ChargeCaptureAPI {
 		return chargeCaptureService.submitPatientServiceDetail(patientServiceDetailDTO);
 	}
 
-	@PutMapping(value = "/updatePatientServiceStatus", produces = { "application/json" })
-	public void updatePatientServiceStatus(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
-
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::updatePatientServiceStatus() for service id : "
-				+ patientServiceDetailDTO.getServiceId());
-		chargeCaptureService.updatePatientServiceStatus(patientServiceDetailDTO);
-	}
-
 	@PutMapping(value = "/updatePatientDetail", produces = { "application/json" })
 	public void updatePatientDetail(@RequestBody PatientDetailDTO patientDetailDto) {
 
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::updatePatientDetail()");
 		chargeCaptureService.updatePatientDetails(patientDetailDto);
 	}
 
 	@GetMapping(value = "/getPatients")
 	public List<PatientDetailDTO> getPatients() {
 
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatients()");
 		List<PatientDetailDTO> patientDetail = null;
 
 		patientDetail = chargeCaptureService.getPatients();
 
 		return patientDetail;
-	}
-
-	@GetMapping(value = "/getServiceForServiceId")
-	public PatientServiceDetailDTO getServiceForServiceId(@RequestParam(required = true) int serviceId) {
-
-		PatientServiceDetailDTO patientService = null;
-
-		patientService = chargeCaptureService.getServiceForServiceId(serviceId);
-
-		return patientService;
-	}
-
-	@GetMapping(value = "/getCpdsForServiceId")
-	public List<CPDCodesDTO> getCpdsForServiceId(@RequestParam(required = true) int serviceId) {
-
-		List<CPDCodesDTO> cpdCodes = null;
-
-		cpdCodes = chargeCaptureService.getCpdsForServiceId(serviceId);
-
-		return cpdCodes;
-	}
-
-	@GetMapping(value = "/getIcdsForServiceId")
-	public List<ICDCodesDTO> getIcdsForServiceId(@RequestParam(required = true) int serviceId) {
-
-		List<ICDCodesDTO> icdCodes = null;
-
-		icdCodes = chargeCaptureService.getIcdsForServiceId(serviceId);
-
-		return icdCodes;
 	}
 
 	@PostMapping(value = "/appointments", produces = { "application/json" })
@@ -164,15 +114,13 @@ public class ChargeCaptureAPI {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getAppointments()");
 		return appointmentService.getAppointments(appointmentDTO);
-		
-		
-	
-		
+
 	}
 
 	@GetMapping(value = "/getIcdGroups")
 	public List<ICDGroup> getIcdGroups() {
 
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getIcdGroups()");
 		List<ICDGroup> icdGroups = null;
 
 		icdGroups = chargeCaptureService.getIcdGroups();
@@ -183,6 +131,7 @@ public class ChargeCaptureAPI {
 	@GetMapping(value = "/getCpdGroups")
 	public List<CPDGroup> getCpdGroups() {
 
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getCpdGroups()");
 		List<CPDGroup> cpdGroups = null;
 
 		cpdGroups = chargeCaptureService.getCpdGroups();
