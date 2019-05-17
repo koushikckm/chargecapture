@@ -1,4 +1,4 @@
-<h3 style="margin-top: -2%">Patient List</h3>
+<h3>Patient List</h3>
 
 <div class="panel panel-default" style="padding-top: 1%;width: 99%;">
   <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Details
@@ -10,6 +10,7 @@
         <nav class="navbar" style="width: 30%">
           <input class="form-control " placeholder="Search with Patient Name/SSN" type="text" name="search" [(ngModel)]="filter">
         </nav>
+        
         <table class="table">
           <thead>
             <tr>
@@ -31,7 +32,7 @@
               <th>Action</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="!showLoader">
             <tr *ngFor="let detail of patientdetails | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
               <td>{{detail.patientId}}</td>
               <td>{{getPatientName(detail)}}</td>
@@ -43,8 +44,11 @@
               </td>
             </tr>
           </tbody>
+          <tbody *ngIf="showLoader">
+              <div class="loader" style="margin-left: 153%;margin-top: 3%"></div>
+          </tbody>
         </table>
-        <div class="pull-right">
+        <div class="pull-right" *ngIf="!showLoader">
           <pagination-controls (pageChange)="pagenumber = $event" style="margin-left: 60%"></pagination-controls>
         </div>
 

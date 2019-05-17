@@ -17,15 +17,26 @@
     <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
   </li>
 </ul> -->
-<div class="page-wrap">
+
   <app-header></app-header>
-  <div class="sidenav sidebar-open">
-    <a style="color: #fff" routerLink="/home"><i class="fa fa-list-alt"></i> Patient List</a>    
-  </div>
-  <div class="main">
-    <router-outlet></router-outlet>
+  <div id="my-wrapper" class="sidebar-open">
+    <div class="my-sidebar-wrapper" id="app-sidebar">
+      <ul class="sidebar-menu" id="my-sidebar-wrapper">
+        <li>
+            <a routerLink="/home" class="linktooltip">
+              <i class="fa fa-list-alt"></i>
+              <span class="menuSpans">Patient List</span>
+              <span class="linktooltiptext">Patient List</span>
+            </a>
+        </li>
+      </ul>
+    </div>
+    <div class="my-content-wrapper"  id="app-content-wrapper">
+        <div class="container-fluid">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
   </div>
 
-</div>
 
 <app-footer></app-footer>

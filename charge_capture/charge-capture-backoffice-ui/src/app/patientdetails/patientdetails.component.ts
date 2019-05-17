@@ -5,7 +5,7 @@ import { DataService } from "../services/data.service";
 @Component({
   selector: 'app-patientdetails',
   templateUrl: './patientdetails.component.html',
-  styleUrls: ['./patientdetails.component.css']
+  styleUrls: ['./patientdetails.component.css','../app.component.css']
 })
 export class PatientdetailsComponent implements OnInit {
 
@@ -30,13 +30,15 @@ export class PatientdetailsComponent implements OnInit {
   isfirstNameValidMsg: String = null;
   islastNameValidMsg: String = null;
   memberDOBValidationMsg: String = null;
+  showLoader:boolean;
+  indexValue:any;
   sort(key) {
     this.key = key;
     this.reverse = !this.reverse;
   }
 
   ngOnInit() {
-
+    this.indexValue=999999;
     if (this.data.getData() != null) {
       this.patientdetails = this.data.getData();
       console.log(this.patientdetails);
@@ -96,9 +98,11 @@ export class PatientdetailsComponent implements OnInit {
         this.islastNameValidMsg = null; 
         if (patientdetails.dateOfBirth != null && patientdetails.dateOfBirth != "") {
           this.memberDOBValidationMsg = null;
-          
+          this.showLoader=true;
             this.httpClient.put('/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
+              this.showLoader=false;
               $('#modelPopUpButton').click();
+              this.indexValue=0;
             });
                  
         }
@@ -161,7 +165,7 @@ export class PatientdetailsComponent implements OnInit {
     format: "MM/DD/YYYY",
     maxDate: new Date(),
     ignoreReadonly: true,
-    allowInputToggle: true
+    allowInputToggle: true,
   };
 
   changeModel(modelData, identifier) {
@@ -181,4 +185,6 @@ export class PatientdetailsComponent implements OnInit {
   closeButtonModel() {
     this.router.navigate(['/home']); //else call api
   }
+
+  
 }

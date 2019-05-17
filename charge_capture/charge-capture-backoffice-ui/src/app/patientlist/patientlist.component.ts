@@ -5,7 +5,7 @@ import { DataService } from "../services/data.service";
 @Component({
   selector: 'app-patientlist',
   templateUrl: './patientlist.component.html',
-  styleUrls: ['./patientlist.component.css']
+  styleUrls: ['../app.component.css']
 })
 export class PatientListComponent implements OnInit {
 
@@ -31,9 +31,11 @@ export class PatientListComponent implements OnInit {
   pagenumber: number = 1;
 
   patientdetails:any;
-
+  showLoader:boolean;
   getPatientDetail(){
+    this.showLoader=true;
     this.httpClient.get('/chargecapture/getPatientDetail').subscribe((res)=>{
+      this.showLoader=false;
       this.patientdetails=res;
   });
   }
