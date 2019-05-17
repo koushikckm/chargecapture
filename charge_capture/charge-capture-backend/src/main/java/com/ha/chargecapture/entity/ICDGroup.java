@@ -26,10 +26,6 @@ public class ICDGroup implements Serializable {
 	private String groupName;
 
 	@OneToMany(targetEntity = ICDGroupCodeMapping.class, mappedBy = "icdGroupRecordId")
-	// @OneToMany(fetch = FetchType.LAZY, targetEntity = ICDGroupCodeMapping.class,
-	// cascade = CascadeType.ALL)
-	// @JoinColumn(name = "icd_group_record_id", referencedColumnName =
-	// "icd_group_record_id")
 	private List<ICDGroupCodeMapping> icdGroupCodes;
 
 	public int getRecordId() {

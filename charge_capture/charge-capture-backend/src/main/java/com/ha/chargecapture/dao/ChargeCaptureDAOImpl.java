@@ -33,6 +33,8 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 	private static final Logger LOGGER = ESAPI.getLogger(ChargeCaptureDAOImpl.class);
 
+	private static final String PATIENTDETAIL_TABLE = "patientdetail";
+
 	@PersistenceContext
 	EntityManager entityManager;
 
@@ -207,7 +209,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 		try {
 			Session session = (Session) entityManager.getDelegate();
-			Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
+			Criteria criteria = session.createCriteria(PatientDetail.class, PATIENTDETAIL_TABLE);
 			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 			patientdetailList = criteria.list();
 			if (null == patientdetailList || patientdetailList.isEmpty()) {
@@ -383,7 +385,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 			Session session = (Session) entityManager.getDelegate();
 			List<PatientDetail> patientList = null;
 
-			Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
+			Criteria criteria = session.createCriteria(PatientDetail.class, PATIENTDETAIL_TABLE);
 			criteria.add(Restrictions.eq("patientdetail.patientId", patientId));
 			patientList = criteria.list();
 			if (null != patientList && !patientList.isEmpty()) {
@@ -442,7 +444,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		List<PatientDetail> patientList = null;
 		try {
 			Session session = (Session) entityManager.getDelegate();
-			Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
+			Criteria criteria = session.createCriteria(PatientDetail.class, PATIENTDETAIL_TABLE);
 			criteria.add(Restrictions.in("patientdetail.patientId", patientIdList));
 			patientList = criteria.list();
 		} catch (ChargeCaptureDaoException cde) {

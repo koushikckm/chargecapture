@@ -200,24 +200,7 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			patient.setSsn(patientDetailDto.getSsn());
 			patient.setAge(patientDetailDto.getAge());
 
-			/*
-			 * List<PatientServiceDetail> patientServiceList = null;
-			 *
-			 * if(null!=patient.getPatientServiceDetail() &&
-			 * !patient.getPatientServiceDetail().isEmpty()) { patientServiceList =
-			 * patient.getPatientServiceDetail();
-			 *
-			 * //Testing : Update for one icd
-			 *
-			 * List<PatientServiceICDCodes> icdList =
-			 * patientServiceList.get(0).getIcdCodes(); PatientServiceICDCodes icdCode =
-			 * icdList.get(0); ICDCodes icd = icdCode.getIcdCodes();
-			 * icd.setIcdCode("ICD-272.2");
-			 *
-			 * icdCode.setIcdCodes(icd); }
-			 *
-			 * patient.setPatientServiceDetail(patientServiceList);
-			 */
+			// Changes to update icd and cpd detail
 
 			chargeCaptureDAO.updatePatientDetail(patient);
 		} catch (ChargeCaptureServiceException cse) {
@@ -297,13 +280,8 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 				List<PatientServiceDetail> patientServDetails = patientDetailList.get(i).getPatientServiceDetail();
 				List<Integer> servIds = new ArrayList<>();
 
-				String currentDos = null;
 				for (int j = 0; j < patientServDetails.size(); j++) {
 					servIds.add(patientServDetails.get(j).getServiceId());
-
-					// String currMaxDateString = patientServDetails.get(j).getDateOfService();
-					// Date currMaxDate = new
-					// SimpleDateFormat("yyyy-MM-dd").parse(currMaxDateString);
 					patient.setServiceId(patientServDetails.get(j).getServiceId());
 
 				}
