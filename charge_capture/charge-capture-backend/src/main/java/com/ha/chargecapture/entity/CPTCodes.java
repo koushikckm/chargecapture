@@ -9,8 +9,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name = "cpdcodes")
-public class CPDCodes implements Serializable {
+@Table(name = "cptcodes")
+public class CPTCodes implements Serializable {
 
 	/**
 	 *
@@ -21,8 +21,8 @@ public class CPDCodes implements Serializable {
 	@Column(name = "record_id")
 	private int recordId;
 
-	@Column(name = "cpdcode")
-	private String cpdcode;
+	@Column(name = "cptcode")
+	private String cptcode;
 
 	@Column(name = "description")
 	private String description;
@@ -38,12 +38,12 @@ public class CPDCodes implements Serializable {
 		this.recordId = recordId;
 	}
 
-	public String getCpdcode() {
-		return cpdcode;
+	public String getCptcode() {
+		return cptcode;
 	}
 
-	public void setCpdcode(String cpdcode) {
-		this.cpdcode = cpdcode;
+	public void setCptcode(String cptcode) {
+		this.cptcode = cptcode;
 	}
 
 	public String getDescription() {

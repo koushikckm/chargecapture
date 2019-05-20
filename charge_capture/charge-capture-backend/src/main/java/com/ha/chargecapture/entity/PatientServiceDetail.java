@@ -47,9 +47,9 @@ public class PatientServiceDetail implements Serializable {
 	@JoinColumn(name = "service_id", referencedColumnName = "service_id")
 	private List<PatientServiceICDCodes> icdCodes;
 
-	@OneToMany(fetch = FetchType.LAZY, targetEntity = PatientServiceCPDCodes.class, cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, targetEntity = PatientServiceCPTCodes.class, cascade = CascadeType.ALL)
 	@JoinColumn(name = "service_id", referencedColumnName = "service_id")
-	private List<PatientServiceCPDCodes> cpdCodes;
+	private List<PatientServiceCPTCodes> cptCodes;
 
 	@ManyToOne
 	@JoinColumn(name = "provider_id")
@@ -103,12 +103,12 @@ public class PatientServiceDetail implements Serializable {
 		this.icdCodes = icdCodes;
 	}
 
-	public List<PatientServiceCPDCodes> getCpdCodes() {
-		return cpdCodes;
+	public List<PatientServiceCPTCodes> getCptCodes() {
+		return cptCodes;
 	}
 
-	public void setCpdCodes(List<PatientServiceCPDCodes> cpdCodes) {
-		this.cpdCodes = cpdCodes;
+	public void setCptCodes(List<PatientServiceCPTCodes> cptCodes) {
+		this.cptCodes = cptCodes;
 	}
 
 	public String getStatus() {

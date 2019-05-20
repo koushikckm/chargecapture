@@ -25,7 +25,7 @@ public class PatientServiceDetailDTO {
 
 	private List<Integer> icdRecordIds;
 
-	private List<Integer> cpdRecordIds;
+	private List<Integer> cptRecordIds;
 
 	public int getServiceId() {
 		return serviceId;
@@ -83,12 +83,12 @@ public class PatientServiceDetailDTO {
 		this.icdRecordIds = icdRecordIds;
 	}
 
-	public List<Integer> getCpdRecordIds() {
-		return cpdRecordIds;
+	public List<Integer> getCptRecordIds() {
+		return cptRecordIds;
 	}
 
-	public void setCpdRecordIds(List<Integer> cpdRecordIds) {
-		this.cpdRecordIds = cpdRecordIds;
+	public void setCptRecordIds(List<Integer> cptRecordIds) {
+		this.cptRecordIds = cptRecordIds;
 	}
 
 	public int getProviderId() {

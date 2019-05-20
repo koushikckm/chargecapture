@@ -15,8 +15,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "patientservicecpdcodes")
-public class PatientServiceCPDCodes implements Serializable {
+@Table(name = "patientservicecptcodes")
+public class PatientServiceCPTCodes implements Serializable {
 
 	/**
 	 *
@@ -32,15 +32,11 @@ public class PatientServiceCPDCodes implements Serializable {
 	private Integer serviceId;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "cpdcode", referencedColumnName = "cpdcode")
-	private CPDCodes cpdCodes;
+	@JoinColumn(name = "cptcode", referencedColumnName = "cptcode")
+	private CPTCodes cptCodes;
 
-	// @OneToMany(fetch = FetchType.LAZY, targetEntity =
-	// PatientServiceCPDModifierMapping.class, cascade = CascadeType.ALL)
-	// @JoinColumn(name = "record_id", referencedColumnName =
-	// "service_cpd_record_id")
-	@OneToMany(targetEntity = PatientServiceCPDModifierMapping.class, mappedBy = "patientServiceCpdRecordId")
-	private List<PatientServiceCPDModifierMapping> serviceCpdModifiers;
+	@OneToMany(targetEntity = PatientServiceCPTModifierMapping.class, mappedBy = "patientServiceCptRecordId")
+	private List<PatientServiceCPTModifierMapping> serviceCptModifiers;
 
 	public int getRecordId() {
 		return recordId;
@@ -58,20 +54,20 @@ public class PatientServiceCPDCodes implements Serializable {
 		this.serviceId = serviceId;
 	}
 
-	public CPDCodes getCpdCodes() {
-		return cpdCodes;
+	public CPTCodes getCptCodes() {
+		return cptCodes;
 	}
 
-	public void setCpdCodes(CPDCodes cpdCodes) {
-		this.cpdCodes = cpdCodes;
+	public void setCptCodes(CPTCodes cptCodes) {
+		this.cptCodes = cptCodes;
 	}
 
-	public List<PatientServiceCPDModifierMapping> getServiceCpdModifiers() {
-		return serviceCpdModifiers;
+	public List<PatientServiceCPTModifierMapping> getServiceCptModifiers() {
+		return serviceCptModifiers;
 	}
 
-	public void setServiceCpdModifiers(List<PatientServiceCPDModifierMapping> serviceCpdModifiers) {
-		this.serviceCpdModifiers = serviceCpdModifiers;
+	public void setServiceCptModifiers(List<PatientServiceCPTModifierMapping> serviceCptModifiers) {
+		this.serviceCptModifiers = serviceCptModifiers;
 	}
 
 }

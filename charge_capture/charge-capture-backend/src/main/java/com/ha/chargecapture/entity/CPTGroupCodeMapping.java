@@ -12,8 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cpdgroupcodemapping")
-public class CPDGroupCodeMapping implements Serializable {
+@Table(name = "cptgroupcodemapping")
+public class CPTGroupCodeMapping implements Serializable {
 
 	/**
 	 *
@@ -24,12 +24,12 @@ public class CPDGroupCodeMapping implements Serializable {
 	@Column(name = "record_id")
 	private int recordId;
 
-	@Column(name = "cpd_group_record_id")
-	private int cpdGroupRecordId;
+	@Column(name = "cpt_group_record_id")
+	private int cptGroupRecordId;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "cpdcode", referencedColumnName = "cpdcode")
-	private CPDCodes cpdCodes;
+	@JoinColumn(name = "cptcode", referencedColumnName = "cptcode")
+	private CPTCodes cptCodes;
 
 	public int getRecordId() {
 		return recordId;
@@ -39,20 +39,20 @@ public class CPDGroupCodeMapping implements Serializable {
 		this.recordId = recordId;
 	}
 
-	public int getCpdGroupRecordId() {
-		return cpdGroupRecordId;
+	public int getCptGroupRecordId() {
+		return cptGroupRecordId;
 	}
 
-	public void setCpdGroupRecordId(int cpdGroupRecordId) {
-		this.cpdGroupRecordId = cpdGroupRecordId;
+	public void setCptGroupRecordId(int cptGroupRecordId) {
+		this.cptGroupRecordId = cptGroupRecordId;
 	}
 
-	public CPDCodes getCpdCodes() {
-		return cpdCodes;
+	public CPTCodes getCptCodes() {
+		return cptCodes;
 	}
 
-	public void setCpdCodes(CPDCodes cpdCodes) {
-		this.cpdCodes = cpdCodes;
+	public void setCptCodes(CPTCodes cptCodes) {
+		this.cptCodes = cptCodes;
 	}
 
 }
