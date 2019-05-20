@@ -136,14 +136,14 @@ export class PatientdetailsComponent implements OnInit {
 
     if (this.tableRowExpanded === false) {
       this.tableRowExpanded = true;
-      this.tableRowIndexExpandedCurr = member.cpdCodes.cpdcode;
+      this.tableRowIndexExpandedCurr = member.cptCodes.cptcode;
       member.isExpanded = true;
 
     } else if (this.tableRowExpanded === true) {
 
-      if (this.tableRowIndexExpandedCurr == "" || this.tableRowIndexExpandedCurr == member.cpdCodes.cpdcode) {
+      if (this.tableRowIndexExpandedCurr == "" || this.tableRowIndexExpandedCurr == member.cptCodes.cptcode) {
         this.tableRowExpanded = false;
-        this.tableRowIndexExpandedCurr = member.cpdCodes.cpdcode;
+        this.tableRowIndexExpandedCurr = member.cptCodes.cptcode;
         member.isExpanded = false;
       } else {
         for (var i in details) {
@@ -152,7 +152,7 @@ export class PatientdetailsComponent implements OnInit {
             break;
           }
         }
-        this.tableRowIndexExpandedCurr = member.cpdCodes.cpdcode;
+        this.tableRowIndexExpandedCurr = member.cptCodes.cptcode;
         member.isExpanded = true;
 
       }
