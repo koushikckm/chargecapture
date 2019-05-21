@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from "../services/data.service";
+import { DatePipe } from '@angular/common'
 @Component({
   selector: 'app-patientdetails',
   templateUrl: './patientdetails.component.html',
@@ -12,7 +13,8 @@ export class PatientdetailsComponent implements OnInit {
   constructor(
     private router: Router,
     private data: DataService,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private datePipe:DatePipe
   ) { }
   patientdetails: any = {};
   patientDetailsShow: boolean = true;
@@ -99,6 +101,8 @@ export class PatientdetailsComponent implements OnInit {
         if (patientdetails.dateOfBirth != null && patientdetails.dateOfBirth != "") {
           this.memberDOBValidationMsg = null;
           this.showLoader=true;
+          console.log(this.datePipe.transform(patientdetails.dateOfBirth, 'yyyy-MM-dd hh:mm:ss'));
+          patientdetails.dateOfBirth=this.datePipe.transform(patientdetails.dateOfBirth, 'yyyy-MM-dd hh:mm:ss');
             this.httpClient.put('/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
               this.showLoader=false;
               $('#modelPopUpButton').click();
