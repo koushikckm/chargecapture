@@ -1,6 +1,9 @@
 package com.ha.chargecapture.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -19,9 +22,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.ha.chargecapture.dao.ChargeCaptureDAO;
 import com.ha.chargecapture.dto.AppointmentDetailDTO;
-import com.ha.chargecapture.dto.AppointmentRequestDTO;
 import com.ha.chargecapture.dto.PatientAppointmentDetail;
 import com.ha.chargecapture.entity.PatientDetail;
+import com.ha.chargecapture.exception.ChargeCaptureServiceException;
 
 @Service
 public class AppointmentService {
@@ -37,7 +40,8 @@ public class AppointmentService {
 
 	private static final Logger LOGGER = ESAPI.getLogger(AppointmentService.class);
 
-	public List<PatientAppointmentDetail> getAppointments(AppointmentRequestDTO appointmentDto) {
+	public List<PatientAppointmentDetail> getAppointments(String startDate, String endDate, String location,
+			String status, String practitioner) {
 
 		List<PatientAppointmentDetail> patientAppointmentDetailList = new ArrayList<>();
 
@@ -45,20 +49,20 @@ public class AppointmentService {
 
 		StringBuilder url = new StringBuilder(appointmentUrl);
 
-		if (appointmentDto.getStartDate() != null)
-			url.append("startDate=" + appointmentDto.getStartDate() + "&");
+		if (null != startDate)
+			url.append("startDate=" + startDate + "&");
 
-		if (appointmentDto.getEndDate() != null)
-			url.append("endDate=" + appointmentDto.getEndDate() + "&");
+		if (null != endDate)
+			url.append("endDate=" + endDate + "&");
 
-		if (appointmentDto.getStatus() != null)
-			url.append("status=" + appointmentDto.getStatus() + "&");
+		if (null != location)
+			url.append("location=" + location);
 
-		if (appointmentDto.getPractitioner() != null)
-			url.append("practitioner=" + appointmentDto.getPractitioner() + "&");
+		if (null != status)
+			url.append("status=" + status + "&");
 
-		if (appointmentDto.getLocation() != null)
-			url.append("location=" + appointmentDto.getLocation());
+		if (null != practitioner)
+			url.append("practitioner=" + practitioner + "&");
 
 		PostMethod post = new PostMethod(url.toString());
 
@@ -89,6 +93,28 @@ public class AppointmentService {
 
 			List<PatientDetail> patientDetailList = chargeCaptureDAO.getPatientDetailListById(patientIdList);
 
+			// Calculate age for each patient
+			LocalDateTime now = LocalDateTime.now();
+			int currentYear = now.getYear();
+			int currentMonth = now.getMonthValue();
+
+			for (PatientDetail patient : patientDetailList) {
+				String dob = patient.getDateOfBirth();
+
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				LocalDate ld = LocalDate.parse(dob, dtf);
+				LocalDateTime ldt = LocalDateTime.of(ld, LocalDateTime.now().toLocalTime());
+				int dobYear = ldt.getYear();
+				int dobMonth = ldt.getMonthValue();
+
+				int age = currentYear - dobYear;
+				if (dobMonth >= currentMonth) {
+					age--;
+				}
+
+				patient.setAge(age);
+			}
+
 			for (AppointmentDetailDTO appointmentDetailDTO : appointmentList) {
 
 				Optional<PatientDetail> matchingObject = patientDetailList.stream()
@@ -100,8 +126,8 @@ public class AppointmentService {
 			}
 
 		} catch (IOException e) {
-
-			e.printStackTrace();
+			LOGGER.error(Logger.EVENT_FAILURE, "IOException in getAppointments ");
+			throw new ChargeCaptureServiceException("IOException in getAppointments ", e);
 		} finally {
 			post.releaseConnection();
 		}
