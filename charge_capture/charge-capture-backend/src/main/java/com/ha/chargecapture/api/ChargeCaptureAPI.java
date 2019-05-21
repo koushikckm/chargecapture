@@ -2,6 +2,8 @@ package com.ha.chargecapture.api;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +17,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ha.chargecapture.dto.AppointmentRequestDTO;
+import com.ha.chargecapture.dto.PatientAppointmentDetail;
+import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.CPDGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
+import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
+import com.ha.chargecapture.service.AppointmentService;
 import com.ha.chargecapture.service.ChargeCaptureService;
 
 @RestController
 @Validated
+@CrossOrigin
 @RequestMapping("/chargecapture")
 public class ChargeCaptureAPI {
 
@@ -32,15 +41,16 @@ public class ChargeCaptureAPI {
 	@Autowired
 	ChargeCaptureService chargeCaptureService;
 
+	@Autowired
+	AppointmentService appointmentService;
+
 	@GetMapping(value = "/getFacilityDetail")
-	@CrossOrigin
 	public List<Facility> getFacilityDetail() {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getFacilityDetail()");
 		return chargeCaptureService.getFacilityDetail();
 	}
 
 	@GetMapping(value = "/getPatientsForFacility")
-	@CrossOrigin
 	public List<PatientDetail> getPatientsForFacility(@RequestParam(required = true) int facilityId) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS,
@@ -53,21 +63,18 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getICDCodes")
-	@CrossOrigin
-	public List<ICDCodes> getICDCodes() {
+	public List<ICDCodes> getICDCodes(@RequestParam(required = false) Integer providerId) {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getICDCodes()");
-		return chargeCaptureService.getICDDetail();
+		return chargeCaptureService.getICDDetail(providerId);
 	}
 
 	@GetMapping(value = "/getCPDCodes")
-	@CrossOrigin
-	public List<CPDCodes> getCPDCodes() {
+	public List<CPDCodes> getCPDCodes(@RequestParam(required = false) Integer providerId) {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getCPDCodes()");
-		return chargeCaptureService.getCPDDetail();
+		return chargeCaptureService.getCPDDetail(providerId);
 	}
 
 	@GetMapping(value = "/getPatientDetail")
-	@CrossOrigin
 	public List<PatientDetail> getPatientDetail() {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetail()");
@@ -78,39 +85,59 @@ public class ChargeCaptureAPI {
 		return patientDetail;
 	}
 
-	@GetMapping(value = "/getPatientDetailForWeb")
-	@CrossOrigin
-	public List<PatientDetail> getPatientDetailForWeb() {
-
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetailForWeb()");
-		List<PatientDetail> patientDetail = null;
-
-		patientDetail = chargeCaptureService.getPatientDetailListForWeb();
-
-		return patientDetail;
-	}
-
 	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })
-	@CrossOrigin
-	public long submitPatientDetail(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
+	public long submitPatientDetail(@RequestBody @Valid PatientServiceDetailDTO patientServiceDetailDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::submitPatientServiceDetail()");
 		return chargeCaptureService.submitPatientServiceDetail(patientServiceDetailDTO);
 	}
 
-	@PutMapping(value = "/updatePatientServiceStatus", produces = { "application/json" })
-	@CrossOrigin
-	public void updatePatientServiceStatus(@RequestBody PatientServiceDetailDTO patientServiceDetailDTO) {
+	@PutMapping(value = "/updatePatientDetail", produces = { "application/json" })
+	public void updatePatientDetail(@RequestBody @Valid PatientDetailDTO patientDetailDto) {
 
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::updatePatientServiceStatus() for service id : "
-				+ patientServiceDetailDTO.getServiceId());
-		chargeCaptureService.updatePatientServiceStatus(patientServiceDetailDTO);
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::updatePatientDetail()");
+		chargeCaptureService.updatePatientDetails(patientDetailDto);
 	}
 
-	@PutMapping(value = "/updatePatientDetail", produces = { "application/json" })
-	@CrossOrigin
-	public void updatePatientDetail(@RequestBody PatientDetail patientDetail) {
+	@GetMapping(value = "/getPatients")
+	public List<PatientDetailDTO> getPatients() {
 
-		chargeCaptureService.updatePatientDetail(patientDetail);
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatients()");
+		List<PatientDetailDTO> patientDetail = null;
+
+		patientDetail = chargeCaptureService.getPatients();
+
+		return patientDetail;
+	}
+
+	@PostMapping(value = "/appointments", produces = { "application/json" })
+	@CrossOrigin
+	public List<PatientAppointmentDetail> getAppointments(@RequestBody AppointmentRequestDTO appointmentDTO) {
+
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getAppointments()");
+		return appointmentService.getAppointments(appointmentDTO);
+
+	}
+
+	@GetMapping(value = "/getIcdGroups")
+	public List<ICDGroup> getIcdGroups() {
+
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getIcdGroups()");
+		List<ICDGroup> icdGroups = null;
+
+		icdGroups = chargeCaptureService.getIcdGroups();
+
+		return icdGroups;
+	}
+
+	@GetMapping(value = "/getCpdGroups")
+	public List<CPDGroup> getCpdGroups() {
+
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getCpdGroups()");
+		List<CPDGroup> cpdGroups = null;
+
+		cpdGroups = chargeCaptureService.getCpdGroups();
+
+		return cpdGroups;
 	}
 }

@@ -16,9 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 @Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-	@Autowired
-	private AuthenticationEntryPoint authEntryPoint;
-
 	@Value("${basic.auth.user}")
 	String basicAuthUser;
 

@@ -3,8 +3,10 @@ package com.ha.chargecapture.dao;
 import java.util.List;
 
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.CPDGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
+import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.entity.Provider;
@@ -21,8 +23,6 @@ public interface ChargeCaptureDAO {
 
 	List<PatientDetail> getPatientDetailList();
 
-	List<PatientDetail> getPatientDetailListForWeb();
-
 	long submitPatientServiceDetail(PatientServiceDetail patientServiceDetail);
 
 	void updatePatientDetail(PatientDetail patientDetail);
@@ -33,7 +33,15 @@ public interface ChargeCaptureDAO {
 
 	void insertToPatientServiceCpdCode(int serviceId, int cpdRecordId);
 
-	PatientServiceDetail getPatientService(int serviceId);
+	List<String> getFavouriteIcdsForProvider(int providerId);
 
-	void updatePatientServiceStatus(PatientServiceDetail patientServiceDetail);
+	List<String> getFavouriteCpdsForProvider(int providerId);
+
+	PatientDetail getPatient(String patientId);
+
+	List<ICDGroup> getIcdGroups();
+
+	List<CPDGroup> getCpdGroups();
+
+	List<PatientDetail> getPatientDetailListById(List<String> patientIdList);
 }

@@ -18,8 +18,10 @@ import org.owasp.esapi.Logger;
 import org.springframework.stereotype.Repository;
 
 import com.ha.chargecapture.entity.CPDCodes;
+import com.ha.chargecapture.entity.CPDGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
+import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.entity.Provider;
@@ -30,6 +32,8 @@ import com.ha.chargecapture.exception.ChargeCaptureDaoException;
 public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 	private static final Logger LOGGER = ESAPI.getLogger(ChargeCaptureDAOImpl.class);
+
+	private static final String PATIENTDETAIL_TABLE = "patientdetail";
 
 	@PersistenceContext
 	EntityManager entityManager;
@@ -48,6 +52,8 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 			Criteria criteria = session.createCriteria(Facility.class, "facility");
 			facilityList = criteria.list();
 			if (null == facilityList || facilityList.isEmpty()) {
+				LOGGER.debug(Logger.EVENT_SUCCESS,
+						"In ChargeCaptureDAOImpl:getFacilityDetail() - facilityList is null or empty ");
 				return new ArrayList<>();
 			}
 		} catch (ChargeCaptureDaoException cde) {
@@ -66,7 +72,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 
 			String patientQuery = "SELECT patient_id AS patientId,first_name AS firstName,last_name AS lastName,middle_name AS middleName,name_suffix AS nameSuffix,date_of_birth AS dateOfBirth,gender AS gender,"
 					+ "address_line_1 AS address1,address_line_2 AS address2,city AS city,state AS state,zip AS zip,home_phone AS homePhone,mobile_phone AS mobilePhone,email AS email,work_phone AS workPhone,ssn AS ssn "
-					+ "FROM chargecapturenew.patientdetail where facility_id = :facilityId";
+					+ "FROM patientdetail where facility_id = :facilityId";
 			query = getSession().createSQLQuery(patientQuery).addScalar("patientId", StringType.INSTANCE)
 					.addScalar("firstName", StringType.INSTANCE).addScalar("lastName", StringType.INSTANCE)
 					.addScalar("middleName", StringType.INSTANCE).addScalar("nameSuffix", StringType.INSTANCE)
@@ -162,26 +168,38 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 	public List<ICDCodes> getICDDetail() {
 		List<ICDCodes> icdList = null;
 
-		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(ICDCodes.class, "icdcodes");
-		icdList = criteria.list();
-		if (null == icdList || icdList.isEmpty()) {
-			return new ArrayList<>();
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(ICDCodes.class, "icdcodes");
+			icdList = criteria.list();
+			if (null == icdList || icdList.isEmpty()) {
+				LOGGER.debug(Logger.EVENT_SUCCESS,
+						"In ChargeCaptureDAOImpl:getICDDetail() - icdList is null or empty ");
+				return new ArrayList<>();
+			}
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getICDDetail ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getICDDetail ", cde);
 		}
-
 		return icdList;
 	}
 
 	@Override
 	public List<CPDCodes> getCPDDetail() {
 		List<CPDCodes> cpdList = null;
-		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(CPDCodes.class, "cpdcodes");
-		cpdList = criteria.list();
-		if (null == cpdList || cpdList.isEmpty()) {
-			return new ArrayList<>();
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(CPDCodes.class, "cpdcodes");
+			cpdList = criteria.list();
+			if (null == cpdList || cpdList.isEmpty()) {
+				LOGGER.debug(Logger.EVENT_SUCCESS,
+						"In ChargeCaptureDAOImpl:getCPDDetail() - cpdList is null or empty ");
+				return new ArrayList<>();
+			}
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getCPDDetail ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getCPDDetail ", cde);
 		}
-
 		return cpdList;
 	}
 
@@ -189,61 +207,72 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 	public List<PatientDetail> getPatientDetailList() {
 		List<PatientDetail> patientdetailList = null;
 
-		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		patientdetailList = criteria.list();
-		if (null == patientdetailList || patientdetailList.isEmpty()) {
-			return new ArrayList<>();
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(PatientDetail.class, PATIENTDETAIL_TABLE);
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			patientdetailList = criteria.list();
+			if (null == patientdetailList || patientdetailList.isEmpty()) {
+				LOGGER.debug(Logger.EVENT_SUCCESS,
+						"In ChargeCaptureDAOImpl:getPatientDetailList() - patientdetailList is null or empty ");
+				return new ArrayList<>();
+			}
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailList ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailList ", cde);
 		}
-
 		return patientdetailList;
 	}
 
 	@Override
 	public long submitPatientServiceDetail(PatientServiceDetail patientServiceDetail) {
 
-		Session session = (Session) entityManager.getDelegate();
-		session.save(patientServiceDetail);
-		return patientServiceDetail.getServiceId();
+		long serviceId;
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			session.save(patientServiceDetail);
+			serviceId = patientServiceDetail.getServiceId();
+			LOGGER.debug(Logger.EVENT_SUCCESS,
+					"In ChargeCaptureDAOImpl:submitPatientServiceDetail() - Patient service submitted successfully with serviceId -  "
+							+ serviceId);
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in submitPatientServiceDetail ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in submitPatientServiceDetail ", cde);
+		}
+		return serviceId;
 
 	}
 
 	@Override
 	public void updatePatientDetail(PatientDetail patientDetail) {
 
-		Session session = (Session) entityManager.getDelegate();
-		session.update(patientDetail);
-	}
-
-	@Override
-	public List<PatientDetail> getPatientDetailListForWeb() {
-
-		List<PatientDetail> patientdetailList = null;
-
-		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(PatientDetail.class, "patientdetail");
-		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		patientdetailList = criteria.list();
-		if (null == patientdetailList || patientdetailList.isEmpty()) {
-			return new ArrayList<>();
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			session.update(patientDetail);
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in updatePatientDetail ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in updatePatientDetail ", cde);
 		}
-
-		return patientdetailList;
 	}
 
 	@Override
 	public Provider getProvider(int providerId) {
 
-		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(Provider.class, "provider");
-		criteria.add(Restrictions.eq("provider.providerId", providerId));
+		Provider provider = null;
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(Provider.class, "provider");
+			criteria.add(Restrictions.eq("provider.providerId", providerId));
 
-		List<Provider> providerList = criteria.list();
+			List<Provider> providerList = criteria.list();
 
-		Provider provider = new Provider();
-		if (!providerList.isEmpty()) {
-			provider = providerList.get(0);
+			provider = new Provider();
+			if (!providerList.isEmpty()) {
+				provider = providerList.get(0);
+			}
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getProvider ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getProvider ", cde);
 		}
 		return provider;
 
@@ -256,20 +285,26 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		String icdCode = null;
 		List<ICDCodes> icdList = null;
 
-		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(ICDCodes.class, "icdcodes");
-		criteria.add(Restrictions.eq("icdcodes.recordId", icdRecordId));
-		icdList = criteria.list();
-		if (!icdList.isEmpty()) {
-			icdCode = icdList.get(0).getIcdCode();
-		}
+		try {
+			Session session = (Session) entityManager.getDelegate();
 
-		// insert to pat serv icd tbl
-		Query query = session
-				.createSQLQuery("insert into patientserviceicdcodes (service_id,icdcode) values (:serviceId,:icdCode)");
-		query.setParameter("serviceId", serviceId);
-		query.setParameter("icdCode", icdCode);
-		query.executeUpdate();
+			Criteria criteria = session.createCriteria(ICDCodes.class, "icdcodes");
+			criteria.add(Restrictions.eq("icdcodes.recordId", icdRecordId));
+			icdList = criteria.list();
+			if (!icdList.isEmpty()) {
+				icdCode = icdList.get(0).getIcdCode();
+			}
+
+			// insert to pat serv icd tbl
+			Query query = session.createSQLQuery(
+					"insert into patientserviceicdcodes (service_id,icdcode) values (:serviceId,:icdCode)");
+			query.setParameter("serviceId", serviceId);
+			query.setParameter("icdCode", icdCode);
+			query.executeUpdate();
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in insertToPatientServiceIcdCode ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in insertToPatientServiceIcdCode ", cde);
+		}
 	}
 
 	@Override
@@ -279,44 +314,144 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		String cpdCode = null;
 		List<CPDCodes> cpdList = null;
 
-		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(CPDCodes.class, "cpdcodes");
-		criteria.add(Restrictions.eq("cpdcodes.recordId", cpdRecordId));
-		cpdList = criteria.list();
-		if (!cpdList.isEmpty()) {
-			cpdCode = cpdList.get(0).getCpdcode();
-		}
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(CPDCodes.class, "cpdcodes");
+			criteria.add(Restrictions.eq("cpdcodes.recordId", cpdRecordId));
+			cpdList = criteria.list();
+			if (!cpdList.isEmpty()) {
+				cpdCode = cpdList.get(0).getCpdcode();
+			}
 
-		// insert to pat serv cpd tbl
-		Query query = session
-				.createSQLQuery("insert into patientservicecpdcodes (service_id,cpdcode) values (:serviceId,:cpdCode)");
-		query.setParameter("serviceId", serviceId);
-		query.setParameter("cpdCode", cpdCode);
-		query.executeUpdate();
+			// insert to pat serv cpd tbl
+			Query query = session.createSQLQuery(
+					"insert into patientservicecpdcodes (service_id,cpdcode) values (:serviceId,:cpdCode)");
+			query.setParameter("serviceId", serviceId);
+			query.setParameter("cpdCode", cpdCode);
+			query.executeUpdate();
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in insertToPatientServiceCpdCode ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in insertToPatientServiceCpdCode ", cde);
+		}
 	}
 
 	@Override
-	public PatientServiceDetail getPatientService(int serviceId) {
+	public List<String> getFavouriteIcdsForProvider(int providerId) {
+		Query query = null;
+		List<String> icdList = new ArrayList<>();
+		try {
+			String icdQuery = "SELECT picd.icdcode FROM patientserviceicdcodes picd "
+					+ "JOIN patientservicedetail psd ON picd.service_id=psd.service_id and psd.provider_id=:providerId ";
 
-		Session session = (Session) entityManager.getDelegate();
-		Criteria criteria = session.createCriteria(PatientServiceDetail.class, "patientservicedetail");
-		criteria.add(Restrictions.eq("patientservicedetail.serviceId", serviceId));
+			query = getSession().createSQLQuery(icdQuery);
+			query.setParameter("providerId", providerId);
 
-		List<PatientServiceDetail> serviceDetailList = criteria.list();
-
-		PatientServiceDetail patientService = new PatientServiceDetail();
-		if (!serviceDetailList.isEmpty()) {
-			patientService = serviceDetailList.get(0);
+			if (!query.list().isEmpty()) {
+				icdList = query.list();
+			}
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getFavouriteIcdsForProvider ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getFavouriteIcdsForProvider ", cde);
 		}
-		return patientService;
+		return icdList;
 	}
 
 	@Override
-	public void updatePatientServiceStatus(PatientServiceDetail patientServiceDetail) {
+	public List<String> getFavouriteCpdsForProvider(int providerId) {
+		Query query = null;
+		List<String> cpdList = new ArrayList<>();
+		try {
+			String cpdQuery = "SELECT pcpd.cpdcode FROM patientservicecpdcodes pcpd "
+					+ "JOIN patientservicedetail psd ON pcpd.service_id=psd.service_id and psd.provider_id=:providerId ";
 
-		Session session = (Session) entityManager.getDelegate();
+			query = getSession().createSQLQuery(cpdQuery);
+			query.setParameter("providerId", providerId);
 
-		session.update(patientServiceDetail);
+			if (!query.list().isEmpty()) {
+				cpdList = query.list();
+			}
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getFavouriteCpdsForProvider ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getFavouriteCpdsForProvider ", cde);
+		}
+		return cpdList;
+	}
+
+	@Override
+	public PatientDetail getPatient(String patientId) {
+
+		PatientDetail patient = null;
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			List<PatientDetail> patientList = null;
+
+			Criteria criteria = session.createCriteria(PatientDetail.class, PATIENTDETAIL_TABLE);
+			criteria.add(Restrictions.eq("patientdetail.patientId", patientId));
+			patientList = criteria.list();
+			if (null != patientList && !patientList.isEmpty()) {
+				patient = patientList.get(0);
+			}
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatient ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatient ", cde);
+		}
+		return patient;
+	}
+
+	@Override
+	public List<ICDGroup> getIcdGroups() {
+
+		List<ICDGroup> icdGroups = null;
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(ICDGroup.class, "icdgroup");
+			icdGroups = criteria.list();
+			if (null == icdGroups || icdGroups.isEmpty()) {
+				LOGGER.debug(Logger.EVENT_SUCCESS,
+						"In ChargeCaptureDAOImpl:getIcdGroups() - icdGroups is null or empty ");
+				return new ArrayList<>();
+			}
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getIcdGroups ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getIcdGroups ", cde);
+		}
+		return icdGroups;
+	}
+
+	@Override
+	public List<CPDGroup> getCpdGroups() {
+
+		List<CPDGroup> cpdGroups = null;
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(CPDGroup.class, "cpdgroup");
+			cpdGroups = criteria.list();
+			if (null == cpdGroups || cpdGroups.isEmpty()) {
+				LOGGER.debug(Logger.EVENT_SUCCESS,
+						"In ChargeCaptureDAOImpl:getCpdGroups() - cpdGroups is null or empty ");
+				return new ArrayList<>();
+			}
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getCpdGroups ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getCpdGroups ", cde);
+		}
+		return cpdGroups;
+	}
+
+	@Override
+	public List<PatientDetail> getPatientDetailListById(List<String> patientIdList) {
+
+		List<PatientDetail> patientList = null;
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(PatientDetail.class, PATIENTDETAIL_TABLE);
+			criteria.add(Restrictions.in("patientdetail.patientId", patientIdList));
+			patientList = criteria.list();
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailListById ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailListById ", cde);
+		}
+		return patientList;
 	}
 
 }

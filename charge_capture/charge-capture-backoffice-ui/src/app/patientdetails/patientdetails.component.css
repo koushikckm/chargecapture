@@ -1,0 +1,31 @@
+.commenttooltip {
+    position: relative;
+    display: inline-block;    
+  }
+  
+  .commenttooltip .commenttooltiptext {
+    visibility: hidden;
+    width: 374px;
+    background-color: #dadfe4;
+    color: black;
+    text-align: justify;
+    border-radius: 6px;
+    padding: 5px 0;
+  
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: -5px;
+    left: 126%;
+  }
+  
+  .commenttooltip:hover .commenttooltiptext {
+    visibility: visible;
+  }
+  
+  .help-block{
+    color: red
+  }
+  .mandatory-star{
+    color:red;font-size:15px;
+  }

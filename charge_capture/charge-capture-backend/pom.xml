@@ -10,6 +10,7 @@
 		<artifactId>charge-capture</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
 	<groupId>com.ha</groupId>
 	<artifactId>charge-capture-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
@@ -26,6 +27,11 @@
 
 	<dependencies>
 
+		<dependency>
+			<groupId>com.ha</groupId> 
+			<artifactId>charge-capture-backoffice-ui</artifactId> 
+			<version>${project.parent.version}</version> 
+		</dependency> 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -64,6 +70,7 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
+			<version>8.0.15</version>
 		</dependency>
 		
 		<!-- <dependency>
@@ -149,47 +156,49 @@
 			<version>2.1.0.1</version>
 		</dependency>
 	</dependencies>
+	
     <profiles>
-    <profile>
+    	<profile>
 			<build>
 				<directory>target</directory>
 			</build>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
-	 </profile>
-	 
+	 	</profile>
     </profiles>
 
 	<build>
 		<finalName>ROOT</finalName>
 		<plugins>
-		
-		<plugin>
-		<artifactId>maven-clean-plugin</artifactId>
-		<configuration>
-      <filesets>
-        <fileset>
-          <directory>target</directory>		   
-        </fileset>
-      </filesets>
-	      
+			<plugin>
+				<artifactId>maven-clean-plugin</artifactId>
+				<configuration>
+      				<filesets>
+        				<fileset>
+          					<directory>target</directory>		   
+        				</fileset>
+      				</filesets>
+	      		</configuration>
+			</plugin>
 
-    </configuration>
-		</plugin>
-
-		  	<plugin>
+			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 			</plugin>
 			
-		
-
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>           
 		</plugins>
+		
 		<resources>
+			<resource>
+				<directory>../charge-capture-backoffice-ui/dist</directory>
+				<includes>
+					<include>static/*</include>
+				</includes>
+			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>

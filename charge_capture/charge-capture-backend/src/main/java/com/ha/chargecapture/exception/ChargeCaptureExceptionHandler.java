@@ -26,41 +26,41 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestController
 public class ChargeCaptureExceptionHandler extends ResponseEntityExceptionHandler {
 
-	private static final Logger LOGGER = ESAPI.getLogger(ChargeCaptureExceptionHandler.class);
+	private static final Logger LOG = ESAPI.getLogger(ChargeCaptureExceptionHandler.class);
 
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<ErrorDetails> handleAllExceptions(Exception ex, WebRequest request) {
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering handleAllExceptions()");
-		LOGGER.error(Logger.EVENT_FAILURE, "Exception caught", ex);
+		LOG.debug(Logger.EVENT_SUCCESS, "Entering handleAllExceptions()");
+		LOG.error(Logger.EVENT_FAILURE, "Exception caught", ex);
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting handleAllExceptions()");
+		LOG.debug(Logger.EVENT_SUCCESS, "Exiting handleAllExceptions()");
 		return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(ChargeCaptureServiceException.class)
 	public final ResponseEntity<ErrorDetails> handleServiceExceptions(ChargeCaptureServiceException ex,
 			WebRequest request) {
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering handleServiceExceptions()");
-		LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureServiceException caught", ex);
+		LOG.debug(Logger.EVENT_SUCCESS, "Entering handleServiceExceptions()");
+		LOG.error(Logger.EVENT_FAILURE, "ChargeCaptureServiceException caught", ex);
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting handleServiceExceptions()");
+		LOG.debug(Logger.EVENT_SUCCESS, "Exiting handleServiceExceptions()");
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(ChargeCaptureDaoException.class)
 	public ResponseEntity<ErrorDetails> handleDaoException(ChargeCaptureDaoException ex, WebRequest request) {
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering handleDaoException()");
-		LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException caught", ex);
+		LOG.debug(Logger.EVENT_SUCCESS, "Entering handleDaoException()");
+		LOG.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException caught", ex);
 		ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage(), request.getDescription(false));
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting handleDaoException()");
+		LOG.debug(Logger.EVENT_SUCCESS, "Exiting handleDaoException()");
 		return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
 	}
 
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering handleMethodArgumentNotValid()");
-		LOGGER.error(Logger.EVENT_FAILURE, "MethodArgumentNotValidException caught", ex);
+		LOG.debug(Logger.EVENT_SUCCESS, "Entering handleMethodArgumentNotValid()");
+		LOG.error(Logger.EVENT_FAILURE, "MethodArgumentNotValidException caught", ex);
 		List<String> message = new ArrayList<>();
 		List<FieldError> errorList = ex.getBindingResult().getFieldErrors();
 		if (!errorList.isEmpty()) {
@@ -71,7 +71,7 @@ public class ChargeCaptureExceptionHandler extends ResponseEntityExceptionHandle
 			message.add(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
 		}
 
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting handleMethodArgumentNotValid()");
+		LOG.debug(Logger.EVENT_SUCCESS, "Exiting handleMethodArgumentNotValid()");
 		return new ResponseEntity(message, headers, status);
 	}
 
@@ -79,13 +79,13 @@ public class ChargeCaptureExceptionHandler extends ResponseEntityExceptionHandle
 	@ResponseBody
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	public String handleValidationException(ConstraintViolationException e) {
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering handleValidationException()");
-		LOGGER.error(Logger.EVENT_FAILURE, "ConstraintViolationException caught", e);
+		LOG.debug(Logger.EVENT_SUCCESS, "Entering handleValidationException()");
+		LOG.error(Logger.EVENT_FAILURE, "ConstraintViolationException caught", e);
 		for (ConstraintViolation<?> s : e.getConstraintViolations()) {
 
 			return s.getMessage();
 		}
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting handleValidationException()");
+		LOG.debug(Logger.EVENT_SUCCESS, "Exiting handleValidationException()");
 		return "Validation Error";
 	}
 }
