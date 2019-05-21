@@ -1,17 +1,17 @@
 package com.ha.chargecapture.dto;
 
-public class CPDCodesDTO {
+public class CPTCodesDTO {
 
-	private String cpdcode;
+	private String cptcode;
 
 	private String description;
 
-	public String getCpdcode() {
-		return cpdcode;
+	public String getCptcode() {
+		return cptcode;
 	}
 
-	public void setCpdcode(String cpdcode) {
-		this.cpdcode = cpdcode;
+	public void setCptcode(String cptcode) {
+		this.cptcode = cptcode;
 	}
 
 	public String getDescription() {

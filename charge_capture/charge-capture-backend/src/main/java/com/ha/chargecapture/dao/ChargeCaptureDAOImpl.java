@@ -17,8 +17,8 @@ import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.stereotype.Repository;
 
-import com.ha.chargecapture.entity.CPDCodes;
-import com.ha.chargecapture.entity.CPDGroup;
+import com.ha.chargecapture.entity.CPTCodes;
+import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.ICDGroup;
@@ -185,22 +185,22 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 	}
 
 	@Override
-	public List<CPDCodes> getCPDDetail() {
-		List<CPDCodes> cpdList = null;
+	public List<CPTCodes> getCPTDetail() {
+		List<CPTCodes> cptList = null;
 		try {
 			Session session = (Session) entityManager.getDelegate();
-			Criteria criteria = session.createCriteria(CPDCodes.class, "cpdcodes");
-			cpdList = criteria.list();
-			if (null == cpdList || cpdList.isEmpty()) {
+			Criteria criteria = session.createCriteria(CPTCodes.class, "cptcodes");
+			cptList = criteria.list();
+			if (null == cptList || cptList.isEmpty()) {
 				LOGGER.debug(Logger.EVENT_SUCCESS,
-						"In ChargeCaptureDAOImpl:getCPDDetail() - cpdList is null or empty ");
+						"In ChargeCaptureDAOImpl:getCPTDetail() - cptList is null or empty ");
 				return new ArrayList<>();
 			}
 		} catch (ChargeCaptureDaoException cde) {
-			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getCPDDetail ", cde);
-			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getCPDDetail ", cde);
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getCPTDetail ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getCPTDetail ", cde);
 		}
-		return cpdList;
+		return cptList;
 	}
 
 	@Override
@@ -308,30 +308,30 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 	}
 
 	@Override
-	public void insertToPatientServiceCpdCode(int serviceId, int cpdRecordId) {
+	public void insertToPatientServiceCptCode(int serviceId, int cptRecordId) {
 
-		// GET cpd code for cpd record id
-		String cpdCode = null;
-		List<CPDCodes> cpdList = null;
+		// GET cpt code for cpt record id
+		String cptCode = null;
+		List<CPTCodes> cptList = null;
 
 		try {
 			Session session = (Session) entityManager.getDelegate();
-			Criteria criteria = session.createCriteria(CPDCodes.class, "cpdcodes");
-			criteria.add(Restrictions.eq("cpdcodes.recordId", cpdRecordId));
-			cpdList = criteria.list();
-			if (!cpdList.isEmpty()) {
-				cpdCode = cpdList.get(0).getCpdcode();
+			Criteria criteria = session.createCriteria(CPTCodes.class, "cptcodes");
+			criteria.add(Restrictions.eq("cptcodes.recordId", cptRecordId));
+			cptList = criteria.list();
+			if (!cptList.isEmpty()) {
+				cptCode = cptList.get(0).getCptcode();
 			}
 
-			// insert to pat serv cpd tbl
+			// insert to pat serv cpt tbl
 			Query query = session.createSQLQuery(
-					"insert into patientservicecpdcodes (service_id,cpdcode) values (:serviceId,:cpdCode)");
+					"insert into patientservicecptcodes (service_id,cptcode) values (:serviceId,:cptCode)");
 			query.setParameter("serviceId", serviceId);
-			query.setParameter("cpdCode", cpdCode);
+			query.setParameter("cptCode", cptCode);
 			query.executeUpdate();
 		} catch (ChargeCaptureDaoException cde) {
-			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in insertToPatientServiceCpdCode ", cde);
-			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in insertToPatientServiceCpdCode ", cde);
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in insertToPatientServiceCptCode ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in insertToPatientServiceCptCode ", cde);
 		}
 	}
 
@@ -357,24 +357,24 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 	}
 
 	@Override
-	public List<String> getFavouriteCpdsForProvider(int providerId) {
+	public List<String> getFavouriteCptsForProvider(int providerId) {
 		Query query = null;
-		List<String> cpdList = new ArrayList<>();
+		List<String> cptList = new ArrayList<>();
 		try {
-			String cpdQuery = "SELECT pcpd.cpdcode FROM patientservicecpdcodes pcpd "
-					+ "JOIN patientservicedetail psd ON pcpd.service_id=psd.service_id and psd.provider_id=:providerId ";
+			String cptQuery = "SELECT pcpt.cptcode FROM patientservicecptcodes pcpt "
+					+ "JOIN patientservicedetail psd ON pcpt.service_id=psd.service_id and psd.provider_id=:providerId ";
 
-			query = getSession().createSQLQuery(cpdQuery);
+			query = getSession().createSQLQuery(cptQuery);
 			query.setParameter("providerId", providerId);
 
 			if (!query.list().isEmpty()) {
-				cpdList = query.list();
+				cptList = query.list();
 			}
 		} catch (ChargeCaptureDaoException cde) {
-			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getFavouriteCpdsForProvider ", cde);
-			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getFavouriteCpdsForProvider ", cde);
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getFavouriteCptsForProvider ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getFavouriteCptsForProvider ", cde);
 		}
-		return cpdList;
+		return cptList;
 	}
 
 	@Override
@@ -419,23 +419,23 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 	}
 
 	@Override
-	public List<CPDGroup> getCpdGroups() {
+	public List<CPTGroup> getCptGroups() {
 
-		List<CPDGroup> cpdGroups = null;
+		List<CPTGroup> cptGroups = null;
 		try {
 			Session session = (Session) entityManager.getDelegate();
-			Criteria criteria = session.createCriteria(CPDGroup.class, "cpdgroup");
-			cpdGroups = criteria.list();
-			if (null == cpdGroups || cpdGroups.isEmpty()) {
+			Criteria criteria = session.createCriteria(CPTGroup.class, "cptgroup");
+			cptGroups = criteria.list();
+			if (null == cptGroups || cptGroups.isEmpty()) {
 				LOGGER.debug(Logger.EVENT_SUCCESS,
-						"In ChargeCaptureDAOImpl:getCpdGroups() - cpdGroups is null or empty ");
+						"In ChargeCaptureDAOImpl:getCptGroups() - cptGroups is null or empty ");
 				return new ArrayList<>();
 			}
 		} catch (ChargeCaptureDaoException cde) {
-			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getCpdGroups ", cde);
-			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getCpdGroups ", cde);
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getCptGroups ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getCptGroups ", cde);
 		}
-		return cpdGroups;
+		return cptGroups;
 	}
 
 	@Override

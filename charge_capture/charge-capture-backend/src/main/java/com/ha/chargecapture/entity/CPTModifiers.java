@@ -8,8 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cpdmodifiers")
-public class CPDModifiers implements Serializable {
+@Table(name = "cptmodifiers")
+public class CPTModifiers implements Serializable {
 
 	/**
 	 *

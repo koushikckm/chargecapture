@@ -18,8 +18,8 @@ import org.springframework.stereotype.Service;
 import com.ha.chargecapture.dao.ChargeCaptureDAO;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
-import com.ha.chargecapture.entity.CPDCodes;
-import com.ha.chargecapture.entity.CPDGroup;
+import com.ha.chargecapture.entity.CPTCodes;
+import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.ICDGroup;
@@ -51,16 +51,16 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 	}
 
 	@Override
-	public List<CPDCodes> getCPDDetail(Integer providerId) {
+	public List<CPTCodes> getCPTDetail(Integer providerId) {
 
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getCPDDetail() ");
-		List<CPDCodes> cpdList = chargeCaptureDAO.getCPDDetail();
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getcptDetail() ");
+		List<CPTCodes> cptList = chargeCaptureDAO.getCPTDetail();
 
 		if (null != providerId) {
-			cpdList = setFavouriteCpdsForProvider(cpdList, providerId);
+			cptList = setFavouriteCptsForProvider(cptList, providerId);
 		}
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting ChargeCaptureServiceImpl::getCPDDetail() ");
-		return cpdList;
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting ChargeCaptureServiceImpl::getCPTDetail() ");
+		return cptList;
 	}
 
 	@Override
@@ -149,19 +149,19 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 
 			if (null != patientServiceDetailDTO.getIcdRecordIds()
 					&& !patientServiceDetailDTO.getIcdRecordIds().isEmpty()) {
-				// insert to PatientServiceICDCodes with service id and cpd code
+				// insert to PatientServiceICDCodes with service id and cpt code
 				for (int i = 0; i < patientServiceDetailDTO.getIcdRecordIds().size(); i++) {
 					chargeCaptureDAO.insertToPatientServiceIcdCode(sId.intValue(),
 							patientServiceDetailDTO.getIcdRecordIds().get(i));
 				}
 			}
 
-			if (null != patientServiceDetailDTO.getCpdRecordIds()
-					&& !patientServiceDetailDTO.getCpdRecordIds().isEmpty()) {
-				// insert to PatientServiceCPDCodes with service id and cpd code
-				for (int i = 0; i < patientServiceDetailDTO.getCpdRecordIds().size(); i++) {
-					chargeCaptureDAO.insertToPatientServiceCpdCode(sId.intValue(),
-							patientServiceDetailDTO.getCpdRecordIds().get(i));
+			if (null != patientServiceDetailDTO.getCptRecordIds()
+					&& !patientServiceDetailDTO.getCptRecordIds().isEmpty()) {
+				// insert to PatientServiceCPTCodes with service id and cpt code
+				for (int i = 0; i < patientServiceDetailDTO.getCptRecordIds().size(); i++) {
+					chargeCaptureDAO.insertToPatientServiceCptCode(sId.intValue(),
+							patientServiceDetailDTO.getCptRecordIds().get(i));
 				}
 			}
 		} catch (ChargeCaptureServiceException ce) {
@@ -200,7 +200,7 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			patient.setSsn(patientDetailDto.getSsn());
 			patient.setAge(patientDetailDto.getAge());
 
-			// Changes to update icd and cpd detail
+			// Changes to update icd and cpt detail
 
 			chargeCaptureDAO.updatePatientDetail(patient);
 		} catch (ChargeCaptureServiceException cse) {
@@ -344,50 +344,50 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 		return icdList;
 	}
 
-	public List<CPDCodes> setFavouriteCpdsForProvider(List<CPDCodes> cpdList, Integer providerId) {
+	public List<CPTCodes> setFavouriteCptsForProvider(List<CPTCodes> cptList, Integer providerId) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS,
-				"Entering ChargeCaptureServiceImpl::setFavouriteCpdsForProvider() with providerId - " + providerId);
+				"Entering ChargeCaptureServiceImpl::setFavouriteCptsForProvider() with providerId - " + providerId);
 		try {
-			List<String> cpds = chargeCaptureDAO.getFavouriteCpdsForProvider(providerId);
-			if (!cpds.isEmpty()) {
-				Map<String, Integer> cpdMap = new HashMap<>();
-				for (String cpd : cpds) {
-					Integer count = cpdMap.get(cpd);
-					cpdMap.put(cpd, (count == null) ? 1 : count + 1);
+			List<String> cpts = chargeCaptureDAO.getFavouriteCptsForProvider(providerId);
+			if (!cpts.isEmpty()) {
+				Map<String, Integer> cptMap = new HashMap<>();
+				for (String cpt : cpts) {
+					Integer count = cptMap.get(cpt);
+					cptMap.put(cpt, (count == null) ? 1 : count + 1);
 				}
 
 				// sort the map in descending order of count
 				LinkedHashMap<String, Integer> reverseSortedMap = new LinkedHashMap<>();
-				cpdMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+				cptMap.entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
 						.forEachOrdered(x -> reverseSortedMap.put(x.getKey(), x.getValue()));
 
 				// get top 5 from map and put it to list
 				int mapCount = 0;
-				cpds.clear();
+				cpts.clear();
 				for (Map.Entry<String, Integer> entry : reverseSortedMap.entrySet()) {
 					if (mapCount > 4) {
 						break;
 					}
-					cpds.add(entry.getKey());
+					cpts.add(entry.getKey());
 					mapCount++;
 				}
 			}
 
-			// if cpddlist has cpds set fav flag as 1
-			for (int i = 0; i < cpdList.size(); i++) {
-				for (String s : cpds) {
-					if (cpdList.get(i).getCpdcode().equals(s)) {
-						cpdList.get(i).setFavouriteForProvider(true);
+			// if cptdlist has cpts set fav flag as 1
+			for (int i = 0; i < cptList.size(); i++) {
+				for (String s : cpts) {
+					if (cptList.get(i).getCptcode().equals(s)) {
+						cptList.get(i).setFavouriteForProvider(true);
 					}
 				}
 			}
 		} catch (ChargeCaptureServiceException cse) {
-			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureServiceException in setFavouriteCpdsForProvider ", cse);
-			throw new ChargeCaptureDaoException("ChargeCaptureServiceException in setFavouriteCpdsForProvider ", cse);
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureServiceException in setFavouriteCptsForProvider ", cse);
+			throw new ChargeCaptureDaoException("ChargeCaptureServiceException in setFavouriteCptsForProvider ", cse);
 		}
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting ChargeCaptureServiceImpl::setFavouriteCpdsForProvider() ");
-		return cpdList;
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting ChargeCaptureServiceImpl::setFavouriteCptsForProvider() ");
+		return cptList;
 	}
 
 	@Override
@@ -398,9 +398,9 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 	}
 
 	@Override
-	public List<CPDGroup> getCpdGroups() {
+	public List<CPTGroup> getCptGroups() {
 
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getCpdGroups() ");
-		return chargeCaptureDAO.getCpdGroups();
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getCptGroups() ");
+		return chargeCaptureDAO.getCptGroups();
 	}
 }

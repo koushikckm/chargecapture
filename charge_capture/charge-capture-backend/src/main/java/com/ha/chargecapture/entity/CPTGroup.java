@@ -10,8 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cpdgroup")
-public class CPDGroup implements Serializable {
+@Table(name = "cptgroup")
+public class CPTGroup implements Serializable {
 
 	/**
 	 *
@@ -25,8 +25,8 @@ public class CPDGroup implements Serializable {
 	@Column(name = "groupname")
 	private String groupName;
 
-	@OneToMany(targetEntity = CPDGroupCodeMapping.class, mappedBy = "cpdGroupRecordId")
-	private List<CPDGroupCodeMapping> cpdGroupCodes;
+	@OneToMany(targetEntity = CPTGroupCodeMapping.class, mappedBy = "cptGroupRecordId")
+	private List<CPTGroupCodeMapping> cptGroupCodes;
 
 	public int getRecordId() {
 		return recordId;
@@ -44,12 +44,12 @@ public class CPDGroup implements Serializable {
 		this.groupName = groupName;
 	}
 
-	public List<CPDGroupCodeMapping> getCpdGroupCodes() {
-		return cpdGroupCodes;
+	public List<CPTGroupCodeMapping> getCptGroupCodes() {
+		return cptGroupCodes;
 	}
 
-	public void setCpdGroupCodes(List<CPDGroupCodeMapping> cpdGroupCodes) {
-		this.cpdGroupCodes = cpdGroupCodes;
+	public void setCptGroupCodes(List<CPTGroupCodeMapping> cptGroupCodes) {
+		this.cptGroupCodes = cptGroupCodes;
 	}
 
 }

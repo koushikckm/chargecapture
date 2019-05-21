@@ -21,8 +21,8 @@ import com.ha.chargecapture.dto.AppointmentRequestDTO;
 import com.ha.chargecapture.dto.PatientAppointmentDetail;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
-import com.ha.chargecapture.entity.CPDCodes;
-import com.ha.chargecapture.entity.CPDGroup;
+import com.ha.chargecapture.entity.CPTCodes;
+import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.ICDGroup;
@@ -68,10 +68,10 @@ public class ChargeCaptureAPI {
 		return chargeCaptureService.getICDDetail(providerId);
 	}
 
-	@GetMapping(value = "/getCPDCodes")
-	public List<CPDCodes> getCPDCodes(@RequestParam(required = false) Integer providerId) {
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getCPDCodes()");
-		return chargeCaptureService.getCPDDetail(providerId);
+	@GetMapping(value = "/getCPTCodes")
+	public List<CPTCodes> getCPTCodes(@RequestParam(required = false) Integer providerId) {
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getCPTCodes()");
+		return chargeCaptureService.getCPTDetail(providerId);
 	}
 
 	@GetMapping(value = "/getPatientDetail")
@@ -130,14 +130,14 @@ public class ChargeCaptureAPI {
 		return icdGroups;
 	}
 
-	@GetMapping(value = "/getCpdGroups")
-	public List<CPDGroup> getCpdGroups() {
+	@GetMapping(value = "/getCptGroups")
+	public List<CPTGroup> getCptGroups() {
 
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getCpdGroups()");
-		List<CPDGroup> cpdGroups = null;
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getCptGroups()");
+		List<CPTGroup> cptGroups = null;
 
-		cpdGroups = chargeCaptureService.getCpdGroups();
+		cptGroups = chargeCaptureService.getCptGroups();
 
-		return cpdGroups;
+		return cptGroups;
 	}
 }

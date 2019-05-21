@@ -12,8 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "patientservicecpdmodifiermapping")
-public class PatientServiceCPDModifierMapping implements Serializable {
+@Table(name = "patientservicecptmodifiermapping")
+public class PatientServiceCPTModifierMapping implements Serializable {
 
 	/**
 	 *
@@ -24,12 +24,12 @@ public class PatientServiceCPDModifierMapping implements Serializable {
 	@Column(name = "record_id")
 	private int id;
 
-	@Column(name = "service_cpd_record_id", unique = true, nullable = false)
-	private Integer patientServiceCpdRecordId;
+	@Column(name = "service_cpt_record_id", unique = true, nullable = false)
+	private Integer patientServiceCptRecordId;
 
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "modifier_code", referencedColumnName = "modifier_code")
-	private CPDModifiers cpdModifiers;
+	private CPTModifiers cptModifiers;
 
 	public int getId() {
 		return id;
@@ -39,20 +39,20 @@ public class PatientServiceCPDModifierMapping implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getPatientServiceCpdRecordId() {
-		return patientServiceCpdRecordId;
+	public Integer getPatientServiceCptRecordId() {
+		return patientServiceCptRecordId;
 	}
 
-	public void setPatientServiceCpdRecordId(Integer patientServiceCpdRecordId) {
-		this.patientServiceCpdRecordId = patientServiceCpdRecordId;
+	public void setPatientServiceCptRecordId(Integer patientServiceCptRecordId) {
+		this.patientServiceCptRecordId = patientServiceCptRecordId;
 	}
 
-	public CPDModifiers getCpdModifiers() {
-		return cpdModifiers;
+	public CPTModifiers getCptModifiers() {
+		return cptModifiers;
 	}
 
-	public void setCpdModifiers(CPDModifiers cpdModifiers) {
-		this.cpdModifiers = cpdModifiers;
+	public void setCptModifiers(CPTModifiers cptModifiers) {
+		this.cptModifiers = cptModifiers;
 	}
 
 }

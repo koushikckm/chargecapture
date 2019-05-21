@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
-import com.ha.chargecapture.entity.CPDCodes;
-import com.ha.chargecapture.entity.CPDGroup;
+import com.ha.chargecapture.entity.CPTCodes;
+import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.ICDGroup;
@@ -19,7 +19,7 @@ public interface ChargeCaptureService {
 
 	List<ICDCodes> getICDDetail(Integer providerId);
 
-	List<CPDCodes> getCPDDetail(Integer providerId);
+	List<CPTCodes> getCPTDetail(Integer providerId);
 
 	List<PatientDetail> getPatientDetailList();
 
@@ -31,5 +31,5 @@ public interface ChargeCaptureService {
 
 	List<ICDGroup> getIcdGroups();
 
-	List<CPDGroup> getCpdGroups();
+	List<CPTGroup> getCptGroups();
 }
