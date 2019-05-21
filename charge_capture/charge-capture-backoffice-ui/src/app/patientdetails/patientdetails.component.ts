@@ -103,7 +103,7 @@ export class PatientdetailsComponent implements OnInit {
           this.showLoader=true;
           console.log(this.datePipe.transform(patientdetails.dateOfBirth, 'yyyy-MM-dd hh:mm:ss'));
           patientdetails.dateOfBirth=this.datePipe.transform(patientdetails.dateOfBirth, 'yyyy-MM-dd hh:mm:ss');
-            this.httpClient.put('https://localhost:8553/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
+            this.httpClient.put('/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
               this.showLoader=false;
               $('#modelPopUpButton').click();
               this.indexValue=0;
