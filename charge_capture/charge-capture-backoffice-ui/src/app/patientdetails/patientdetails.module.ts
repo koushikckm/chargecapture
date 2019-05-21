@@ -11,6 +11,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
 import * as $ from 'jquery';
 import {OnlyNumber} from '../Directives/numberDirective.directive';
+import { DatePipe } from '@angular/common'
 @NgModule({
   declarations: [
     OnlyNumber,
@@ -26,5 +27,6 @@ import {OnlyNumber} from '../Directives/numberDirective.directive';
     PatientListRoutingModule,
     A2Edatetimepicker
   ],
+  providers:[DatePipe]
 })
 export class PatientDetailsModule { }
