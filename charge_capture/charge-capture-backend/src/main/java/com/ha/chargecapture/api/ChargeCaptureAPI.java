@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ha.chargecapture.dto.AppointmentRequestDTO;
 import com.ha.chargecapture.dto.PatientAppointmentDetail;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
@@ -110,11 +109,13 @@ public class ChargeCaptureAPI {
 		return patientDetail;
 	}
 
-	@PostMapping(value = "/appointments", produces = { "application/json" })
-	public List<PatientAppointmentDetail> getAppointments(@RequestBody AppointmentRequestDTO appointmentDTO) {
+	@GetMapping(value = "/appointments", produces = { "application/json" })
+	public List<PatientAppointmentDetail> getAppointments(@RequestParam(required = true) String startDate,
+			@RequestParam(required = false) String endDate, @RequestParam(required = true) String location,
+			@RequestParam(required = false) String status, @RequestParam(required = false) String practitioner) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getAppointments()");
-		return appointmentService.getAppointments(appointmentDTO);
+		return appointmentService.getAppointments(startDate, endDate, location, status, practitioner);
 
 	}
 
