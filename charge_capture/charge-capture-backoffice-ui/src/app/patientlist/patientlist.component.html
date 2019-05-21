@@ -2,7 +2,7 @@
 
 <div class="panel panel-default" style="padding-top: 1%;width: 99%;">
   <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Details
-    
+
   </div>
   <div class="panel-body">
     <div class="container" style="width: 100%">
@@ -10,7 +10,7 @@
         <nav class="navbar" style="width: 30%">
           <input class="form-control " placeholder="Search with Patient Name/SSN" type="text" name="search" [(ngModel)]="filter">
         </nav>
-        
+
         <table class="table">
           <thead>
             <tr>
@@ -40,12 +40,14 @@
               <td>{{getPatientAddress(detail)}}</td>
               <td>{{detail.ssn}}</td>
               <td>
-                <a class="btn" (click)="navigateToDetails(detail)" title="Edit patient details"><i style="font-size: 20px;color:#2199e8" class="fa fa-edit"></i></a>
+                <a class="btn" (click)="navigateToDetails(detail)" title="Edit patient details">
+                  <i style="font-size: 20px;color:#2199e8" class="fa fa-edit"></i>
+                </a>
               </td>
             </tr>
           </tbody>
           <tbody *ngIf="showLoader">
-              <div class="loader" style="margin-left: 153%;margin-top: 3%"></div>
+            <div class="loader" style="margin-left: 153%;margin-top: 3%"></div>
           </tbody>
         </table>
         <div class="pull-right" *ngIf="!showLoader">

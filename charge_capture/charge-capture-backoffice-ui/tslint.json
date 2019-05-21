@@ -1,13 +1,19 @@
 {
   "extends": "tslint:recommended",
+  "cliOptions": {
+    "exclude": [
+      "src/app/Directives/numberDirective.directive.ts"
+    ]
+  },
   "rulesDirectory": [
     "codelyzer"
   ],
+
   "rules": {
     "array-type": false,
     "arrow-parens": false,
     "deprecation": {
-      "severity": "warn"
+      "severity": "none"
     },
     "import-blacklist": [
       true,

@@ -6,11 +6,10 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
-import { DataService } from "./services/data.service";
-//data table imports
+import { DataService } from './services/data.service';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Ng2OrderModule } from 'ng2-order-pipe';
-import {NgxPaginationModule} from 'ngx-pagination';
+import { NgxPaginationModule } from 'ngx-pagination';
 import * as $ from 'jquery';
 @NgModule({
   declarations: [
@@ -23,7 +22,7 @@ import * as $ from 'jquery';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    Ng2SearchPipeModule ,
+    Ng2SearchPipeModule,
     Ng2OrderModule,
     NgxPaginationModule
   ],
