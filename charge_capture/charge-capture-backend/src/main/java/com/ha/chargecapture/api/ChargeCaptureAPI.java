@@ -111,7 +111,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@PostMapping(value = "/appointments", produces = { "application/json" })
-	@CrossOrigin
 	public List<PatientAppointmentDetail> getAppointments(@RequestBody AppointmentRequestDTO appointmentDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getAppointments()");
