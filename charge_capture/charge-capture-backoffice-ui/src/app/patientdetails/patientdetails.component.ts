@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from "../services/data.service";
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 import * as moment from '../../../node_modules/moment';
 @Component({
   selector: 'app-patientdetails',
@@ -22,17 +22,15 @@ export class PatientdetailsComponent implements OnInit {
   showPatientServiceDetails: boolean = false;
   showPatientServiceDetailsPanel: boolean = true;
   patientServiceDetailsShow: boolean = true;
-  //sorting
-  key: string = 'patientId'; //set default
+  key: string = 'patientId'; 
   reverse: boolean = false;
 
-  //initializing p to one
   pagenumber: number = 1;
   oldPatientDetails = {};
   parentIndex: any;
-  isfirstNameValidMsg: String = null;
-  islastNameValidMsg: String = null;
-  memberDOBValidationMsg: String = null;
+  isfirstNameValidMsg: string = null;
+  islastNameValidMsg: string = null;
+  memberDOBValidationMsg: string = null;
   showLoader:boolean;
   indexValue:any;
   readonlyFlag:boolean=true;
@@ -54,11 +52,11 @@ export class PatientdetailsComponent implements OnInit {
       this.patientdetails.mobilePhone = this.formatData(this.patientdetails.mobilePhone, 'mobilePhone');
     }
     else {
-      this.router.navigate(['/home']); //else call api
+      this.router.navigate(['/home']); 
     }
   }
   
-  formatData(data, identifier) {
+  formatData(data, identifier): string | undefined  {
     if (data != null && data != "" && data.length > 0) {
       data = this.replaceAll(data, '-', '');
       data = this.replaceAll(data, '(', '');
@@ -79,7 +77,7 @@ export class PatientdetailsComponent implements OnInit {
     return str.replace(new RegExp(this.escapeRegExp(find), 'g'), replace);
   }
   hidePanel(prop) {
-    if (this[prop] == true) {
+    if (this[prop]) {
       this[prop] = false;
     }
     else {
@@ -188,7 +186,7 @@ export class PatientdetailsComponent implements OnInit {
   }
 
   closeButtonModel() {
-    this.router.navigate(['/home']); //else call api
+    this.router.navigate(['/home']); 
   }
 
   getAge(dateOfBirth: any): number {
