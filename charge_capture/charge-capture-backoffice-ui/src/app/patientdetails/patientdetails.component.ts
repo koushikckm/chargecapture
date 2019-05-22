@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from "../services/data.service";
 import { DatePipe } from '@angular/common'
+import * as moment from '../../../node_modules/moment';
 @Component({
   selector: 'app-patientdetails',
   templateUrl: './patientdetails.component.html',
@@ -34,6 +35,7 @@ export class PatientdetailsComponent implements OnInit {
   memberDOBValidationMsg: String = null;
   showLoader:boolean;
   indexValue:any;
+  readonlyFlag:boolean=true;
   sort(key) {
     this.key = key;
     this.reverse = !this.reverse;
@@ -100,8 +102,7 @@ export class PatientdetailsComponent implements OnInit {
         this.islastNameValidMsg = null; 
         if (patientdetails.dateOfBirth != null && patientdetails.dateOfBirth != "") {
           this.memberDOBValidationMsg = null;
-          this.showLoader=true;
-          console.log(this.datePipe.transform(patientdetails.dateOfBirth, 'yyyy-MM-dd hh:mm:ss'));
+          this.showLoader=true;          
           patientdetails.dateOfBirth=this.datePipe.transform(patientdetails.dateOfBirth, 'yyyy-MM-dd hh:mm:ss');
             this.httpClient.put('/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
               this.showLoader=false;
@@ -190,5 +191,7 @@ export class PatientdetailsComponent implements OnInit {
     this.router.navigate(['/home']); //else call api
   }
 
-  
+  getAge(dateOfBirth: any): number {
+    return moment().diff(dateOfBirth, 'years');
+  }
 }

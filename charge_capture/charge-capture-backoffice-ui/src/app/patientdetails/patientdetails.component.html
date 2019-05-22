@@ -44,7 +44,7 @@
               [(ngModel)]="this.patientdetails.dateOfBirth" />  -->
             <div class='input-group date' id='datetimepicker4' style="position: relative;" [ngStyle]="{'z-index':indexValue}">
               <input class="form-control" a2e-datetimepicker name="memberDOB" [(ngModel)]="this.patientdetails.dateOfBirth" [options]="a2eOptions"
-                placeholder="MM/dd/yyyy" readonly="readonly" />
+                placeholder="MM/dd/yyyy" readonly="readonly" (ngModelChange)="getAge(this.patientdetails.dateOfBirth)"/>
               <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>
               </span>
@@ -71,8 +71,10 @@
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Age</label>
           <div class="col-lg-6">
-            <input class="form-control" type="text" id="" placeholder="Age" maxlength="3" name="age" [(ngModel)]="this.patientdetails.age"
-              onlynumber="true" /> </div>
+            <!-- <input class="form-control" type="text" id="" placeholder="Age" maxlength="3" name="age" [(ngModel)]="this.patientdetails.age"
+              onlynumber="true" /> </div> -->
+              <label class="form-control">{{getAge(this.patientdetails.dateOfBirth)}}</label>
+            </div>
         </div>
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">SSN</label>
@@ -330,7 +332,7 @@
             <td width="75%">
               <!-- <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
               <span *ngIf="isEditable"> -->
-                <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{i}}" [(ngModel)]="detail.icdCodes.description"
+                <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{i}}" [(ngModel)]="detail.icdCodes.description" [disabled]="readonlyFlag"
                 />
               <!-- </span> -->
             </td>
@@ -388,7 +390,7 @@
             <td width="25%">
               <!-- <span *ngIf="!isEditable">{{detail.cptCodes.description}}</span>
               <span *ngIf="isEditable"> -->
-                <input class="form-control" type="text" maxlength="100" name="description{{i}}" [(ngModel)]="detail.cptCodes.description"
+                <input class="form-control" type="text" maxlength="100" name="description{{i}}" [(ngModel)]="detail.cptCodes.description" [disabled]="readonlyFlag"
                 />
               <!-- </span> -->
             </td>
@@ -427,7 +429,7 @@
             <td width="25%">
               <!-- <span *ngIf="!isEditable">{{serviceDetail.cptModifiers.description}}</span>
               <span *ngIf="isEditable"> -->
-                <input class="form-control" type="text" maxlength="100" name="modifierdescription{{j}}" [(ngModel)]="serviceDetail.cptModifiers.description"
+                <input class="form-control" type="text" maxlength="100" name="modifierdescription{{j}}" [(ngModel)]="serviceDetail.cptModifiers.description" [disabled]="readonlyFlag"
                 />
               <!-- </span> -->
             </td>
