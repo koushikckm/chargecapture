@@ -1,4 +1,10 @@
 {
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
