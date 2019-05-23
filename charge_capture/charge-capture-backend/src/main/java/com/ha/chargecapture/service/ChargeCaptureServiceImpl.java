@@ -201,6 +201,9 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			patient.setAge(patientDetailDto.getAge());
 
 			// Changes to update icd and cpt detail
+			if(patientDetailDto.getServiceIds()!=null && !patientDetailDto.getServiceIds().isEmpty()) {
+				
+			
 List<PatientServiceDetail> patientServiceDetails= chargeCaptureDAO.getPatientServiceListById(patientDetailDto.getServiceIds());
 			
 			
@@ -211,7 +214,7 @@ List<PatientServiceDetail> patientServiceDetails= chargeCaptureDAO.getPatientSer
 				chargeCaptureDAO.submitPatientServiceDetail(patientServiceDetail);
 			
 			}			
-			
+			}
 			//end change
 
 			chargeCaptureDAO.updatePatientDetail(patient);
