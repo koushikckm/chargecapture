@@ -206,9 +206,9 @@ List<PatientServiceDetail> patientServiceDetails= chargeCaptureDAO.getPatientSer
 			
 			for (int i = 0; i < patientServiceDetails.size(); i++) {
 			
-				patientServiceDetails.get(i).setStatus("Submitted");
-				
-				chargeCaptureDAO.submitPatientServiceDetail(patientServiceDetails.get(i));
+				PatientServiceDetail patientServiceDetail=patientServiceDetails.get(i);
+				patientServiceDetail.setStatus("Submitted");
+				chargeCaptureDAO.submitPatientServiceDetail(patientServiceDetail);
 			
 			}			
 			
