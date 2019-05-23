@@ -232,7 +232,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		long serviceId;
 		try {
 			Session session = (Session) entityManager.getDelegate();
-			session.save(patientServiceDetail);
+			session.saveOrUpdate(patientServiceDetail);
 			serviceId = patientServiceDetail.getServiceId();
 			LOGGER.debug(Logger.EVENT_SUCCESS,
 					"In ChargeCaptureDAOImpl:submitPatientServiceDetail() - Patient service submitted successfully with serviceId -  "
