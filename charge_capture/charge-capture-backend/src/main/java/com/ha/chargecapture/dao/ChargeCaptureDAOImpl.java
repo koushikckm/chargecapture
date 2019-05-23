@@ -34,6 +34,8 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 	private static final Logger LOGGER = ESAPI.getLogger(ChargeCaptureDAOImpl.class);
 
 	private static final String PATIENTDETAIL_TABLE = "patientdetail";
+	
+	private static final String PATIENTSERVICEDETAIL_TABLE = "patientservicedetail";
 
 	@PersistenceContext
 	EntityManager entityManager;
@@ -452,6 +454,23 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailListById ", cde);
 		}
 		return patientList;
+	}
+	
+	
+	@Override
+	public List<PatientServiceDetail> getPatientServiceListById(List<Integer> patientServiceIdList) {
+
+		List<PatientServiceDetail> patientServiceList = null;
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(PatientServiceDetail.class, PATIENTSERVICEDETAIL_TABLE);
+			criteria.add(Restrictions.in("patientservicedetail.serviceId", patientServiceIdList));
+			patientServiceList = criteria.list();
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailListById ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailListById ", cde);
+		}
+		return patientServiceList;
 	}
 
 }

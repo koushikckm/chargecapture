@@ -230,6 +230,9 @@
         <table class="table" style="width: 95%;margin-top: 2%;margin-left: 1%;">
           <thead>
             <tr>
+              <th>
+                  <input type="checkbox" name="selectAll{{i}}" [(ngModel)]="statusAll" (ngModelChange)="selectAll(patientdetails.patientServiceDetail)"> Select All
+              </th>
               <th (click)="sort('serviceId')">Service Id
                 <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
@@ -252,6 +255,9 @@
           </thead>
           <tbody>
             <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key : reverse | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
+              <td>
+                <input type="checkbox" name="detailCheckbox{{detail.serviceId}}{{i}}" [(ngModel)]="detail.checked" (ngModelChange)="getServiceDetails(detail)">
+              </td>
               <td>
                 <a title="View Servcie Details" style="cursor: pointer;" (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
               </td>
