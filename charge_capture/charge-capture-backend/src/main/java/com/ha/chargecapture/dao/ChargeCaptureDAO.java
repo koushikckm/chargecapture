@@ -44,4 +44,6 @@ public interface ChargeCaptureDAO {
 	List<CPTGroup> getCptGroups();
 
 	List<PatientDetail> getPatientDetailListById(List<String> patientIdList);
+	
+	List<PatientServiceDetail> getPatientServiceListById(List<Integer> patientIdList);
 }

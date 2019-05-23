@@ -36,6 +36,7 @@ export class PatientdetailsComponent implements OnInit {
   showLoader:boolean;
   indexValue:any;
   readonlyFlag:boolean=true;
+  statusAll:boolean=false;
   sort(key) {
     this.key = key;
     this.reverse = !this.reverse;
@@ -104,6 +105,12 @@ export class PatientdetailsComponent implements OnInit {
           this.memberDOBValidationMsg = null;
           this.showLoader=true;          
           patientdetails.dateOfBirth=this.datePipe.transform(patientdetails.dateOfBirth, 'yyyy-MM-dd hh:mm:ss');
+          patientdetails.serviceIds=[];
+          for(var i=0;i<patientdetails.patientServiceDetail.length;i++){
+            if(patientdetails.patientServiceDetail[i].checked){
+              patientdetails.serviceIds.push(patientdetails.patientServiceDetail[i].serviceId);
+            }
+          }
             this.httpClient.put('/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
               this.showLoader=false;
               $('#modelPopUpButton').click();
@@ -193,5 +200,18 @@ export class PatientdetailsComponent implements OnInit {
 
   getAge(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'years');
+  }
+
+  getServiceDetails(serviceDetail){
+   
+  }
+  selectAll(patientServiceDetails){
+
+    
+      patientServiceDetails.forEach(patientServiceDetail => {
+        patientServiceDetail.checked=this.statusAll;
+      });
+    
+    
   }
 }
