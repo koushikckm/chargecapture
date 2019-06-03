@@ -14,31 +14,44 @@
         <table class="table">
           <thead>
             <tr>
-              <th (click)="sort('patientId')">Patient Id
-                <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </th>
-              <th (click)="sort('firstName')">Name
+              
+              <th (click)="sort('detail.patientdetail.firstName')">Name
                 <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
-              <th (click)="sort('gender')">Gender
+              <th (click)="sort('detail.patientdetail.dateOfBirth')">Date Of Birth
                 <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
-              <th (click)="sort('address')">Address
+              <th (click)="sort('detail.patientdetail.facility')">Facility/Location
                 <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
-              <th (click)="sort('ssn')">SSN
+              <th (click)="sort('detail.provider.firstName')">Physician
+                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('dateOfService')">Date Of Service
+                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('cpt')">CPT
+                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('icd')">ICD
+                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              </th>
+              <th (click)="sort('status')">Status
                 <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody *ngIf="!showLoader">
-            <tr *ngFor="let detail of patientdetails | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
-              <td>{{detail.patientId}}</td>
-              <td>{{getPatientName(detail)}}</td>
-              <td>{{detail.gender}}</td>
-              <td>{{getPatientAddress(detail)}}</td>
-              <td>{{detail.ssn}}</td>
+            <tr *ngFor="let detail of filteredFinalArray | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
+              <td>{{getPatientName(detail.patientdetail)}}</td>
+              <td>{{detail.patientdetail.dateOfBirth}}</td>
+              <td>{{detail.patientdetail.facility.name}}</td>
+              <td>{{getPatientName(detail.provider)}}</td>
+              <td>{{detail.dateOfService}}</td>
+              <td>{{detail.cpdValues}}</td>
+              <td>{{detail.icdValues}}</td>
+              <td>{{detail.status}}</td>
               <td>
                 <a class="btn" (click)="navigateToDetails(detail)" title="Edit patient details"><i style="font-size: 20px;color:#2199e8" class="fa fa-edit"></i></a>
               </td>
