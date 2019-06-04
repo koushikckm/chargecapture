@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from "../services/data.service";
 import { DatePipe } from '@angular/common'
-import * as moment from '../../../node_modules/moment';
+import * as moment from 'moment';
 @Component({
   selector: 'app-patientdetails',
   templateUrl: './patientdetails.component.html',
@@ -18,7 +18,7 @@ export class PatientdetailsComponent implements OnInit {
     private datePipe:DatePipe
   ) { }
   patientdetails: any = {};
-  patientDetailsShow: boolean = true;
+  patientDetailsShow: boolean = false;
   showPatientServiceDetails: boolean = false;
   showPatientServiceDetailsPanel: boolean = true;
   patientServiceDetailsShow: boolean = true;

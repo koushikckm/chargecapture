@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from "../services/data.service";
-import { forEach } from '../../../node_modules/@angular/router/src/utils/collection';
+import { forEach } from '@angular/router/src/utils/collection';
 @Component({
   selector: 'app-patientlist',
   templateUrl: './patientlist.component.html',
@@ -21,11 +21,30 @@ export class PatientListComponent implements OnInit {
   }
 
   //sorting
-  key: string = 'patientId'; //set default
+  key: string = 'status'; //set default
   reverse: boolean = false;
+  firstNameIconSHow:boolean=true;
+  dateOfBirthIconSHow:boolean=true;
+  providerFirstNameIconSHow:boolean=true;
+  facilityIconSHow:boolean=true;
+  dateOfServiceIconSHow:boolean=true;
+  cptIconSHow:boolean=true;
+  icdIconSHow:boolean=true;
+  statusIconSHow:boolean=false;
+  previousKey:string='';
+
+  isDesc: boolean = true;
+  column: string = 'status';
+  direction: number;
   sort(key){
-    this.key = key;
-    this.reverse = !this.reverse;
+    // this[this.key+'IconSHow']=true;
+    // this.key = key;
+    // this.reverse = !this.reverse;
+    // this[key+'IconSHow']=false;
+
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = key;
+    this.direction = this.isDesc ? 1 : -1;
   }
 
   //initializing p to one
@@ -60,28 +79,13 @@ export class PatientListComponent implements OnInit {
           this.patientdetailsForListScreen.splice(index, 1);
         }
       }
-      
-      console.log(res);
-      console.log(this.patientdetails);
-      console.log(this.patientdetailsForListScreen);
-      console.log(this.patientdetailsForListScreenFiltered);
-      // for(let i=0;i<this.patientdetailsForListScreenFiltered.length-1;i++){
-      //   if(this.patientdetailsForListScreenFiltered[i].patientId==this.patientdetailsForListScreenFiltered[i+1].patientId){
-      //     if(this.patientdetailsForListScreenFiltered[i].dateOfService==this.patientdetailsForListScreenFiltered[i+1].dateOfService){
-      //       this.patientdetailsForListScreenFiltered[i]['cpdValues']=this.getCPDValues(this.patientdetailsForListScreenFiltered[i].cptCodes,this.patientdetailsForListScreenFiltered[i+1].cptCodes)
-            
-      //     }
-      //   }
-      // }
+     
       let array=this.filterByProperty(this.patientdetailsForListScreenFiltered,'patientId');
-      //console.log(array);
       let filteredArray=[];
       for(let i in array){
         let val=this.filterByProperty(array[i].value,'dateOfService');
         filteredArray.push(val);
-        //i['filtered']=val;
       }
-      //console.log(filteredArray);
       for(let i=0;i<filteredArray.length;i++){
         for(let j=0;j<filteredArray[i].length;j++){
           let cpdValues="";let icdValues="";
@@ -100,10 +104,39 @@ export class PatientListComponent implements OnInit {
           this.filteredFinalArray.push(filteredArray[i][j].value[0]);
         }
       }
-      console.log(this.filteredFinalArray);
+      let pendingReviewArray=[];
+      let submittedArray=[];
+      let processedArray=[];
+      for(let i=0;i<this.filteredFinalArray.length;i++){
+        if(this.filteredFinalArray[i].status=="PendingReview"){
+          pendingReviewArray.push(this.filteredFinalArray[i]);
+        }
+        else if(this.filteredFinalArray[i].status=="Submitted"){
+          submittedArray.push(this.filteredFinalArray[i]);
+        }
+        else if(this.filteredFinalArray[i].status=="Processed"){
+          processedArray.push(this.filteredFinalArray[i]);
+        }
+      }
+      pendingReviewArray=this.sortByDateOfService(pendingReviewArray);
+      submittedArray=this.sortByDateOfService(submittedArray);
+      processedArray=this.sortByDateOfService(processedArray);
+      this.filteredFinalArray=[,...pendingReviewArray,...submittedArray,...processedArray];
+      console.log(pendingReviewArray);
   });
   }
-
+sortByDateOfService(array){
+  array.sort((item1,item2)=>{
+    if(item1.dateOfService<item2.dateOfService){
+      return 1;
+    }
+    if(item1.dateOfService>item2.dateOfService){
+      return -1;
+    }
+    return 0;
+  });
+  return array;
+}
   filterByProperty(array,prop){
     const groupedCollection = array.reduce((previous, current)=> {
       if(!previous[current[prop]]) {

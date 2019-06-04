@@ -8,9 +8,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import {NgxPaginationModule} from 'ngx-pagination';
+import { FilterPipe } from './filter.pipe';
+import { OrderrByPipe } from "./orderby.pipe";
 @NgModule({
   declarations: [
-    PatientListComponent
+    PatientListComponent,FilterPipe,OrderrByPipe
   ],
   imports: [
     FormsModule,
@@ -19,7 +21,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
     HttpClientModule,
     Ng2SearchPipeModule,
     Ng2OrderModule,
-    NgxPaginationModule
+    NgxPaginationModule,    
   ],
 })
 export class PatientlistModule { }

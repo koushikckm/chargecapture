@@ -235,10 +235,7 @@
               </th>
               <th (click)="sort('serviceId')">Service Id
                 <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </th>
-              <th (click)="sort('patientId')">Patient Id
-                <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-              </th>
+              </th>             
               <th (click)="sort('dateOfService')">Date Of Service
                 <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
               </th>
@@ -260,9 +257,8 @@
               </td>
               <td>
                 <a title="View Servcie Details" style="cursor: pointer;" (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
-              </td>
-              <td>{{detail.patientId}}</td>
-              <td>{{detail.dateOfService}}</td>
+              </td>              
+              <td>{{detail.dateOfService | date: 'MM-dd-yyyy'}}</td>
               <td>
                 <div *ngIf="detail.comments !=null && detail.comments !='' ">
                   <div *ngIf="detail.comments.length<10">{{detail.comments}}</div>

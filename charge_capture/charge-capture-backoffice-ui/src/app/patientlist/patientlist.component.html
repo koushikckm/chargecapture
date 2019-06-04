@@ -8,47 +8,64 @@
     <div class="container" style="width: 100%">
       <div class="row">
         <nav class="navbar" style="width: 30%">
-          <input class="form-control " placeholder="Search with Patient Name/SSN" type="text" name="search" [(ngModel)]="filter">
+          <input class="form-control " placeholder="Search with Patient Name" type="text" name="searchString" [(ngModel)]="searchString">
         </nav>
         
         <table class="table">
           <thead>
             <tr>
               
-              <th (click)="sort('detail.patientdetail.firstName')">Name
-                <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th (click)="sort('firstName')" width="9%">Patient Name
+                <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <span *ngIf="firstNameIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
+                
+                <i class="fa" [ngClass]="{'fa-sort': column != 'firstName', 'fa-sort-asc': (column == 'firstName' && isDesc), 'fa-sort-desc': (column == 'firstName' && !isDesc) }" aria-hidden="true"> </i>
               </th>
-              <th (click)="sort('detail.patientdetail.dateOfBirth')">Date Of Birth
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th (click)="sort('dateOfBirth')" width="9%">Date Of Birth
+                <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='dateOfBirth'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <span *ngIf="dateOfBirthIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
+                <i class="fa" [ngClass]="{'fa-sort': column != 'dateOfBirth', 'fa-sort-asc': (column == 'dateOfBirth' && isDesc), 'fa-sort-desc': (column == 'dateOfBirth' && !isDesc) }" aria-hidden="true"> </i>
               </th>
-              <th (click)="sort('detail.patientdetail.facility')">Facility/Location
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th (click)="sort('providerFirstName')" width="9%">Physician
+                <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='providerFirstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <span *ngIf="providerFirstNameIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
+                <i class="fa" [ngClass]="{'fa-sort': column != 'providerFirstName', 'fa-sort-asc': (column == 'providerFirstName' && isDesc), 'fa-sort-desc': (column == 'providerFirstName' && !isDesc) }" aria-hidden="true"> </i>
               </th>
-              <th (click)="sort('detail.provider.firstName')">Physician
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th (click)="sort('facility')" width="9%">Facility/Location
+                <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='facility'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <span *ngIf="facilityIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
+                <i class="fa" [ngClass]="{'fa-sort': column != 'facility', 'fa-sort-asc': (column == 'facility' && isDesc), 'fa-sort-desc': (column == 'facility' && !isDesc) }" aria-hidden="true"> </i>
               </th>
-              <th (click)="sort('dateOfService')">Date Of Service
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th (click)="sort('dateOfService')" width="9%">Date Of Service
+                <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='dateOfService'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <span *ngIf="dateOfServiceIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
+                <i class="fa" [ngClass]="{'fa-sort': column != 'dateOfService', 'fa-sort-asc': (column == 'dateOfService' && isDesc), 'fa-sort-desc': (column == 'dateOfService' && !isDesc) }" aria-hidden="true"> </i>
               </th>
-              <th (click)="sort('cpt')">CPT
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th width="19%" style="cursor: default;">CPT
+                <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='cpt'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <span *ngIf="cptIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
+                <!-- <i class="fa" [ngClass]="{'fa-sort': column != 'cpt', 'fa-sort-asc': (column == 'cpt' && isDesc), 'fa-sort-desc': (column == 'cpt' && !isDesc) }" aria-hidden="true"> </i> -->
               </th>
-              <th (click)="sort('icd')">ICD
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th  width="19%" style="cursor: default;">ICD
+                <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='icd'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <span *ngIf="icdIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
+                <!-- <i class="fa" [ngClass]="{'fa-sort': column != 'icd', 'fa-sort-asc': (column == 'icd' && isDesc), 'fa-sort-desc': (column == 'icd' && !isDesc) }" aria-hidden="true"> </i> -->
               </th>
-              <th (click)="sort('status')">Status
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+              <th (click)="sort('status')" width="5%">Status
+                <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='status'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <span *ngIf="statusIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
+                <i class="fa" [ngClass]="{'fa-sort': column != 'status', 'fa-sort-asc': (column == 'status' && isDesc), 'fa-sort-desc': (column == 'status' && !isDesc) }" aria-hidden="true"> </i>
               </th>
-              <th>Action</th>
+              <th width="5%">Action</th>
             </tr>
           </thead>
           <tbody *ngIf="!showLoader">
-            <tr *ngFor="let detail of filteredFinalArray | orderBy: key : reverse | filter:filter | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
+            <tr *ngFor="let detail of filteredFinalArray | orderBy: {property: column, direction: direction} | filter : 'patientdetail.firstName' : searchString | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
               <td>{{getPatientName(detail.patientdetail)}}</td>
               <td>{{detail.patientdetail.dateOfBirth}}</td>
-              <td>{{detail.patientdetail.facility.name}}</td>
               <td>{{getPatientName(detail.provider)}}</td>
-              <td>{{detail.dateOfService}}</td>
+              <td>{{detail.patientdetail.facility.name}}</td>
+              <td>{{detail.dateOfService | date: 'MM-dd-yyyy'}}</td>
               <td>{{detail.cpdValues}}</td>
               <td>{{detail.icdValues}}</td>
               <td>{{detail.status}}</td>
