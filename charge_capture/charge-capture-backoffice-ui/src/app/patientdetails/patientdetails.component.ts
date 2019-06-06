@@ -37,10 +37,21 @@ export class PatientdetailsComponent implements OnInit {
   indexValue:any;
   readonlyFlag:boolean=true;
   statusAll:boolean=false;
-  sort(key) {
-    this.key = key;
-    this.reverse = !this.reverse;
+
+  isDesc: boolean = true;
+  column: string = 'status';
+  direction: number;
+  sort(key){
+    // this[this.key+'IconSHow']=true;
+    // this.key = key;
+    // this.reverse = !this.reverse;
+    // this[key+'IconSHow']=false;
+
+    this.isDesc = !this.isDesc; //change the direction    
+    this.column = key;
+    this.direction = this.isDesc ? 1 : -1;
   }
+
 
   ngOnInit() {
     this.indexValue=999999;
@@ -206,12 +217,35 @@ export class PatientdetailsComponent implements OnInit {
    
   }
   selectAll(patientServiceDetails){
-
-    
       patientServiceDetails.forEach(patientServiceDetail => {
         patientServiceDetail.checked=this.statusAll;
       });
-    
-    
+  }
+  addNewIcdCodeRow(){
+    let newIcdCode={};
+    newIcdCode['icdCodes']={};
+    newIcdCode['icdCodes']['icdCode']="";
+    newIcdCode['icdCodes']['description']="";
+    this.serviceDetails.icdCodes.push(newIcdCode);
+  }
+  addNewCpdCodeRow(){
+    let newCpdCode={};
+    newCpdCode['cptCodes']={};
+    newCpdCode['cptCodes']['cptcode']="";
+    newCpdCode['cptCodes']['description']="";
+    this.serviceDetails.cptCodes.push(newCpdCode);
+  }
+  removeRow(identifier,serviceDetail,index){
+    if(identifier=='icd'){
+      this.serviceDetails.icdCodes.splice(index,1);
+    }
+    else if(identifier=='cpd'){
+      this.serviceDetails.cptCodes.splice(index,1);
+    }
+  }
+  saveServiceDetails(patientdetails){
+    this.showLoader=true;  
+    $('#modelPopUpButton2').click();
+    this.showLoader=false;
   }
 }

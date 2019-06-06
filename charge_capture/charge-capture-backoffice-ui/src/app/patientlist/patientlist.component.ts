@@ -55,6 +55,12 @@ export class PatientListComponent implements OnInit {
   patientdetailsForListScreenFiltered:any=[];
   filteredFinalArray:any=[];
   showLoader:boolean;
+  getDateFormat(dateString){
+    if(dateString!="" && dateString!=null && dateString!=undefined){
+      return dateString.substring(5,7)+'-'+dateString.substring(8,10)+'-'+dateString.substring(0,4);
+    }
+    return "";
+  }
   getPatientDetail(){
     this.showLoader=true;
     this.httpClient.get('/chargecapture/getPatientDetail').subscribe((res)=>{

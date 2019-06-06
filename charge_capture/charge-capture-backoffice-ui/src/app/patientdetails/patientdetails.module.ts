@@ -11,11 +11,13 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
 import * as $ from 'jquery';
 import {OnlyNumber} from '../Directives/numberDirective.directive';
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
+import { OrderrByPipe } from "./order.pipe";
 @NgModule({
   declarations: [
     OnlyNumber,
-    PatientdetailsComponent
+    PatientdetailsComponent,
+    OrderrByPipe
   ],
   imports: [
     FormsModule,

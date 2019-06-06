@@ -62,7 +62,7 @@
           <tbody *ngIf="!showLoader">
             <tr *ngFor="let detail of filteredFinalArray | orderBy: {property: column, direction: direction} | filter : 'patientdetail.firstName' : searchString | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
               <td>{{getPatientName(detail.patientdetail)}}</td>
-              <td>{{detail.patientdetail.dateOfBirth}}</td>
+              <td>{{getDateFormat(detail.patientdetail.dateOfBirth)}}</td>
               <td>{{getPatientName(detail.provider)}}</td>
               <td>{{detail.patientdetail.facility.name}}</td>
               <td>{{detail.dateOfService | date: 'MM-dd-yyyy'}}</td>
@@ -75,7 +75,7 @@
             </tr>
           </tbody>
           <tbody *ngIf="showLoader">
-              <div class="loader" style="margin-left: 153%;margin-top: 3%"></div>
+              <div class="loader" style="margin-left: 448%;margin-top: 3%"></div>
           </tbody>
         </table>
         <div class="pull-right" *ngIf="!showLoader">

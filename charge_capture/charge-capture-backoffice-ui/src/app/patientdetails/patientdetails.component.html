@@ -10,6 +10,10 @@
       <a (click)="hidePanel('patientDetailsShow')" *ngIf="!patientDetailsShow" class="pull-right">
         <i class="fa fa-angle-down"></i>
       </a>
+      <div class="pull-right" style="margin-right: 1%" *ngIf="patientDetailsShow">
+        <button class="btn-primary" (click)="save(patientdetails)">Save</button>&nbsp;
+        <button class="btn-primary" (click)="cancel()">Cancel</button>
+      </div>
     </div>
     <div class="panel-body" *ngIf="patientDetailsShow">
       <div class="row">
@@ -230,31 +234,31 @@
         <table class="table" style="width: 95%;margin-top: 2%;margin-left: 1%;">
           <thead>
             <tr>
-              <th>
+              <!-- <th width="10%">
                   <input type="checkbox" name="selectAll{{i}}" [(ngModel)]="statusAll" (ngModelChange)="selectAll(patientdetails.patientServiceDetail)"> Select All
-              </th>
+              </th> -->
               <th (click)="sort('serviceId')">Service Id
-                <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                  <i class="fa" [ngClass]="{'fa-sort': column != 'serviceId', 'fa-sort-asc': (column == 'serviceId' && isDesc), 'fa-sort-desc': (column == 'serviceId' && !isDesc) }" aria-hidden="true"> </i>
               </th>             
               <th (click)="sort('dateOfService')">Date Of Service
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <i class="fa" [ngClass]="{'fa-sort': column != 'dateOfService', 'fa-sort-asc': (column == 'dateOfService' && isDesc), 'fa-sort-desc': (column == 'dateOfService' && !isDesc) }" aria-hidden="true"> </i>
               </th>
               <th (click)="sort('comments')">Comments
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <i class="fa" [ngClass]="{'fa-sort': column != 'comments', 'fa-sort-asc': (column == 'comments' && isDesc), 'fa-sort-desc': (column == 'comments' && !isDesc) }" aria-hidden="true"> </i>
               </th>
               <th (click)="sort('status')">Status
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <i class="fa" [ngClass]="{'fa-sort': column != 'status', 'fa-sort-asc': (column == 'status' && isDesc), 'fa-sort-desc': (column == 'status' && !isDesc) }" aria-hidden="true"> </i>
               </th>
               <th (click)="sort('charges')">Charges
-                <span class="glyphicon sort-icon" *ngIf="key =='lastName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                <i class="fa" [ngClass]="{'fa-sort': column != 'charges', 'fa-sort-asc': (column == 'charges' && isDesc), 'fa-sort-desc': (column == 'charges' && !isDesc) }" aria-hidden="true"> </i>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: key : reverse | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
-              <td>
+            <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: {property: column, direction: direction}  | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
+              <!-- <td>
                 <input type="checkbox" name="detailCheckbox{{detail.serviceId}}{{i}}" [(ngModel)]="detail.checked" (ngModelChange)="getServiceDetails(detail)">
-              </td>
+              </td> -->
               <td>
                 <a title="View Servcie Details" style="cursor: pointer;" (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
               </td>              
@@ -292,6 +296,10 @@
       <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="!showPatientServiceDetailsPanel" class="pull-right">
         <i class="fa fa-angle-down"></i>
       </a>
+      <div class="pull-right" style="margin-right: 1%" *ngIf="showPatientServiceDetailsPanel">
+        <button class="btn-primary" (click)="saveServiceDetails(patientdetails)">Save</button>&nbsp;
+        <button class="btn-primary" (click)="cancel()">Cancel</button>
+      </div>
     </div>
     <div class="panel-body" *ngIf="showPatientServiceDetailsPanel">
       <table class="table">
@@ -303,13 +311,18 @@
             <th (click)="sort('serviceId')">serviceId
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th> -->
-            <th>ICD Code
+            <th style="cursor: default;">ICD Code
               <span *ngIf="key =='icdCode'"></span>
             </th>
-            <th>Description
+            <th style="cursor: default;">Description
               <span *ngIf="key =='icdCodeDescription'"></span>
             </th>
+            <th>
+                <a (click)="addNewIcdCodeRow()" title="Add new ICD code"><i style="font-size: 20px;color:#2199e8" class="fa fa-plus" aria-hidden="true"></i></a>
+                <!-- <button class="btn-primary" (click)="cancel()">-</button>        -->
+            </th>
           </tr>
+          
         </thead>
         <tbody *ngIf="serviceDetails.icdCodes.length!=0 || serviceDetails.icdCodes!=null">
           <tr *ngFor="let detail of serviceDetails.icdCodes ; let i = index">
@@ -338,6 +351,9 @@
                 />
               <!-- </span> -->
             </td>
+            <td>
+                <!-- <a style="cursor: pointer;" (click)="removeRow('icd',detail,i)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a> -->
+            </td>
           </tr>
         </tbody>
         <tbody *ngIf="serviceDetails.icdCodes.length==0 || serviceDetails.icdCodes==null">
@@ -348,7 +364,7 @@
               </tr>
         </tbody>
       </table>
-
+      <br/>
       <table class="table">
         <thead>
           <tr>
@@ -358,14 +374,18 @@
             <th (click)="sort('serviceId')">serviceId
               <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
             </th> -->
-            <th>CPT Code
+            <th style="cursor: default;">CPT Code
               <span *ngIf="key =='cptcode'"></span>
             </th>
-            <th>Description
+            <th style="cursor: default;">Description
               <span *ngIf="key =='description'"></span>
             </th>
-            <th>Modifier</th>
-            <th>Description</th>
+            <th style="cursor: default;">Modifier</th>
+            <th style="cursor: default;">Description</th>
+            <th>
+                <a (click)="addNewCpdCodeRow()" title="Add new ICD code"><i style="font-size: 20px;color:#2199e8" class="fa fa-plus" aria-hidden="true"></i></a>
+                <!-- <button class="btn-primary" (click)="cancel()">-</button>        -->
+            </th>
           </tr>
         </thead>
         <tbody *ngFor="let detail of serviceDetails.cptCodes ; let i = index">
@@ -402,6 +422,9 @@
                 <a (click)="parentIndex=i;selectTableRow($index,detail,serviceDetails)" style="cursor: pointer;" *ngIf="detail.isExpanded">Hide Service Modifiers</a>
               </span>
 
+            </td>
+            <td>
+                <!-- <a style="cursor: pointer;" (click)="removeRow('cpd',detail,i)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a> -->
             </td>
             <!-- <td>
               <table>
@@ -450,10 +473,7 @@
     </div>
   </div>
 
-  <div class="pull-right" style="margin-right: 1%">
-    <button class="btn-primary" (click)="save(patientdetails)">Save</button>&nbsp;
-    <button class="btn-primary" (click)="cancel()">Cancel</button>
-  </div>
+  
 </form>
 <button id="modelPopUpButton" data-toggle="modal" data-target="#myModal" [hidden]="true">Open Modal</button>
 <div class="loader" *ngIf="showLoader" style="margin-left: 45%;margin-top: 14%;"></div>
@@ -469,6 +489,35 @@
       </div>
       <div class="modal-body" id="submitModelMessage">
         <p [hidden]="printToggle">Patient Details updated successfully.</p>
+
+        <p [hidden]="!printToggle">
+          <img [src]="labelPath">
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" *ngIf="printToggle" class="btn btn-default" data-dismiss="modal"  style="background-color:#faa730;color:white;font-weight: bold;" (click)="printDiv()" >Print</button> -->
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeButtonModel()" style="font-weight: bold;">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<button id="modelPopUpButton2" data-toggle="modal" data-target="#myModal2" [hidden]="true">Open Modal</button>
+<!-- Modal -->
+<div id="myModal2" class="modal fade" role="dialog" style="z-index:99999999">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Updated Patient Service Details</h4>
+      </div>
+      <div class="modal-body" id="submitModelMessage">
+        <p [hidden]="printToggle">Patient Service Details updated successfully.</p>
 
         <p [hidden]="!printToggle">
           <img [src]="labelPath">
