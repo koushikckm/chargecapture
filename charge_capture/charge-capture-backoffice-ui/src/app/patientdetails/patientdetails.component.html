@@ -347,12 +347,12 @@
             <td width="75%">
               <!-- <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
               <span *ngIf="isEditable"> -->
-                <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{i}}" [(ngModel)]="detail.icdCodes.description" [disabled]="readonlyFlag"
-                />
+                <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{i}}" [(ngModel)]="detail.icdCodes.description" [disabled]="readonlyFlagICD"
+                disabled/>
               <!-- </span> -->
             </td>
             <td>
-                <!-- <a style="cursor: pointer;" (click)="removeRow('icd',detail,i)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a> -->
+                <a style="cursor: pointer;" (click)="removeRow('icd',detail,i)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a>
             </td>
           </tr>
         </tbody>
@@ -412,8 +412,8 @@
             <td width="25%">
               <!-- <span *ngIf="!isEditable">{{detail.cptCodes.description}}</span>
               <span *ngIf="isEditable"> -->
-                <input class="form-control" type="text" maxlength="100" name="description{{i}}" [(ngModel)]="detail.cptCodes.description" [disabled]="readonlyFlag"
-                />
+                <input class="form-control" type="text" maxlength="100" name="description{{i}}" [(ngModel)]="detail.cptCodes.description" [disabled]="readonlyFlagCPD"
+                disabled/>
               <!-- </span> -->
             </td>
             <td colspan="2" style=""  width="50%">
@@ -424,7 +424,7 @@
 
             </td>
             <td>
-                <!-- <a style="cursor: pointer;" (click)="removeRow('cpd',detail,i)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a> -->
+                <a style="cursor: pointer;" (click)="removeRow('cpd',detail,i)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a>
             </td>
             <!-- <td>
               <table>

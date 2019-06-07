@@ -35,7 +35,8 @@ export class PatientdetailsComponent implements OnInit {
   memberDOBValidationMsg: String = null;
   showLoader:boolean;
   indexValue:any;
-  readonlyFlag:boolean=true;
+  readonlyFlagICD:boolean=true;
+  readonlyFlagCPD:boolean=true;
   statusAll:boolean=false;
 
   isDesc: boolean = true;
@@ -225,14 +226,14 @@ export class PatientdetailsComponent implements OnInit {
     let newIcdCode={};
     newIcdCode['icdCodes']={};
     newIcdCode['icdCodes']['icdCode']="";
-    newIcdCode['icdCodes']['description']="";
+    newIcdCode['icdCodes']['description']="";    
     this.serviceDetails.icdCodes.push(newIcdCode);
   }
   addNewCpdCodeRow(){
     let newCpdCode={};
     newCpdCode['cptCodes']={};
     newCpdCode['cptCodes']['cptcode']="";
-    newCpdCode['cptCodes']['description']="";
+    newCpdCode['cptCodes']['description']="";    
     this.serviceDetails.cptCodes.push(newCpdCode);
   }
   removeRow(identifier,serviceDetail,index){
@@ -241,7 +242,7 @@ export class PatientdetailsComponent implements OnInit {
     }
     else if(identifier=='cpd'){
       this.serviceDetails.cptCodes.splice(index,1);
-    }
+    }    
   }
   saveServiceDetails(patientdetails){
     this.showLoader=true;  
