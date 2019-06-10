@@ -234,9 +234,9 @@
         <table class="table" style="width: 95%;margin-top: 2%;margin-left: 1%;">
           <thead>
             <tr>
-              <!-- <th width="10%">
+              <th width="10%">
                   <input type="checkbox" name="selectAll{{i}}" [(ngModel)]="statusAll" (ngModelChange)="selectAll(patientdetails.patientServiceDetail)"> Select All
-              </th> -->
+              </th> 
               <th (click)="sort('serviceId')">Service Id
                   <i class="fa" [ngClass]="{'fa-sort': column != 'serviceId', 'fa-sort-asc': (column == 'serviceId' && isDesc), 'fa-sort-desc': (column == 'serviceId' && !isDesc) }" aria-hidden="true"> </i>
               </th>             
@@ -256,9 +256,9 @@
           </thead>
           <tbody>
             <tr *ngFor="let detail of patientdetails.patientServiceDetail | orderBy: {property: column, direction: direction}  | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
-              <!-- <td>
+              <td>
                 <input type="checkbox" name="detailCheckbox{{detail.serviceId}}{{i}}" [(ngModel)]="detail.checked" (ngModelChange)="getServiceDetails(detail)">
-              </td> -->
+              </td> 
               <td>
                 <a title="View Servcie Details" style="cursor: pointer;" (click)="showServiceDetails(detail)">{{detail.serviceId}}</a>
               </td>              
