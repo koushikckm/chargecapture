@@ -97,6 +97,12 @@ export class PatientdetailsComponent implements OnInit {
     }
     else {
       this[prop] = true;
+      if(prop=='showPatientServiceDetailsPanel'){
+        this.patientDetailsShow=false;
+      }
+      else if(prop=='patientDetailsShow'){
+        this.showPatientServiceDetailsPanel=false;
+      }
     }
   }
 
