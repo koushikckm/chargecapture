@@ -108,9 +108,20 @@ export class PatientdetailsComponent implements OnInit {
 
   serviceDetails: any = null;
   oldServiceDetails: {};
-  showServiceDetails(details) {
+  showServiceDetails(details,index,patientdetails) {    
     this.oldServiceDetails = JSON.parse(JSON.stringify(details));
     this.serviceDetails = this.oldServiceDetails;
+    for(let i in patientdetails.patientServiceDetail){
+      if(i!=index){
+        patientdetails.patientServiceDetail[i].showDiagnosisAndProcedures=false;
+      }
+    }
+    if(details.showDiagnosisAndProcedures){
+      details.showDiagnosisAndProcedures=false;
+    }
+    else{
+      details.showDiagnosisAndProcedures=true;
+    }
     this.showPatientServiceDetails = true;
     this.showPatientServiceDetailsPanel = true;
   }
@@ -228,26 +239,26 @@ export class PatientdetailsComponent implements OnInit {
         patientServiceDetail.checked=this.statusAll;
       });
   }
-  addNewIcdCodeRow(){
+  addNewIcdCodeRow(details){
     let newIcdCode={};
     newIcdCode['icdCodes']={};
     newIcdCode['icdCodes']['icdCode']="";
     newIcdCode['icdCodes']['description']="";    
-    this.serviceDetails.icdCodes.push(newIcdCode);
+    details.push(newIcdCode);
   }
-  addNewCpdCodeRow(){
+  addNewCpdCodeRow(details){
     let newCpdCode={};
     newCpdCode['cptCodes']={};
     newCpdCode['cptCodes']['cptcode']="";
     newCpdCode['cptCodes']['description']="";    
-    this.serviceDetails.cptCodes.push(newCpdCode);
+    details.push(newCpdCode);
   }
-  removeRow(identifier,serviceDetail,index){
+  removeRow(identifier,details,index){
     if(identifier=='icd'){
-      this.serviceDetails.icdCodes.splice(index,1);
+      details.splice(index,1);
     }
     else if(identifier=='cpd'){
-      this.serviceDetails.cptCodes.splice(index,1);
+      details.splice(index,1);
     }    
   }
   saveServiceDetails(patientdetails){
