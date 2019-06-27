@@ -97,6 +97,13 @@ public class ChargeCaptureAPI {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::updatePatientDetail()");
 		chargeCaptureService.updatePatientDetails(patientDetailDto);
 	}
+	
+	@PutMapping(value = "/approvePatientService", produces = { "application/json" })
+	public void approvePatientService(@RequestBody @Valid PatientDetailDTO patientDetailDto) {
+
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::updatePatientDetail()");
+		chargeCaptureService.approvePatientService(patientDetailDto);
+	}
 
 	@GetMapping(value = "/getPatients")
 	public List<PatientDetailDTO> getPatients() {

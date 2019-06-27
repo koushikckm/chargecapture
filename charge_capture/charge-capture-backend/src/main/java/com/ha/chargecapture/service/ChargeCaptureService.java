@@ -32,4 +32,6 @@ public interface ChargeCaptureService {
 	List<ICDGroup> getIcdGroups();
 
 	List<CPTGroup> getCptGroups();
+	
+	void approvePatientService(PatientDetailDTO patientDetailDto);
 }

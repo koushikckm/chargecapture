@@ -125,7 +125,7 @@ export class PatientdetailsComponent implements OnInit {
     this.showPatientServiceDetails = true;
     this.showPatientServiceDetailsPanel = true;
   }
-  save(patientdetails,messageId) {
+  save(patientdetails,messageId,serviceId) {
     if (patientdetails.firstName != null && patientdetails.firstName != "") {
       this.isfirstNameValidMsg = null;
       if (patientdetails.lastName != null && patientdetails.lastName != "") {
@@ -134,22 +134,28 @@ export class PatientdetailsComponent implements OnInit {
           this.memberDOBValidationMsg = null;
           this.showLoader=true;          
           patientdetails.dateOfBirth=this.datePipe.transform(patientdetails.dateOfBirth, 'yyyy-MM-dd hh:mm:ss');
-          patientdetails.serviceIds=[];
-          for(var i=0;i<patientdetails.patientServiceDetail.length;i++){
-            if(patientdetails.patientServiceDetail[i].checked){
-              patientdetails.serviceIds.push(patientdetails.patientServiceDetail[i].serviceId);
-            }
-          }
-            this.httpClient.put('/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
+         
+          // for(var i=0;i<patientdetails.patientServiceDetail.length;i++){
+          //   if(patientdetails.patientServiceDetail[i].checked){
+          //     patientdetails.serviceIds.push(patientdetails.patientServiceDetail[i].serviceId);
+          //   }
+          // }
+          if(messageId!=null){
+             patientdetails.serviceIds=[serviceId];
+             this.httpClient.put('/chargecapture/approvePatientService', patientdetails).subscribe((res) => {
               this.showLoader=false;
-              if(messageId!=null){
-                $('#modelPopUpButton').click();
-              }else{
-                $('#modelPopUpButton2').click();
-              }
-              
+              $('#modelPopUpButton2').click();
               this.indexValue=0;
             });
+          }else{
+           this.httpClient.put('/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
+              this.showLoader=false;
+              $('#modelPopUpButton').click();
+              this.indexValue=0;
+            });
+            
+          }
+            
                  
         }
         else {

@@ -201,21 +201,8 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 			patient.setAge(patientDetailDto.getAge());
 
 			// Changes to update icd and cpt detail
-			if(patientDetailDto.getServiceIds()!=null && !patientDetailDto.getServiceIds().isEmpty()) {
-				
-			
-List<PatientServiceDetail> patientServiceDetails= chargeCaptureDAO.getPatientServiceListById(patientDetailDto.getServiceIds());
-			
-			
-			for (int i = 0; i < patientServiceDetails.size(); i++) {
-			
-				PatientServiceDetail patientServiceDetail=patientServiceDetails.get(i);
-				patientServiceDetail.setStatus("Submitted");
-				chargeCaptureDAO.submitPatientServiceDetail(patientServiceDetail);
-			
-			}			
-			}
-			//end change
+
+			// end change
 
 			chargeCaptureDAO.updatePatientDetail(patient);
 		} catch (ChargeCaptureServiceException cse) {
@@ -225,6 +212,32 @@ List<PatientServiceDetail> patientServiceDetails= chargeCaptureDAO.getPatientSer
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting ChargeCaptureServiceImpl::updatePatientDetail() ");
 	}
 
+	@Override
+	public void approvePatientService(PatientDetailDTO patientDetailDto) {
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::approvePatientService() ");
+		try {
+			if (patientDetailDto.getServiceIds() != null && !patientDetailDto.getServiceIds().isEmpty()) {
+
+				List<PatientServiceDetail> patientServiceDetails = chargeCaptureDAO
+						.getPatientServiceListById(patientDetailDto.getServiceIds());
+
+				for (int i = 0; i < patientServiceDetails.size(); i++) {
+
+					PatientServiceDetail patientServiceDetail = patientServiceDetails.get(i);
+					patientServiceDetail.setStatus("Submitted");
+					chargeCaptureDAO.submitPatientServiceDetail(patientServiceDetail);
+
+				}
+			}
+		}
+		catch (ChargeCaptureServiceException cse) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureServiceException in approvePatientService ", cse);
+			throw new ChargeCaptureDaoException("ChargeCaptureServiceException in approvePatientService ", cse);
+		}
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Exiting ChargeCaptureServiceImpl::approvePatientService() ");
+
+	}
+	
 	@Override
 	public List<PatientDetailDTO> getPatients() {
 
@@ -418,4 +431,5 @@ List<PatientServiceDetail> patientServiceDetails= chargeCaptureDAO.getPatientSer
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getCptGroups() ");
 		return chargeCaptureDAO.getCptGroups();
 	}
+	
 }
