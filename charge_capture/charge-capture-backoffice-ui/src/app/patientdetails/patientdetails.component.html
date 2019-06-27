@@ -4,7 +4,7 @@
     <br/>
     <div class="panel panel-default" style="padding-top: 1%;width: 99%;">
       <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">
-          <span style="font-size: 16px;font-weight: bold">{{ this.patientdetails.firstName +' '+this.patientdetails.lastName}}</span> Patient Details
+          Patient Details - <span style="font-size: 16px;">{{ this.patientdetails.firstName +' '+this.patientdetails.lastName}}</span>
         
         <a (click)="hidePanel('patientDetailsShow')" *ngIf="patientDetailsShow" class="pull-right">
           <i class="fa fa-angle-up"></i>
@@ -229,11 +229,7 @@
         </a>
         <a (click)="hidePanel('patientServiceDetailsShow')" *ngIf="!patientServiceDetailsShow" class="pull-right">
           <i class="fa fa-angle-down"></i>
-        </a>
-        <div class="pull-right" style="margin-right: 1%" *ngIf="showPatientServiceDetailsPanel">
-            <button class="btn-primary" (click)="save(patientdetails)">Save and Approve</button>&nbsp;
-            <button class="btn-primary" (click)="cancel()">Cancel</button>
-        </div>
+        </a>       
       </div>
       <div class="panel-body" *ngIf="patientServiceDetailsShow">
         <div>
@@ -280,179 +276,196 @@
                   </div>
   
                 </td>
-                <td>{{details.status}}</td>
+                <td>{{(details.status=='PendingReview'?'Pending Review':details.status)}}</td>
                 <!-- <td>{{detail.charges}}</td> -->
               </tr>
               <tr *ngIf="details.showDiagnosisAndProcedures">
                   <td colspan="4">
-                      <table class="table" style="width: 85%;margin-left: 8%;">
-                          <thead>
-                            <tr>
-                              <!-- <th (click)="sort('recordId')">recordId
-                                <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                              </th>
-                              <th (click)="sort('serviceId')">serviceId
-                                <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                              </th> -->
-                              <th style="cursor: default;">ICD Code
-                                <span *ngIf="key =='icdCode'"></span>
-                              </th>
-                              <th style="cursor: default;">Description
-                                <span *ngIf="key =='icdCodeDescription'"></span>
-                              </th>
-                              <th>
-                                  <a (click)="addNewIcdCodeRow(details.icdCodes)" title="Add new ICD code"><i style="font-size: 20px;color:#2199e8" class="fa fa-plus" aria-hidden="true"></i></a>
-                                  <!-- <button class="btn-primary" (click)="cancel()">-</button>        -->
-                              </th>
-                            </tr>
-                            
-                          </thead>
-                          <tbody *ngIf="details.icdCodes.length!=0 || details.icdCodes!=null">
-                            <tr *ngFor="let detail of details.icdCodes ; let j = index">
-                              <!-- <td>
-                                <span *ngIf="!isEditable">{{detail.recordId}}</span>
-                                <span *ngIf="isEditable">
-                                  <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
-                                </span>
-                              </td>
-                              <td>
-                                <span *ngIf="!isEditable">{{detail.serviceId}}</span>
-                                <span *ngIf="isEditable">
-                                  <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
-                                </span>
-                              </td> -->
-                              <td width="25%">
-                                <!-- <span *ngIf="!isEditable">{{detail.icdCodes.icdCode}}</span>
-                                <span *ngIf="isEditable"> -->
-                                  <input class="form-control" type="text" maxlength="100" name="icdCode{{j}}" [(ngModel)]="detail.icdCodes.icdCode" />
-                                <!-- </span> -->
-                              </td>
-                              <td width="75%">
-                                <!-- <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
-                                <span *ngIf="isEditable"> -->
-                                  <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{j}}" [(ngModel)]="detail.icdCodes.description" [disabled]="readonlyFlagICD"
-                                  disabled/>
-                                <!-- </span> -->
-                              </td>
-                              <td>
-                                  <a style="cursor: pointer;" (click)="removeRow('icd',details.icdCodes,j)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a>
-                              </td>
-                            </tr>
-                          </tbody>
-                          <tbody *ngIf="details.icdCodes.length==0 || details.icdCodes==null">
-                              <tr>
-                                  <td width="22%">&nbsp;</td>
-                                  <td width="65%"><span style="color: #b93a3a">Data not available</span></td>
-                                  <!-- <td colspan="2" width="100%"><span style="color: #b93a3a">Data not available</span></td> -->
-                                </tr>
-                          </tbody>
-                        </table>
-                        <br/>
-                        <table class="table"  style="width: 85%;margin-left: 8%;">
-                          <thead>
-                            <tr>
-                              <!-- <th (click)="sort('recordId')">recordId
-                                <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                              </th>
-                              <th (click)="sort('serviceId')">serviceId
-                                <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-                              </th> -->
-                              <th style="cursor: default;">CPT Code
-                                <span *ngIf="key =='cptcode'"></span>
-                              </th>
-                              <th style="cursor: default;">Description
-                                <span *ngIf="key =='description'"></span>
-                              </th>
-                              <th style="cursor: default;">Modifier</th>
-                              <th style="cursor: default;">Description</th>
-                              <th>
-                                  <a (click)="addNewCpdCodeRow()" title="Add new ICD code"><i style="font-size: 20px;color:#2199e8" class="fa fa-plus" aria-hidden="true"></i></a>
-                                  <!-- <button class="btn-primary" (click)="cancel()">-</button>        -->
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody *ngFor="let detail of details.cptCodes ; let k = index">
-                            <tr>
-                              <!-- <td>
-                                <span *ngIf="!isEditable">{{detail.recordId}}</span>
-                                <span *ngIf="isEditable">
-                                  <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
-                                </span>
-                              </td>
-                              <td>
-                                <span *ngIf="!isEditable">{{detail.serviceId}}</span>
-                                <span *ngIf="isEditable">
-                                  <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
-                                </span>
-                              </td> -->
-                              <td width="25%">
-                                <!-- <span *ngIf="!isEditable">{{detail.cptCodes.cptcode}}</span>
-                                <span *ngIf="isEditable"> -->
-                                  <input class="form-control col-sm-4" type="text" maxlength="100" name="cptcode{{k}}" [(ngModel)]="detail.cptCodes.cptcode"
-                                  />
-                                <!-- </span> -->
-                              </td>
-                              <td width="25%">
-                                <!-- <span *ngIf="!isEditable">{{detail.cptCodes.description}}</span>
-                                <span *ngIf="isEditable"> -->
-                                  <input class="form-control" type="text" maxlength="100" name="description{{k}}" [(ngModel)]="detail.cptCodes.description" [disabled]="readonlyFlagCPD"
-                                  disabled/>
-                                <!-- </span> -->
-                              </td>
-                              <td colspan="2" style=""  width="50%">
-                                <span *ngIf="detail.serviceCptModifiers && detail.serviceCptModifiers.length !=0" style="margin-left: 30%">
-                                  <a (click)="parentIndex=k;selectTableRow($index,detail,details)" style="cursor: pointer;" *ngIf="!detail.isExpanded">Show Service Modifiers</a>
-                                  <a (click)="parentIndex=k;selectTableRow($index,detail,details)" style="cursor: pointer;" *ngIf="detail.isExpanded">Hide Service Modifiers</a>
-                                </span>
-                  
-                              </td>
-                              <td>
-                                  <a style="cursor: pointer;" (click)="removeRow('cpd',details.icdCodes,k)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a>
-                              </td>
-                              <!-- <td>
-                                <table>
+                      <div class="panel panel-default" style="padding-top: 1%;" *ngIf="showPatientServiceDetails">
+                          <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Diagnosis and Procedures Details
+                            <!-- <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="showPatientServiceDetailsPanel" class="pull-right">
+                              <i class="fa fa-angle-up"></i>
+                            </a>
+                            <a (click)="hidePanel('showPatientServiceDetailsPanel')" *ngIf="!showPatientServiceDetailsPanel" class="pull-right">
+                              <i class="fa fa-angle-down"></i>
+                            </a> -->
+                            <div class="pull-right" style="margin-right: 1%" *ngIf="showPatientServiceDetailsPanel">
+                                <button class="btn-primary" (click)="save(patientdetails,'saveDiagnosisAndProcedures')">Save and Approve</button>&nbsp;
+                                <button class="btn-primary" (click)="showServiceDetails(details,i,patientdetails)">Cancel</button>
+                            </div>
+                          </div>
+                          <div class="panel-body" *ngIf="showPatientServiceDetailsPanel">
+
+                              <table class="table" style="width: 95%;">
                                   <thead>
-                                    <th></th>
-                                    <th></th>
+                                    <tr>
+                                      <!-- <th (click)="sort('recordId')">recordId
+                                        <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                      </th>
+                                      <th (click)="sort('serviceId')">serviceId
+                                        <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                      </th> -->
+                                      <th style="cursor: default;">ICD Code
+                                        <span *ngIf="key =='icdCode'"></span>
+                                      </th>
+                                      <th style="cursor: default;">Description
+                                        <span *ngIf="key =='icdCodeDescription'"></span>
+                                      </th>
+                                      <th>
+                                          <a (click)="addNewIcdCodeRow(details.icdCodes)" title="Add new ICD code"><i style="font-size: 20px;color:#2199e8" class="fa fa-plus" aria-hidden="true"></i></a>
+                                          <!-- <button class="btn-primary" (click)="cancel()">-</button>        -->
+                                      </th>
+                                    </tr>
+                                    
                                   </thead>
-                                  <tbody>
-                                    <tr *ngFor="let serviceDetail of detail.serviceCptModifiers">
-                                      <td>{{serviceDetail.cptModifiers.modifierCode}}</td>
-                                      <td>{{serviceDetail.cptModifiers.description}}</td>
+                                  <tbody *ngIf="details.icdCodes.length!=0 || details.icdCodes!=null">
+                                    <tr *ngFor="let detail of details.icdCodes ; let j = index">
+                                      <!-- <td>
+                                        <span *ngIf="!isEditable">{{detail.recordId}}</span>
+                                        <span *ngIf="isEditable">
+                                          <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span *ngIf="!isEditable">{{detail.serviceId}}</span>
+                                        <span *ngIf="isEditable">
+                                          <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
+                                        </span>
+                                      </td> -->
+                                      <td width="25%">
+                                        <!-- <span *ngIf="!isEditable">{{detail.icdCodes.icdCode}}</span>
+                                        <span *ngIf="isEditable"> -->
+                                          <input class="form-control" type="text" maxlength="100" name="icdCode{{j}}" [(ngModel)]="detail.icdCodes.icdCode" />
+                                        <!-- </span> -->
+                                      </td>
+                                      <td width="75%">
+                                        <!-- <span *ngIf="!isEditable">{{detail.icdCodes.description}}</span>
+                                        <span *ngIf="isEditable"> -->
+                                          <input class="form-control" type="text" maxlength="100" name="icdCodeDescription{{j}}" [(ngModel)]="detail.icdCodes.description" [disabled]="readonlyFlagICD"
+                                          disabled/>
+                                        <!-- </span> -->
+                                      </td>
+                                      <td>
+                                          <a style="cursor: pointer;" (click)="removeRow('icd',details.icdCodes,j)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a>
+                                      </td>
                                     </tr>
                                   </tbody>
-                                </table>    
-                              </td> -->
-                            </tr>
-                            <tr *ngFor="let serviceDetail of detail.serviceCptModifiers;let l = index" [hidden]="!detail.isExpanded">
-                              <td  width="25%"></td>
-                              <td width="25%"></td>
-                              <td width="25%">
-                                <!-- <span *ngIf="!isEditable">{{serviceDetail.cptModifiers.modifierCode}}</span>
-                                <span *ngIf="isEditable"> -->
-                                  <input class="form-control" type="text" maxlength="100" name="modifierCode{{l}}" [(ngModel)]="serviceDetail.cptModifiers.modifierCode"
-                                  />
-                                <!-- </span> -->
-                              </td>
-                              <td width="25%">
-                                <!-- <span *ngIf="!isEditable">{{serviceDetail.cptModifiers.description}}</span>
-                                <span *ngIf="isEditable"> -->
-                                  <input class="form-control" type="text" maxlength="100" name="modifierdescription{{l}}" [(ngModel)]="serviceDetail.cptModifiers.description" [disabled]="readonlyFlag"
-                                  />
-                                <!-- </span> -->
-                              </td>
-                            </tr>
-                          </tbody>
-                          <tbody *ngIf="details.cptCodes.length==0 || details.cptCodes==null">
-                            <tr>
-                              <td width="25%"></td>  
-                              <td width="25%"><span style="color: #b93a3a">Data not available</span></td>  
-                              <td width="25%"></td>  
-                              <td width="25%"></td>  
-                              <!-- <td colspan="4" width="100%"><span style="margin-left: 42%;color: #b93a3a">Data not available</span></td> -->
-                            </tr>
-                          </tbody>
-                        </table>
+                                  <tbody *ngIf="details.icdCodes.length==0 || details.icdCodes==null">
+                                      <tr>
+                                          <td width="22%">&nbsp;</td>
+                                          <td width="65%"><span style="color: #b93a3a">Data not available</span></td>
+                                          <!-- <td colspan="2" width="100%"><span style="color: #b93a3a">Data not available</span></td> -->
+                                        </tr>
+                                  </tbody>
+                                </table>
+                                <br/>
+                                <table class="table"  style="width: 95%;">
+                                  <thead>
+                                    <tr>
+                                      <!-- <th (click)="sort('recordId')">recordId
+                                        <span class="glyphicon sort-icon" *ngIf="key =='patientId'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                      </th>
+                                      <th (click)="sort('serviceId')">serviceId
+                                        <span class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                      </th> -->
+                                      <th style="cursor: default;">CPT Code
+                                        <span *ngIf="key =='cptcode'"></span>
+                                      </th>
+                                      <th style="cursor: default;">Description
+                                        <span *ngIf="key =='description'"></span>
+                                      </th>
+                                      <th style="cursor: default;">Modifier</th>
+                                      <th style="cursor: default;">Description</th>
+                                      <th>
+                                          <a (click)="addNewCpdCodeRow()" title="Add new ICD code"><i style="font-size: 20px;color:#2199e8" class="fa fa-plus" aria-hidden="true"></i></a>
+                                          <!-- <button class="btn-primary" (click)="cancel()">-</button>        -->
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody *ngFor="let detail of details.cptCodes ; let k = index">
+                                    <tr>
+                                      <!-- <td>
+                                        <span *ngIf="!isEditable">{{detail.recordId}}</span>
+                                        <span *ngIf="isEditable">
+                                          <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.recordId" />
+                                        </span>
+                                      </td>
+                                      <td>
+                                        <span *ngIf="!isEditable">{{detail.serviceId}}</span>
+                                        <span *ngIf="isEditable">
+                                          <input class="form-control" type="text" maxlength="100" name="age" [(ngModel)]="detail.serviceId" />
+                                        </span>
+                                      </td> -->
+                                      <td width="25%">
+                                        <!-- <span *ngIf="!isEditable">{{detail.cptCodes.cptcode}}</span>
+                                        <span *ngIf="isEditable"> -->
+                                          <input class="form-control col-sm-4" type="text" maxlength="100" name="cptcode{{k}}" [(ngModel)]="detail.cptCodes.cptcode"
+                                          />
+                                        <!-- </span> -->
+                                      </td>
+                                      <td width="25%">
+                                        <!-- <span *ngIf="!isEditable">{{detail.cptCodes.description}}</span>
+                                        <span *ngIf="isEditable"> -->
+                                          <input class="form-control" type="text" maxlength="100" name="description{{k}}" [(ngModel)]="detail.cptCodes.description" [disabled]="readonlyFlagCPD"
+                                          disabled/>
+                                        <!-- </span> -->
+                                      </td>
+                                      <td colspan="2" style=""  width="50%">
+                                        <span *ngIf="detail.serviceCptModifiers && detail.serviceCptModifiers.length !=0" style="margin-left: 30%">
+                                          <a (click)="parentIndex=k;selectTableRow($index,detail,details)" style="cursor: pointer;" *ngIf="!detail.isExpanded">Show Service Modifiers</a>
+                                          <a (click)="parentIndex=k;selectTableRow($index,detail,details)" style="cursor: pointer;" *ngIf="detail.isExpanded">Hide Service Modifiers</a>
+                                        </span>
+                          
+                                      </td>
+                                      <td>
+                                          <a style="cursor: pointer;" (click)="removeRow('cpd',details.icdCodes,k)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a>
+                                      </td>
+                                      <!-- <td>
+                                        <table>
+                                          <thead>
+                                            <th></th>
+                                            <th></th>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let serviceDetail of detail.serviceCptModifiers">
+                                              <td>{{serviceDetail.cptModifiers.modifierCode}}</td>
+                                              <td>{{serviceDetail.cptModifiers.description}}</td>
+                                            </tr>
+                                          </tbody>
+                                        </table>    
+                                      </td> -->
+                                    </tr>
+                                    <tr *ngFor="let serviceDetail of detail.serviceCptModifiers;let l = index" [hidden]="!detail.isExpanded">
+                                      <td  width="25%"></td>
+                                      <td width="25%"></td>
+                                      <td width="25%">
+                                        <!-- <span *ngIf="!isEditable">{{serviceDetail.cptModifiers.modifierCode}}</span>
+                                        <span *ngIf="isEditable"> -->
+                                          <input class="form-control" type="text" maxlength="100" name="modifierCode{{l}}" [(ngModel)]="serviceDetail.cptModifiers.modifierCode"
+                                          />
+                                        <!-- </span> -->
+                                      </td>
+                                      <td width="25%">
+                                        <!-- <span *ngIf="!isEditable">{{serviceDetail.cptModifiers.description}}</span>
+                                        <span *ngIf="isEditable"> -->
+                                          <input class="form-control" type="text" maxlength="100" name="modifierdescription{{l}}" [(ngModel)]="serviceDetail.cptModifiers.description" [disabled]="readonlyFlag"
+                                          />
+                                        <!-- </span> -->
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                  <tbody *ngIf="details.cptCodes.length==0 || details.cptCodes==null">
+                                    <tr>
+                                      <td width="25%"></td>  
+                                      <td width="25%"><span style="color: #b93a3a">Data not available</span></td>  
+                                      <td width="25%"></td>  
+                                      <td width="25%"></td>  
+                                      <!-- <td colspan="4" width="100%"><span style="margin-left: 42%;color: #b93a3a">Data not available</span></td> -->
+                                    </tr>
+                                  </tbody>
+                                </table>
+                          </div>
+                      </div>
                   </td>                  
               </tr>
             </tbody>

@@ -125,7 +125,7 @@ export class PatientdetailsComponent implements OnInit {
     this.showPatientServiceDetails = true;
     this.showPatientServiceDetailsPanel = true;
   }
-  save(patientdetails) {
+  save(patientdetails,messageId) {
     if (patientdetails.firstName != null && patientdetails.firstName != "") {
       this.isfirstNameValidMsg = null;
       if (patientdetails.lastName != null && patientdetails.lastName != "") {
@@ -142,7 +142,12 @@ export class PatientdetailsComponent implements OnInit {
           }
             this.httpClient.put('/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
               this.showLoader=false;
-              $('#modelPopUpButton').click();
+              if(messageId!=null){
+                $('#modelPopUpButton').click();
+              }else{
+                $('#modelPopUpButton2').click();
+              }
+              
               this.indexValue=0;
             });
                  
@@ -158,6 +163,7 @@ export class PatientdetailsComponent implements OnInit {
     else {
       this.isfirstNameValidMsg = "First Name is required";
     }
+    
   }
   emailValidator() {
 

@@ -51,7 +51,7 @@
                 <span *ngIf="icdIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
                 <!-- <i class="fa" [ngClass]="{'fa-sort': column != 'icd', 'fa-sort-asc': (column == 'icd' && isDesc), 'fa-sort-desc': (column == 'icd' && !isDesc) }" aria-hidden="true"> </i> -->
               </th>
-              <th (click)="sort('status')" width="5%">Status
+              <th (click)="sort('status')" width="10  %">Status
                 <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='status'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                 <span *ngIf="statusIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
                 <i class="fa" [ngClass]="{'fa-sort': column != 'status', 'fa-sort-asc': (column == 'status' && isDesc), 'fa-sort-desc': (column == 'status' && !isDesc) }" aria-hidden="true"> </i>
@@ -68,7 +68,7 @@
               <td>{{detail.dateOfService | date: 'MM-dd-yyyy'}}</td>
               <td>{{detail.cpdValues}}</td>
               <td>{{detail.icdValues}}</td>
-              <td>{{detail.status}}</td>
+              <td>{{(detail.status=='PendingReview'?'Pending Review':detail.status)}}</td>
               <td>
                 <a class="btn" (click)="navigateToDetails(detail)" title="Edit patient details"><i style="font-size: 20px;color:#2199e8" class="fa fa-edit"></i></a>
               </td>
