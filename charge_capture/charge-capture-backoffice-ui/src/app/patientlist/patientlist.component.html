@@ -60,7 +60,7 @@
             </tr>
           </thead>
           <tbody *ngIf="!showLoader">
-            <tr *ngFor="let detail of filteredFinalArray | orderBy: {property: column, direction: direction} | filter : 'patientdetail.firstName' : searchString | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
+            <tr *ngFor="let detail of filteredFinalArray | orderBy: {property: column, direction: direction} | filter : 'patientdetail.firstName' : searchString | paginate: { itemsPerPage: 10, currentPage: pagenumber } ; let i = index">
               <td>{{getPatientName(detail.patientdetail)}}</td>
               <td>{{getDateFormat(detail.patientdetail.dateOfBirth)}}</td>
               <td>{{getPatientName(detail.provider)}}</td>
@@ -70,7 +70,7 @@
               <td>{{detail.icdValues}}</td>
               <td>{{(detail.status=='PendingReview'?'Pending Review':detail.status)}}</td>
               <td>
-                <a class="btn" (click)="navigateToDetails(detail)" title="Edit patient details"><i style="font-size: 20px;color:#2199e8" class="fa fa-edit"></i></a>
+                <button title="Edit patient details" (click)="navigateToDetails(detail)" class="ng-scope"><i class="fa fa-pencil"></i></button>
               </td>
             </tr>
           </tbody>

@@ -100,7 +100,7 @@ position:relative;
 
 height: 100vh;
     background: gray;
-    padding-top: 100px;
+    padding-top: 65px;
     position: fixed;
     top: 0;
     left: 0;
@@ -117,7 +117,7 @@ height: 100vh;
 .my-sidebar-wrapper{
 	height: 100vh;
     background: gray;
-    padding-top: 100px;
+    padding-top: 65px;
     position: fixed;
     top: 0;
     left: 0;
@@ -148,7 +148,7 @@ height: 100vh;
     -o-transition: margin-left .3s cubic-bezier(.32,1.25,.375,1.15);
     transition: margin-left .3s cubic-bezier(.32,1.25,.375,1.15);
     z-index: 820;
-	padding-top:80px;
+	padding-top:57px;
 }
 
 .sidebar-open .my-content-wrapper{
