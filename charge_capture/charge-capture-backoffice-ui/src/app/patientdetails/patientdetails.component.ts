@@ -58,7 +58,7 @@ export class PatientdetailsComponent implements OnInit {
     this.indexValue=999999;
     if (this.data.getData() != null) {
       this.patientdetails = this.data.getData();
-      console.log(this.patientdetails);
+      //console.log(this.patientdetails);
       this.oldPatientDetails = JSON.parse(JSON.stringify(this.patientdetails));
       this.patientdetails.dateOfBirth = new Date(this.patientdetails.dateOfBirth);
       this.patientdetails.ssn = this.formatData(this.patientdetails.ssn, 'ssn');
@@ -108,7 +108,8 @@ export class PatientdetailsComponent implements OnInit {
 
   serviceDetails: any = null;
   oldServiceDetails: {};
-  showServiceDetails(details,index,patientdetails) {    
+  
+  showServiceDetails(details,index,patientdetails,icon) {    
     this.oldServiceDetails = JSON.parse(JSON.stringify(details));
     this.serviceDetails = this.oldServiceDetails;
     for(let i in patientdetails.patientServiceDetail){
@@ -125,6 +126,7 @@ export class PatientdetailsComponent implements OnInit {
     this.showPatientServiceDetails = true;
     this.showPatientServiceDetailsPanel = true;
   }
+
   save(patientdetails,messageId,serviceId) {
     if (patientdetails.firstName != null && patientdetails.firstName != "") {
       this.isfirstNameValidMsg = null;

@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+/* .ngx-pagination .current {
+    background: orange !important;      
+} */
+
 thead>tr>th {
     cursor: pointer;
 }
@@ -27,7 +31,7 @@ thead>tr>th {
     font-size: 30px;
     vertical-align: middle;
 }
-.fsrx-message{
+.charge-capture-message{
   width:15em; 
   border:1px solid red
 
@@ -193,10 +197,10 @@ height: 100vh;
 
 .sidebar-menu li:hover,
 .sidebar-menu li.active {
-    background: rgb(99, 102, 102);
-    -moz-box-shadow: inset 0 0 7px #888a87;
-    -webkit-box-shadow: inset 0 0 7px #888a87;
-    box-shadow: inset 0 0 7px #888a87;
+    background: #FEB201;
+    -moz-box-shadow: inset 0 0 7px #387000;
+    -webkit-box-shadow: inset 0 0 7px #387000;
+    box-shadow: inset 0 0 7px #387000;
     cursor: pointer;
 }
 
@@ -535,12 +539,12 @@ position:relative;
 color:grey;
 }
 
-.fsrx-theme-orange{
+.charge-capture-theme-orange{
 color:orange;
 }
 
 
-.fsrx-theme-grey{
+.charge-capture-theme-grey{
 color:grey;
 }
 
@@ -964,3 +968,29 @@ z-index:0;
   /* .bootstrap-datetimepicker-widget{
       z-index: 999999999999 !important;
   } */
+  .btn-primary,.btn-primary:hover {
+    color: #fff;
+    background-color: #faa730 !important;
+    border-color: #faa730 !important;
+  }
+  .my-pagination /deep/ .ngx-pagination a, .ngx-pagination button {
+    /* position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd; */
+}
+.my-pagination /deep/ .ngx-pagination .current {
+    /* position: relative;
+    padding: 6px 12px;
+    line-height: 1.42857143; */
+    background: #faa730 !important;
+  }
+
+  td{
+      font-size: 16px;
+  }

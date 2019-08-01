@@ -7,14 +7,14 @@
           Demographics - <span style="font-size: 16px;">{{ this.patientdetails.firstName +' '+this.patientdetails.lastName}}</span>
         
         <a (click)="hidePanel('patientDetailsShow')" *ngIf="patientDetailsShow" class="pull-right">
-          <i class="fa fa-angle-up"></i>
+          <i class="fa fa-angle-up fa-2x" style="color: black"></i>
         </a>
         <a (click)="hidePanel('patientDetailsShow')" *ngIf="!patientDetailsShow" class="pull-right">
-          <i class="fa fa-angle-down"></i>
+          <i class="fa fa-angle-down fa-2x" style="color: black"></i>
         </a>
         <div class="pull-right" style="margin-right: 1%" *ngIf="patientDetailsShow">
-          <button class="btn-primary" (click)="save(patientdetails)">Save</button>&nbsp;
-          <button class="btn-primary" (click)="cancel()">Cancel</button>
+          <button class="btn btn-primary" style="margin-top: -6px" (click)="save(patientdetails)">Save</button>&nbsp;
+          <button class="btn btn-primary" style="margin-top: -6px" (click)="cancel()">Cancel</button>
         </div>
       </div>
       <div class="panel-body" *ngIf="patientDetailsShow">
@@ -225,15 +225,15 @@
     <div class="panel panel-default" style="padding-top: 1%;width: 99%;" *ngIf="patientdetails.patientServiceDetail && patientdetails.patientServiceDetail.length!=0 && patientdetails.patientServiceDetail!=null">
       <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Service Details
         <a (click)="hidePanel('patientServiceDetailsShow')" *ngIf="patientServiceDetailsShow" class="pull-right">
-          <i class="fa fa-angle-up"></i>
+          <i class="fa fa-angle-up fa-2x"  style="color: black"></i>
         </a>
         <a (click)="hidePanel('patientServiceDetailsShow')" *ngIf="!patientServiceDetailsShow" class="pull-right">
-          <i class="fa fa-angle-down"></i>
+          <i class="fa fa-angle-down fa-2x"  style="color: black"></i>
         </a>       
       </div>
       <div class="panel-body" *ngIf="patientServiceDetailsShow">
         <div>
-          <table class="table  table-bordered " style="width: 95%;margin-top: 2%;margin-left: 1%;">
+          <table class="table  table-bordered " style="width: 99%;margin-top: 2%;">
             <thead>
               <tr>
                 <!-- <th width="10%">
@@ -262,7 +262,13 @@
                   <input type="checkbox" name="detailCheckbox{{detail.serviceId}}{{i}}" [(ngModel)]="detail.checked" (ngModelChange)="getServiceDetails(detail)">
                 </td> -->
                 <td>
-                  <a title="View Servcie Details" style="cursor: pointer;" (click)="showServiceDetails(details,i,patientdetails)">{{details.serviceId}}</a>
+                  <a *ngIf="!details.showDiagnosisAndProcedures" title="View Servcie Details" style="text-decoration: underline; color: #23527c;cursor: pointer;" (click)="showServiceDetails(details,i,patientdetails,'expand')">
+                    <i style="font-size: 20px;color:black" class="fa fa-plus" aria-hidden="true"></i>
+                  </a>
+                  <a *ngIf="details.showDiagnosisAndProcedures" title="View Servcie Details" style="text-decoration: underline; color: #23527c;cursor: pointer;" (click)="showServiceDetails(details,i,patientdetails,'collapse')">
+                      <i style="font-size: 20px;color:black" class="fa fa-minus" aria-hidden="true"></i>
+                    </a>
+                  {{details.serviceId}}                  
                 </td>              
                 <td>{{details.dateOfService | date: 'MM-dd-yyyy'}}</td>
                 <td>
@@ -290,13 +296,13 @@
                               <i class="fa fa-angle-down"></i>
                             </a> -->
                             <div class="pull-right" style="margin-right: 1%" *ngIf="showPatientServiceDetailsPanel">
-                                <button class="btn-primary" (click)="save(patientdetails,'saveDiagnosisAndProcedures',details.serviceId)">Save and Approve</button>&nbsp;
-                                <button class="btn-primary" (click)="showServiceDetails(details,i,patientdetails)">Cancel</button>
+                                <button class="btn btn-primary" style="margin-top: -6px" (click)="save(patientdetails,'saveDiagnosisAndProcedures',details.serviceId)">Save and Approve</button>&nbsp;
+                                <button class="btn btn-primary" style="margin-top: -6px" (click)="showServiceDetails(details,i,patientdetails)">Cancel</button>
                             </div>
                           </div>
                           <div class="panel-body" *ngIf="showPatientServiceDetailsPanel">
 
-                              <table class="table" style="width: 95%;">
+                              <table class="table" style="width: 99%;">
                                   <thead>
                                     <tr>
                                       <!-- <th (click)="sort('recordId')">recordId
@@ -312,8 +318,8 @@
                                         <span *ngIf="key =='icdCodeDescription'"></span>
                                       </th>
                                       <th>
-                                          <a (click)="addNewIcdCodeRow(details.icdCodes)" title="Add new ICD code"><i style="font-size: 20px;color:#2199e8" class="fa fa-plus" aria-hidden="true"></i></a>
-                                          <!-- <button class="btn-primary" (click)="cancel()">-</button>        -->
+                                          <a (click)="addNewIcdCodeRow(details.icdCodes)" title="Add new ICD code"><i style="font-size: 20px;color:black" class="fa fa-plus" aria-hidden="true"></i></a>
+                                          <!-- <button class="btn btn-primary" (click)="cancel()">-</button>        -->
                                       </th>
                                     </tr>
                                     
@@ -346,7 +352,7 @@
                                         <!-- </span> -->
                                       </td>
                                       <td>
-                                          <a style="cursor: pointer;" (click)="removeRow('icd',details.icdCodes,j)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a>
+                                          <a style="cursor: pointer;" (click)="removeRow('icd',details.icdCodes,j)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: orange" aria-hidden="true"></i></a>
                                       </td>
                                     </tr>
                                   </tbody>
@@ -359,7 +365,7 @@
                                   </tbody>
                                 </table>
                                 <br/>
-                                <table class="table"  style="width: 95%;">
+                                <table class="table"  style="width: 99%;">
                                   <thead>
                                     <tr>
                                       <!-- <th (click)="sort('recordId')">recordId
@@ -377,8 +383,8 @@
                                       <th style="cursor: default;">Modifier</th>
                                       <th style="cursor: default;">Description</th>
                                       <th>
-                                          <a (click)="addNewCpdCodeRow()" title="Add new ICD code"><i style="font-size: 20px;color:#2199e8" class="fa fa-plus" aria-hidden="true"></i></a>
-                                          <!-- <button class="btn-primary" (click)="cancel()">-</button>        -->
+                                          <a (click)="addNewCpdCodeRow(details.cptCodes)" title="Add new CPT code"><i style="font-size: 20px;color:black" class="fa fa-plus" aria-hidden="true"></i></a>
+                                          <!-- <button class="btn btn-primary" (click)="cancel()">-</button>        -->
                                       </th>
                                     </tr>
                                   </thead>
@@ -412,13 +418,13 @@
                                       </td>
                                       <td colspan="2" style=""  width="50%">
                                         <span *ngIf="detail.serviceCptModifiers && detail.serviceCptModifiers.length !=0" style="margin-left: 30%">
-                                          <a (click)="parentIndex=k;selectTableRow($index,detail,details)" style="cursor: pointer;" *ngIf="!detail.isExpanded">Show Service Modifiers</a>
-                                          <a (click)="parentIndex=k;selectTableRow($index,detail,details)" style="cursor: pointer;" *ngIf="detail.isExpanded">Hide Service Modifiers</a>
+                                          <a (click)="parentIndex=k;selectTableRow($index,detail,details)" style="cursor: pointer;text-decoration: underline; color: #23527c;" *ngIf="!detail.isExpanded">Show Service Modifiers</a>
+                                          <a (click)="parentIndex=k;selectTableRow($index,detail,details)" style="cursor: pointer;text-decoration: underline; color: #23527c;" *ngIf="detail.isExpanded">Hide Service Modifiers</a>
                                         </span>
                           
                                       </td>
                                       <td>
-                                          <a style="cursor: pointer;" (click)="removeRow('cpd',details.icdCodes,k)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: red" aria-hidden="true"></i></a>
+                                          <a style="cursor: pointer;" (click)="removeRow('cpd',details.cptCodes,k)" title="Remove existing ICD code"><i class="fa fa-times" style="font-size: 20px;color: orange" aria-hidden="true"></i></a>
                                       </td>
                                       <!-- <td>
                                         <table>
@@ -471,7 +477,7 @@
             </tbody>
           </table>
           <div style="margin-left: 82%">
-            <pagination-controls (pageChange)="pagenumber = $event"></pagination-controls>
+            <pagination-controls (pageChange)="pagenumber = $event" class="my-pagination"></pagination-controls>
           </div>
         </div>
       </div>
@@ -484,7 +490,9 @@
     
   </form>
   <button id="modelPopUpButton" data-toggle="modal" data-target="#myModal" [hidden]="true">Open Modal</button>
-  <div class="loader" *ngIf="showLoader" style="margin-left: 45%;margin-top: 14%;"></div>
+  <div *ngIf="showLoader" >
+    <img style="margin-left: 45%;margin-top: 14%;" src="../../assets/spinner_192.gif" />
+  </div>
   <!-- Modal -->
   <div id="myModal" class="modal fade" role="dialog" style="z-index:99999999">
     <div class="modal-dialog">

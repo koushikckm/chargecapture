@@ -55,6 +55,7 @@ export class PatientListComponent implements OnInit {
   patientdetailsForListScreenFiltered:any=[];
   filteredFinalArray:any=[];
   showLoader:boolean;
+  totalitems:number;
   getDateFormat(dateString){
     if(dateString!="" && dateString!=null && dateString!=undefined){
       return dateString.substring(5,7)+'-'+dateString.substring(8,10)+'-'+dateString.substring(0,4);
@@ -128,7 +129,8 @@ export class PatientListComponent implements OnInit {
       submittedArray=this.sortByDateOfService(submittedArray);
       processedArray=this.sortByDateOfService(processedArray);
       this.filteredFinalArray=[,...pendingReviewArray,...submittedArray,...processedArray];
-      console.log(pendingReviewArray);
+      //console.log(pendingReviewArray);
+      this.totalitems=this.filteredFinalArray.length;
   });
   }
 sortByDateOfService(array){
