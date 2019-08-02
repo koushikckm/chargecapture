@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from "../services/data.service";
-import { DatePipe } from '@angular/common'
+import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
+import { Constants } from '../shared/constants';
 @Component({
   selector: 'app-patientdetails',
   templateUrl: './patientdetails.component.html',
@@ -144,13 +145,13 @@ export class PatientdetailsComponent implements OnInit {
           // }
           if(messageId!=null){
              patientdetails.serviceIds=[serviceId];
-             this.httpClient.put('/chargecapture/approvePatientService', patientdetails).subscribe((res) => {
+             this.httpClient.put(Constants.APPROVE_PATIENT_DETAILS, patientdetails).subscribe((res) => {
               this.showLoader=false;
               $('#modelPopUpButton2').click();
               this.indexValue=0;
             });
           }else{
-           this.httpClient.put('/chargecapture/updatePatientDetail', patientdetails).subscribe((res) => {
+           this.httpClient.put(Constants.UPDATE_PATIENT_DETAILS, patientdetails).subscribe((res) => {
               this.showLoader=false;
               $('#modelPopUpButton').click();
               this.indexValue=0;

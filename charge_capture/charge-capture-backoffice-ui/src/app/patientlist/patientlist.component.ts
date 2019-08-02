@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DataService } from "../services/data.service";
 import { forEach } from '@angular/router/src/utils/collection';
+import * as moment from 'moment';
+import { Constants } from '../shared/constants';
 @Component({
   selector: 'app-patientlist',
   templateUrl: './patientlist.component.html',
@@ -54,6 +56,7 @@ export class PatientListComponent implements OnInit {
   patientdetailsForListScreen:any;
   patientdetailsForListScreenFiltered:any=[];
   filteredFinalArray:any=[];
+  filteredFinalArrayCopy:any=[];
   showLoader:boolean;
   totalitems:number;
   getDateFormat(dateString){
@@ -62,9 +65,22 @@ export class PatientListComponent implements OnInit {
     }
     return "";
   }
+
+  a2eOptions = {
+    format: "MM/DD/YYYY",
+    maxDate: new Date(),
+    ignoreReadonly: true,
+    allowInputToggle: true,
+  };
+  patientSearchDTO:any={
+    fromDate:null,toDate:null,status:'All',patientName:null
+  };
+  getDate(dateOfBirth: any): number {
+    return moment().diff(dateOfBirth, 'years');
+  }
   getPatientDetail(){
     this.showLoader=true;
-    this.httpClient.get('/chargecapture/getPatientDetail').subscribe((res)=>{
+    this.httpClient.get(Constants.GET_ALL_PATIENT_DETAILS).subscribe((res)=>{
      
       this.showLoader=false;
       this.patientdetails=res;
@@ -131,7 +147,9 @@ export class PatientListComponent implements OnInit {
       this.filteredFinalArray=[,...pendingReviewArray,...submittedArray,...processedArray];
       //console.log(pendingReviewArray);
       this.totalitems=this.filteredFinalArray.length;
+      this.filteredFinalArrayCopy=JSON.parse(JSON.stringify(this.filteredFinalArray));
   });
+  
   }
 sortByDateOfService(array){
   array.sort((item1,item2)=>{
@@ -198,5 +216,88 @@ sortByDateOfService(array){
       }
     }
      
+  }
+
+  search(patientSearchDTO){
+    this.pagenumber=1;    
+    console.log(this.filteredFinalArrayCopy);
+    var searchResult:any=[];
+    if(patientSearchDTO.fromDate!=null && patientSearchDTO.fromDate!=undefined && patientSearchDTO.toDate!=null && patientSearchDTO.toDate!=undefined
+      && (patientSearchDTO.patientName==null || patientSearchDTO.patientName=="")
+      && (patientSearchDTO.status==null || patientSearchDTO.status=="" || patientSearchDTO.status=="All")){
+        console.log("date inputs");
+        for(let i in this.filteredFinalArray){
+          var patient=this.filteredFinalArray[i];
+          if(new Date(patientSearchDTO.fromDate) <= new Date(patient['dateOfService']) && new Date(patientSearchDTO.toDate) >= new Date(patient['dateOfService']) ){
+            searchResult.push(patient);
+          }
+        }
+        this.filteredFinalArrayCopy=searchResult;
+        console.log(this.filteredFinalArrayCopy);
+        return this.filteredFinalArrayCopy;
+    }
+    else if((patientSearchDTO.fromDate==null || patientSearchDTO.fromDate==undefined) && (patientSearchDTO.toDate==null || patientSearchDTO.toDate==undefined)
+      && ((patientSearchDTO.patientName!=null || patientSearchDTO.patientName!="")
+      || (patientSearchDTO.status!=null || patientSearchDTO.status!="null" || patientSearchDTO.status!="All"))){
+        console.log("Either name or status inputs");
+        if(patientSearchDTO.status==null || patientSearchDTO.status=="" || patientSearchDTO.status=="All"){
+          console.log("name inputs");
+          patientSearchDTO.patientName=patientSearchDTO.patientName.trim();
+          for(let i in this.filteredFinalArray){
+            var patient=this.filteredFinalArray[i];
+            if(this.getPatientName(patient.patientdetail).trim().includes(patientSearchDTO.patientName)){
+              searchResult.push(patient);
+            }
+          }
+          this.filteredFinalArrayCopy=searchResult;
+          console.log(this.filteredFinalArrayCopy);
+          return this.filteredFinalArrayCopy;
+        }
+        else if(patientSearchDTO.patientName==null || patientSearchDTO.patientName==""){
+          for(let i in this.filteredFinalArray){
+            var patient=this.filteredFinalArray[i];
+            if(patientSearchDTO.status === patient['status']){
+              searchResult.push(patient);
+            }
+          }
+          this.filteredFinalArrayCopy=searchResult;
+          console.log(this.filteredFinalArrayCopy);
+          return this.filteredFinalArrayCopy;
+        }
+        else{
+          console.log("Both name or status inputs");
+          for(let i in this.filteredFinalArray){
+            var patient=this.filteredFinalArray[i];
+            patientSearchDTO.patientName=patientSearchDTO.patientName.trim();
+            if(patientSearchDTO.status === patient['status'] && this.getPatientName(patient.patientdetail).trim().includes(patientSearchDTO.patientName)){
+              searchResult.push(patient);
+            }
+          }
+          this.filteredFinalArrayCopy=searchResult;
+          console.log(this.filteredFinalArrayCopy);
+          return this.filteredFinalArrayCopy;
+        }
+    }
+    else{
+      console.log("All inputs");
+      for(let i in this.filteredFinalArray){
+        var patient=this.filteredFinalArray[i];
+        patientSearchDTO.patientName=(patientSearchDTO.patientName?patientSearchDTO.patientName.trim():'');
+        if(new Date(patientSearchDTO.fromDate) <= new Date(patient['dateOfService']) && new Date(patientSearchDTO.toDate) >= new Date(patient['dateOfService']) 
+        && patientSearchDTO.status === patient['status'] && this.getPatientName(patient.patientdetail).trim().includes(patientSearchDTO.patientName)){
+          searchResult.push(patient);
+        }
+      }
+      this.filteredFinalArrayCopy=searchResult;
+      console.log(this.filteredFinalArrayCopy);
+      return this.filteredFinalArrayCopy;
+    }
+  }
+
+
+  clear(){
+    this.patientSearchDTO={ fromDate:null,toDate:null,status:'All',patientName:null}
+    this.filteredFinalArray=[];
+    this.getPatientDetail();    
   }
 }

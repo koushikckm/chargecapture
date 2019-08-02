@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { PatientListComponent } from './patientlist.component';
-import { PatientListRoutingModule } from './patientlist-routing.module';
+import { UsersComponent } from './users.component';
 import { HttpClientModule } from '@angular/common/http';
 //data table imports
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -11,14 +10,15 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import { FilterPipe } from './filter.pipe';
 import { OrderrByPipe } from "./orderby.pipe";
 import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
+import { UsersRoutingModule } from "./users-routing.module";
 @NgModule({
   declarations: [
-    PatientListComponent,FilterPipe,OrderrByPipe
+    FilterPipe,OrderrByPipe,UsersComponent
   ],
   imports: [
     FormsModule,
     CommonModule,
-    PatientListRoutingModule,
+    UsersRoutingModule,
     HttpClientModule,
     Ng2SearchPipeModule,
     Ng2OrderModule,
@@ -26,4 +26,4 @@ import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
     A2Edatetimepicker 
   ],
 })
-export class PatientlistModule { }
+export class UsersModule { }

@@ -6,7 +6,8 @@ import { PatientListComponent } from './patientlist/patientlist.component';
 const routes:Routes=[
   { path: '',  redirectTo: '/home', pathMatch: 'full' },
   { path: 'home',loadChildren:'./patientlist/patientlist.module#PatientlistModule'},
-  { path: 'patientdetails',loadChildren:'./patientdetails/patientdetails.module#PatientDetailsModule'}
+  { path: 'patientdetails',loadChildren:'./patientdetails/patientdetails.module#PatientDetailsModule'},
+  { path: 'users',loadChildren:'./users/users.module#UsersModule'}
     
 ];
 @NgModule({

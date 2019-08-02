@@ -22,11 +22,18 @@
   <div id="my-wrapper" class="sidebar-open">
     <div class="my-sidebar-wrapper" id="app-sidebar">
       <ul class="sidebar-menu" id="my-sidebar-wrapper">
-        <li>
+        <li [ngClass]="[location.path()=='/home'?backGroundStyle:'']">
             <a routerLink="/home" class="linktooltip">
               <i class="fa fa-list-alt"></i>
               <span class="menuSpans">Patient List</span>
               <span class="linktooltiptext">Patient List</span>
+            </a>
+        </li>
+        <li [ngClass]="[location.path()=='/users'?backGroundStyle:'']">
+            <a routerLink="/users" class="linktooltip">
+              <i class="fa fa-users"></i>
+              <span class="menuSpans">Users</span>
+              <span class="linktooltiptext">Users</span>
             </a>
         </li>
       </ul>
