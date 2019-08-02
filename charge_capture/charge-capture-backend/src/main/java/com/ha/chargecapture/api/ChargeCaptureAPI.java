@@ -1,6 +1,7 @@
 package com.ha.chargecapture.api;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ha.chargecapture.dto.PatientAppointmentDetail;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
+import com.ha.chargecapture.dto.PatientsSearchDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -80,6 +82,17 @@ public class ChargeCaptureAPI {
 		List<PatientDetail> patientDetail = null;
 
 		patientDetail = chargeCaptureService.getPatientDetailList();
+
+		return patientDetail;
+	}
+	
+	@PostMapping(value = "/getPatientDetail")
+	public Map<Integer, List<PatientDetail>> getPatientDetails(@RequestBody  PatientsSearchDTO patientsSearchDTO) {
+
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetail()");
+		Map<Integer, List<PatientDetail>> patientDetail = null;
+
+		patientDetail = chargeCaptureService.getPatientDetailList(patientsSearchDTO);
 
 		return patientDetail;
 	}

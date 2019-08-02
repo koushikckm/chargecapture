@@ -1,7 +1,13 @@
 package com.ha.chargecapture.dao;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -10,6 +16,7 @@ import javax.transaction.Transactional;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.type.StringType;
@@ -17,6 +24,7 @@ import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.stereotype.Repository;
 
+import com.ha.chargecapture.dto.PatientsSearchDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -224,6 +232,53 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailList ", cde);
 		}
 		return patientdetailList;
+	}
+	
+	@Override
+	public Map<Integer, List<PatientDetail>> getPatientDetailListBySerach(PatientsSearchDTO patientsSearchDTO) {
+		List<PatientDetail> patientdetailList = null;
+		Map results = new HashMap<Integer, List<PatientDetail>>();
+		int pageSize = 10;
+		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		try {
+			Session session = (Session) entityManager.getDelegate();
+			Criteria criteria = session.createCriteria(PatientDetail.class, PATIENTDETAIL_TABLE);
+			Criteria patientServiceDetailsCriteria = criteria.createCriteria("patientServiceDetail");
+			if(!patientsSearchDTO.getStatus().isEmpty()) {
+				patientServiceDetailsCriteria.add(Restrictions.eq("status", patientsSearchDTO.getStatus()));
+			}
+			if(patientsSearchDTO.getFromDate()!=null && patientsSearchDTO.getToDate()!=null) {
+				patientServiceDetailsCriteria.add(Restrictions.between("dateOfService", sdf.format(patientsSearchDTO.getFromDate()), sdf.format(patientsSearchDTO.getToDate())));
+			}			
+			criteria.setFirstResult((patientsSearchDTO.getPageNumber() - 1) * pageSize);
+			criteria.setMaxResults(pageSize);			
+			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			patientdetailList= criteria.list();
+			if (null == patientdetailList || patientdetailList.isEmpty()) {
+				LOGGER.debug(Logger.EVENT_SUCCESS,
+						"In ChargeCaptureDAOImpl:getPatientDetailList() - patientdetailList is null or empty ");
+				results.put(0, null);
+				return results;
+			}	
+			Integer count=((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+			results.put(count,patientdetailList);
+			if(!patientsSearchDTO.getPatientName().isEmpty()) {
+				List<PatientDetail> patientdetailListNew = new ArrayList<>();
+				for(PatientDetail patientDetail:patientdetailList) {
+					String name=patientDetail.getFirstName().concat(" ").concat(patientDetail.getMiddleName()).concat(" ").concat(patientDetail.getLastName());
+					if(name.contains(patientsSearchDTO.getPatientName())) {
+						patientdetailListNew.add(patientDetail);
+					}
+				}
+				results.put(count,patientdetailListNew);
+			}
+			
+		} catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailList ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailList ", cde);
+		}
+		
+		return results;
 	}
 
 	@Override

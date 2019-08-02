@@ -1,9 +1,11 @@
 package com.ha.chargecapture.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
+import com.ha.chargecapture.dto.PatientsSearchDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -22,6 +24,8 @@ public interface ChargeCaptureService {
 	List<CPTCodes> getCPTDetail(Integer providerId);
 
 	List<PatientDetail> getPatientDetailList();
+	
+	Map<Integer, List<PatientDetail>> getPatientDetailList(PatientsSearchDTO patientsSearchDTO);
 
 	long submitPatientServiceDetail(PatientServiceDetailDTO patientServiceDetailDTO);
 

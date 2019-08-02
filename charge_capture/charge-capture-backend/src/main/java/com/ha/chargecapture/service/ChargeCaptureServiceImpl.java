@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.ha.chargecapture.dao.ChargeCaptureDAO;
 import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
+import com.ha.chargecapture.dto.PatientsSearchDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -70,6 +71,13 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 		return chargeCaptureDAO.getPatientDetailList();
 	}
 
+	@Override
+	public Map<Integer, List<PatientDetail>> getPatientDetailList(PatientsSearchDTO patientsSearchDTO) {
+
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getPatientDetailList() ");
+		return chargeCaptureDAO.getPatientDetailListBySerach(patientsSearchDTO);
+	}
+	
 	@Override
 	public List<PatientDetail> getPatientsForFacility(int facilityId) {
 
