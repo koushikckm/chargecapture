@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ha.chargecapture.dto.PatientDetailDTO;
+import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
 import com.ha.chargecapture.entity.CPTCodes;
@@ -25,7 +26,7 @@ public interface ChargeCaptureService {
 
 	List<PatientDetail> getPatientDetailList();
 	
-	Map<Integer, List<PatientDetail>> getPatientDetailList(PatientsSearchDTO patientsSearchDTO);
+	Map<Integer, List<PatientSearchResponseDTO>> getPatientDetailList(PatientsSearchDTO patientsSearchDTO);
 
 	long submitPatientServiceDetail(PatientServiceDetailDTO patientServiceDetailDTO);
 

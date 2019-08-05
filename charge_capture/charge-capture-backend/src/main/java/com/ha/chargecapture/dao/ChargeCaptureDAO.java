@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
@@ -26,7 +27,7 @@ public interface ChargeCaptureDAO {
 
 	List<PatientDetail> getPatientDetailList();
 	
-	Map<Integer, List<PatientDetail>> getPatientDetailListBySerach(PatientsSearchDTO patientsSearchDTO);
+	Map<Integer, List<PatientSearchResponseDTO>> getPatientDetailListBySerach(PatientsSearchDTO patientsSearchDTO);
 	
 	long submitPatientServiceDetail(PatientServiceDetail patientServiceDetail);
 

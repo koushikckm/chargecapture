@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ha.chargecapture.dto.PatientAppointmentDetail;
 import com.ha.chargecapture.dto.PatientDetailDTO;
+import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
 import com.ha.chargecapture.entity.CPTCodes;
@@ -87,14 +88,14 @@ public class ChargeCaptureAPI {
 	}
 	
 	@PostMapping(value = "/getPatientDetail")
-	public Map<Integer, List<PatientDetail>> getPatientDetails(@RequestBody  PatientsSearchDTO patientsSearchDTO) {
+	public Map<Integer, List<PatientSearchResponseDTO>> getPatientDetails(@RequestBody  PatientsSearchDTO patientsSearchDTO) {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetail()");
-		Map<Integer, List<PatientDetail>> patientDetail = null;
+		Map<Integer, List<PatientSearchResponseDTO>> PatientSearchResponseDTO = null;
 
-		patientDetail = chargeCaptureService.getPatientDetailList(patientsSearchDTO);
+		PatientSearchResponseDTO = chargeCaptureService.getPatientDetailList(patientsSearchDTO);
 
-		return patientDetail;
+		return PatientSearchResponseDTO;
 	}
 
 	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })

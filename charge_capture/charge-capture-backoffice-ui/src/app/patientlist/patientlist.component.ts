@@ -19,7 +19,7 @@ export class PatientListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getPatientDetail();
+    this.getPatientDetail(1);
   }
 
   //sorting
@@ -58,7 +58,7 @@ export class PatientListComponent implements OnInit {
   filteredFinalArray:any=[];
   filteredFinalArrayCopy:any=[];
   showLoader:boolean;
-  totalitems:number;
+  totalitems:any;
   getDateFormat(dateString){
     if(dateString!="" && dateString!=null && dateString!=undefined){
       return dateString.substring(5,7)+'-'+dateString.substring(8,10)+'-'+dateString.substring(0,4);
@@ -78,32 +78,25 @@ export class PatientListComponent implements OnInit {
   getDate(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'years');
   }
-  getPatientDetail(){
+  getPatientDetail(pageNumber){
     this.showLoader=true;
-    this.httpClient.get(Constants.GET_ALL_PATIENT_DETAILS).subscribe((res)=>{
-     
+    this.totalitems=0;
+   if(this.patientSearchDTO.status=='All' || this.patientSearchDTO.status==null){
+    this.patientSearchDTO.status="";
+   }
+    this.httpClient.post(Constants.GET_ALL_PATIENT_DETAILS,{
+      "fromDate":this.patientSearchDTO.fromDate,
+      "toDate":this.patientSearchDTO.toDate,
+      "status":this.patientSearchDTO.status,
+      "pageNumber":pageNumber
+    }).subscribe((res)=>{
+      this.filteredFinalArray.length=0;
       this.showLoader=false;
       this.patientdetails=res;
-      this.patientdetailsForListScreen=JSON.parse(JSON.stringify(this.patientdetails));
-      for(let i of this.patientdetailsForListScreen){
-        if(i.patientServiceDetail!=null && i.patientServiceDetail!=undefined && i.patientServiceDetail.length>0){
-          let patientdetail={};
-          patientdetail['firstName']=i.firstName;
-          patientdetail['lastName']=i.lastName;
-          patientdetail['dateOfBirth']=i.dateOfBirth;
-          patientdetail['facility']=i.facility;
-          for(let j of i.patientServiceDetail){
-            j['patientdetail']=patientdetail;
-            this.patientdetailsForListScreenFiltered.push(j);
-          }
-        }
-        else{
-          const index = this.patientdetailsForListScreen.indexOf(i);
-          this.patientdetailsForListScreen.splice(index, 1);
-        }
-      }
-     
-      let array=this.filterByProperty(this.patientdetailsForListScreenFiltered,'patientId');
+      this.totalitems=Object.keys(res)[0];
+      this.patientdetailsForListScreen=JSON.parse(JSON.stringify(res[this.totalitems]));
+
+      let array=this.filterByProperty(this.patientdetailsForListScreen,'patientId');
       let filteredArray=[];
       for(let i in array){
         let val=this.filterByProperty(array[i].value,'dateOfService');
@@ -145,9 +138,9 @@ export class PatientListComponent implements OnInit {
       submittedArray=this.sortByDateOfService(submittedArray);
       processedArray=this.sortByDateOfService(processedArray);
       this.filteredFinalArray=[,...pendingReviewArray,...submittedArray,...processedArray];
-      //console.log(pendingReviewArray);
-      this.totalitems=this.filteredFinalArray.length;
       this.filteredFinalArrayCopy=JSON.parse(JSON.stringify(this.filteredFinalArray));
+      console.log(this.totalitems);
+      this.pagenumber=pageNumber;
   });
   
   }
@@ -173,6 +166,8 @@ sortByDateOfService(array){
 
       return previous;
   }, {});
+  console.log("groupedCollection");
+  console.log(groupedCollection);
   return Object.keys(groupedCollection).map(key => ({ key, value: groupedCollection[key] }));
   }
   getPatientName(patientdetail){
@@ -209,95 +204,21 @@ sortByDateOfService(array){
   }
 
   navigateToDetails(patientdetail){
-    for(let i in this.patientdetails){
-      if(patientdetail.patientId==this.patientdetails[i].patientId){
-        this.data.setData(this.patientdetails[i]);
-        this.router.navigate(['/patientdetails']);
-      }
-    }
-     
+    this.data.setData(patientdetail.patientDetail);
+    this.router.navigate(['/patientdetails']);
   }
 
   search(patientSearchDTO){
-    this.pagenumber=1;    
-    console.log(this.filteredFinalArrayCopy);
-    var searchResult:any=[];
-    if(patientSearchDTO.fromDate!=null && patientSearchDTO.fromDate!=undefined && patientSearchDTO.toDate!=null && patientSearchDTO.toDate!=undefined
-      && (patientSearchDTO.patientName==null || patientSearchDTO.patientName=="")
-      && (patientSearchDTO.status==null || patientSearchDTO.status=="" || patientSearchDTO.status=="All")){
-        console.log("date inputs");
-        for(let i in this.filteredFinalArray){
-          var patient=this.filteredFinalArray[i];
-          if(new Date(patientSearchDTO.fromDate) <= new Date(patient['dateOfService']) && new Date(patientSearchDTO.toDate) >= new Date(patient['dateOfService']) ){
-            searchResult.push(patient);
-          }
-        }
-        this.filteredFinalArrayCopy=searchResult;
-        console.log(this.filteredFinalArrayCopy);
-        return this.filteredFinalArrayCopy;
-    }
-    else if((patientSearchDTO.fromDate==null || patientSearchDTO.fromDate==undefined) && (patientSearchDTO.toDate==null || patientSearchDTO.toDate==undefined)
-      && ((patientSearchDTO.patientName!=null || patientSearchDTO.patientName!="")
-      || (patientSearchDTO.status!=null || patientSearchDTO.status!="null" || patientSearchDTO.status!="All"))){
-        console.log("Either name or status inputs");
-        if(patientSearchDTO.status==null || patientSearchDTO.status=="" || patientSearchDTO.status=="All"){
-          console.log("name inputs");
-          patientSearchDTO.patientName=patientSearchDTO.patientName.trim();
-          for(let i in this.filteredFinalArray){
-            var patient=this.filteredFinalArray[i];
-            if(this.getPatientName(patient.patientdetail).trim().includes(patientSearchDTO.patientName)){
-              searchResult.push(patient);
-            }
-          }
-          this.filteredFinalArrayCopy=searchResult;
-          console.log(this.filteredFinalArrayCopy);
-          return this.filteredFinalArrayCopy;
-        }
-        else if(patientSearchDTO.patientName==null || patientSearchDTO.patientName==""){
-          for(let i in this.filteredFinalArray){
-            var patient=this.filteredFinalArray[i];
-            if(patientSearchDTO.status === patient['status']){
-              searchResult.push(patient);
-            }
-          }
-          this.filteredFinalArrayCopy=searchResult;
-          console.log(this.filteredFinalArrayCopy);
-          return this.filteredFinalArrayCopy;
-        }
-        else{
-          console.log("Both name or status inputs");
-          for(let i in this.filteredFinalArray){
-            var patient=this.filteredFinalArray[i];
-            patientSearchDTO.patientName=patientSearchDTO.patientName.trim();
-            if(patientSearchDTO.status === patient['status'] && this.getPatientName(patient.patientdetail).trim().includes(patientSearchDTO.patientName)){
-              searchResult.push(patient);
-            }
-          }
-          this.filteredFinalArrayCopy=searchResult;
-          console.log(this.filteredFinalArrayCopy);
-          return this.filteredFinalArrayCopy;
-        }
-    }
-    else{
-      console.log("All inputs");
-      for(let i in this.filteredFinalArray){
-        var patient=this.filteredFinalArray[i];
-        patientSearchDTO.patientName=(patientSearchDTO.patientName?patientSearchDTO.patientName.trim():'');
-        if(new Date(patientSearchDTO.fromDate) <= new Date(patient['dateOfService']) && new Date(patientSearchDTO.toDate) >= new Date(patient['dateOfService']) 
-        && patientSearchDTO.status === patient['status'] && this.getPatientName(patient.patientdetail).trim().includes(patientSearchDTO.patientName)){
-          searchResult.push(patient);
-        }
-      }
-      this.filteredFinalArrayCopy=searchResult;
-      console.log(this.filteredFinalArrayCopy);
-      return this.filteredFinalArrayCopy;
-    }
+    this.getPatientDetail(1);
   }
 
 
   clear(){
     this.patientSearchDTO={ fromDate:null,toDate:null,status:'All',patientName:null}
     this.filteredFinalArray=[];
-    this.getPatientDetail();    
+    this.getPatientDetail(-1);    
+  }
+  pageChanged(event){
+    this.getPatientDetail(event);   
   }
 }

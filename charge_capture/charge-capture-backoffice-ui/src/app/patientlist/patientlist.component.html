@@ -45,12 +45,12 @@
                            </select>
                       </div>
                  </div>
-                 <div class="form-group col-md-6" style="margin-right: -15px;margin-left: -36px ">
+                 <!-- <div class="form-group col-md-6" style="margin-right: -15px;margin-left: -36px ">
                   <label class="control-label col-lg-4">Patient Name</label>
                   <div class="col-md-8">
                     <input class="form-control" type="text" id="" placeholder="Patient Name" maxlength="50" name="patientName" [(ngModel)]="this.patientSearchDTO.patientName" />
                   </div>
-                </div>
+                </div> -->
                  <div class="col-lg-12">
                       <div class="pull-right">
                            <button class="btn btn-primary" href="" id="dashboardSearchButton" class="btn btn-primary" (click)="search(this.patientSearchDTO)">SEARCH</button>&nbsp;
@@ -64,7 +64,7 @@
 <div class="panel panel-default" >
   <div class="panel-heading" style="background-color: #d4d4d4;">
       <div class="panel-title">
-          Patient List: All ({{filteredFinalArrayCopy.length}})
+          Patient List: All ({{this.totalitems}})
      </div>
   </div>
   <div class="panel-body">
@@ -123,11 +123,11 @@
             </tr>
           </thead>
           <tbody *ngIf="!showLoader">
-            <tr *ngFor="let detail of filteredFinalArrayCopy | orderBy: {property: column, direction: direction} | filter : 'patientdetail.firstName' : searchString | paginate: { itemsPerPage: 10, currentPage: pagenumber } ; let i = index">
-              <td>{{getPatientName(detail.patientdetail)}}</td>
-              <td>{{getDateFormat(detail.patientdetail.dateOfBirth)}}</td>
+            <tr *ngFor="let detail of filteredFinalArrayCopy | orderBy: {property: column, direction: direction} | filter : 'patientDetail.firstName' : searchString | paginate: { itemsPerPage: 10, currentPage: pagenumber ,totalItems:totalitems} ; let i = index">
+              <td>{{getPatientName(detail.patientDetail)}}</td>
+              <td>{{getDateFormat(detail.patientDetail.dateOfBirth)}}</td>
               <td>{{getPatientName(detail.provider)}}</td>
-              <td>{{detail.patientdetail.facility.name}}</td>
+              <td>{{detail.patientDetail.facility.name}}</td>
               <td>{{detail.dateOfService | date: 'MM-dd-yyyy'}}</td>
               <td>{{detail.cpdValues}}</td>
               <td>{{detail.icdValues}}</td>
@@ -142,7 +142,7 @@
           </tbody>
         </table>
         <div class="pull-right" *ngIf="!showLoader">
-          <pagination-controls (pageChange)="pagenumber = $event" style="margin-left: 60%"  class="my-pagination"></pagination-controls>
+          <pagination-controls (pageChange)="pageChanged($event)" style="margin-left: 60%"  class="my-pagination"></pagination-controls>
         </div>
 
       </div>

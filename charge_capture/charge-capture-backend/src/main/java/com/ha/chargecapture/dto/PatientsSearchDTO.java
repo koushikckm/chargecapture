@@ -9,10 +9,10 @@ public class PatientsSearchDTO {
 	
 	private String status;
 	
-	private String patientName;
-	
 	private int pageNumber;
 
+	private String patientName;
+	
 	public Date getFromDate() {
 		return fromDate;
 	}
@@ -37,14 +37,6 @@ public class PatientsSearchDTO {
 		this.status = status;
 	}
 
-	public String getPatientName() {
-		return patientName;
-	}
-
-	public void setPatientName(String patientName) {
-		this.patientName = patientName;
-	}
-
 	public int getPageNumber() {
 		return pageNumber;
 	}
@@ -52,4 +44,13 @@ public class PatientsSearchDTO {
 	public void setPageNumber(int pageNumber) {
 		this.pageNumber = pageNumber;
 	}
+
+	public String getPatientName() {
+		return patientName;
+	}
+
+	public void setPatientName(String patientName) {
+		this.patientName = patientName;
+	}
+	
 }

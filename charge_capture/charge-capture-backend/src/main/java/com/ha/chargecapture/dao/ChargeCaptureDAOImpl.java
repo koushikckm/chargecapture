@@ -1,5 +1,6 @@
 package com.ha.chargecapture.dao;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,11 +9,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -24,6 +27,7 @@ import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.stereotype.Repository;
 
+import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
@@ -235,52 +239,85 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 	}
 	
 	@Override
-	public Map<Integer, List<PatientDetail>> getPatientDetailListBySerach(PatientsSearchDTO patientsSearchDTO) {
-		List<PatientDetail> patientdetailList = null;
+	public Map<Integer, List<PatientSearchResponseDTO>> getPatientDetailListBySerach(PatientsSearchDTO patientsSearchDTO) {
+		List<PatientServiceDetail> patientservicedetailList = null;
+		List<PatientSearchResponseDTO> patientSearchResponseDTOList = new ArrayList();
 		Map results = new HashMap<Integer, List<PatientDetail>>();
 		int pageSize = 10;
 		DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			Session session = (Session) entityManager.getDelegate();
-			Criteria criteria = session.createCriteria(PatientDetail.class, PATIENTDETAIL_TABLE);
-			Criteria patientServiceDetailsCriteria = criteria.createCriteria("patientServiceDetail");
-			if(!patientsSearchDTO.getStatus().isEmpty()) {
+			
+			Criteria patientServiceDetailsCriteria = session.createCriteria(PatientServiceDetail.class,PATIENTSERVICEDETAIL_TABLE);
+			
+			if(patientsSearchDTO.getStatus()!=null && patientsSearchDTO.getStatus()!="") {
 				patientServiceDetailsCriteria.add(Restrictions.eq("status", patientsSearchDTO.getStatus()));
 			}
 			if(patientsSearchDTO.getFromDate()!=null && patientsSearchDTO.getToDate()!=null) {
 				patientServiceDetailsCriteria.add(Restrictions.between("dateOfService", sdf.format(patientsSearchDTO.getFromDate()), sdf.format(patientsSearchDTO.getToDate())));
-			}			
-			criteria.setFirstResult((patientsSearchDTO.getPageNumber() - 1) * pageSize);
-			criteria.setMaxResults(pageSize);			
-			criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-			patientdetailList= criteria.list();
-			if (null == patientdetailList || patientdetailList.isEmpty()) {
+			}
+			
+			patientServiceDetailsCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			patientservicedetailList= patientServiceDetailsCriteria.list();
+			if (null == patientservicedetailList || patientservicedetailList.isEmpty()) {
 				LOGGER.debug(Logger.EVENT_SUCCESS,
 						"In ChargeCaptureDAOImpl:getPatientDetailList() - patientdetailList is null or empty ");
 				results.put(0, null);
 				return results;
-			}	
-			Integer count=((Number)criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
-			results.put(count,patientdetailList);
-			if(!patientsSearchDTO.getPatientName().isEmpty()) {
-				List<PatientDetail> patientdetailListNew = new ArrayList<>();
-				for(PatientDetail patientDetail:patientdetailList) {
-					String name=patientDetail.getFirstName().concat(" ").concat(patientDetail.getMiddleName()).concat(" ").concat(patientDetail.getLastName());
-					if(name.contains(patientsSearchDTO.getPatientName())) {
-						patientdetailListNew.add(patientDetail);
-					}
-				}
-				results.put(count,patientdetailListNew);
+			}
+			Integer count=patientServiceDetailsCriteria.list().size();
+			
+			if(patientsSearchDTO.getPageNumber()>0) {
+				patientServiceDetailsCriteria.setFirstResult((patientsSearchDTO.getPageNumber() - 1) * pageSize);
+				patientServiceDetailsCriteria.setMaxResults(pageSize);
+				patientservicedetailList=patientServiceDetailsCriteria.list();
 			}
 			
+			Map<String,List<PatientSearchResponseDTO>> patientDetailsMap=new HashMap<>();
+			
+			for(PatientServiceDetail patientServiceDetail:patientservicedetailList) {
+				if(patientDetailsMap.containsKey(patientServiceDetail.getPatientId())) {
+					List<PatientSearchResponseDTO> patientSearchResponseDTOs=patientDetailsMap.get(patientServiceDetail.getPatientId());
+					PatientSearchResponseDTO patientSearchResponseDTO=new PatientSearchResponseDTO();
+					BeanUtils.copyProperties(patientSearchResponseDTO,patientServiceDetail);
+					patientSearchResponseDTOs.add(patientSearchResponseDTO);
+					patientDetailsMap.put(patientServiceDetail.getPatientId(), patientSearchResponseDTOs);
+				}
+				else {
+					List<PatientSearchResponseDTO> patientSearchResponseDTOs=new ArrayList();
+					PatientSearchResponseDTO patientSearchResponseDTO=new PatientSearchResponseDTO();
+					BeanUtils.copyProperties(patientSearchResponseDTO,patientServiceDetail);
+					patientSearchResponseDTOs.add(patientSearchResponseDTO);
+					patientDetailsMap.put(patientServiceDetail.getPatientId(), patientSearchResponseDTOs);
+					
+				}
+				
+			}
+			Set<String> keySet=patientDetailsMap.keySet();
+			Iterator iterator=keySet.iterator();
+			
+			while(iterator.hasNext()) {
+				PatientDetail patientDetail=getPatient(iterator.next().toString());
+				List<PatientSearchResponseDTO> patientSearchResponseDTOs=patientDetailsMap.get(patientDetail.getPatientId());
+				patientSearchResponseDTOs.forEach(pd->pd.setPatientDetail(patientDetail));	
+				patientSearchResponseDTOList.addAll(patientSearchResponseDTOs);
+			}
+			results.put(count,patientSearchResponseDTOList);
 		} catch (ChargeCaptureDaoException cde) {
 			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailList ", cde);
 			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailList ", cde);
+		} catch (IllegalAccessException e) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailList ", e);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailList ", e);
+		} catch (InvocationTargetException e) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailList ", e);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailList ", e);
 		}
 		
 		return results;
 	}
 
+	
 	@Override
 	public long submitPatientServiceDetail(PatientServiceDetail patientServiceDetail) {
 
