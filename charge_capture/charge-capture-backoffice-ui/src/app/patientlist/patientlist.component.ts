@@ -73,7 +73,7 @@ export class PatientListComponent implements OnInit {
     allowInputToggle: true,
   };
   patientSearchDTO:any={
-    fromDate:null,toDate:null,status:'All',patientName:null
+    fromDate:null,toDate:null,status:'All'
   };
   getDate(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'years');
@@ -81,13 +81,13 @@ export class PatientListComponent implements OnInit {
   getPatientDetail(pageNumber){
     this.showLoader=true;
     this.totalitems=0;
-   if(this.patientSearchDTO.status=='All' || this.patientSearchDTO.status==null){
-    this.patientSearchDTO.status="";
+   if(this.patientSearchDTO.status==null || this.patientSearchDTO.status==""){
+    this.patientSearchDTO.status="All";
    }
     this.httpClient.post(Constants.GET_ALL_PATIENT_DETAILS,{
       "fromDate":this.patientSearchDTO.fromDate,
       "toDate":this.patientSearchDTO.toDate,
-      "status":this.patientSearchDTO.status,
+      "status":(this.patientSearchDTO.status=="All"?"":this.patientSearchDTO.status),
       "pageNumber":pageNumber
     }).subscribe((res)=>{
       this.filteredFinalArray.length=0;
@@ -96,42 +96,56 @@ export class PatientListComponent implements OnInit {
       this.totalitems=Object.keys(res)[0];
       this.patientdetailsForListScreen=JSON.parse(JSON.stringify(res[this.totalitems]));
 
-      let array=this.filterByProperty(this.patientdetailsForListScreen,'patientId');
-      let filteredArray=[];
-      for(let i in array){
-        let val=this.filterByProperty(array[i].value,'dateOfService');
-        filteredArray.push(val);
-      }
-      for(let i=0;i<filteredArray.length;i++){
-        for(let j=0;j<filteredArray[i].length;j++){
-          let cpdValues="";let icdValues="";
-          for(let m=0;m<filteredArray[i][j].value.length;m++){
+      // let array=this.filterByProperty(this.patientdetailsForListScreen,'patientId');
+      // let filteredArray=[];
+      // for(let i in array){
+      //   let val=this.filterByProperty(array[i].value,'dateOfService');
+      //   filteredArray.push(val);
+      // }
+      // for(let i=0;i<filteredArray.length;i++){
+      //   for(let j=0;j<filteredArray[i].length;j++){
+      //     let cpdValues="";
+      //     let icdValues="";
+      //     for(let m=0;m<filteredArray[i][j].value.length;m++){
             
-            let val=filteredArray[i][j].value;
-            for(let k=0;k<val[m].cptCodes.length;k++){
-              cpdValues+=val[m].cptCodes[k].cptCodes.cptcode+',';
-            }
-            for(let k=0;k<val[m].icdCodes.length;k++){
-              icdValues+=val[m].icdCodes[k].icdCodes.icdCode+',';
-            }
-          }
-          filteredArray[i][j].value[0]['cpdValues']=cpdValues.replace(/,\s*$/, "");
-          filteredArray[i][j].value[0]['icdValues']=icdValues.replace(/,\s*$/, "");
-          this.filteredFinalArray.push(filteredArray[i][j].value[0]);
+      //       let val=filteredArray[i][j].value;
+      //       for(let k=0;k<val[m].cptCodes.length;k++){
+      //         cpdValues+=val[m].cptCodes[k].cptCodes.cptcode+',';
+      //       }
+      //       for(let k=0;k<val[m].icdCodes.length;k++){
+      //         icdValues+=val[m].icdCodes[k].icdCodes.icdCode+',';
+      //       }
+      //     }
+      //     // filteredArray[i][j].value[0]['cpdValues']=cpdValues.replace(/,\s*$/, "");
+      //     // filteredArray[i][j].value[0]['icdValues']=icdValues.replace(/,\s*$/, "");
+      //     this.filteredFinalArray.push(filteredArray[i][j].value[0]);
+      //   }
+      // }
+
+      for(let i=0;i<this.patientdetailsForListScreen.length;i++){
+            let cptValues="";
+            let icdValues="";
+        for(let j=0;j<this.patientdetailsForListScreen[i].cptCodes.length;j++){
+          cptValues+=this.patientdetailsForListScreen[i].cptCodes[j].cptCodes.cptcode+",";
         }
+        for(let j=0;j<this.patientdetailsForListScreen[i].icdCodes.length;j++){
+          icdValues+=this.patientdetailsForListScreen[i].icdCodes[j].icdCodes.icdCode+",";
+        }
+        this.patientdetailsForListScreen[i]['cptValues']=cptValues.replace(/,\s*$/, "");
+        this.patientdetailsForListScreen[i]['icdValues']=icdValues.replace(/,\s*$/, "");
       }
       let pendingReviewArray=[];
       let submittedArray=[];
       let processedArray=[];
-      for(let i=0;i<this.filteredFinalArray.length;i++){
-        if(this.filteredFinalArray[i].status=="PendingReview"){
-          pendingReviewArray.push(this.filteredFinalArray[i]);
+      for(let i=0;i<this.patientdetailsForListScreen.length;i++){
+        if(this.patientdetailsForListScreen[i].status=="PendingReview"){
+          pendingReviewArray.push(this.patientdetailsForListScreen[i]);
         }
-        else if(this.filteredFinalArray[i].status=="Submitted"){
-          submittedArray.push(this.filteredFinalArray[i]);
+        else if(this.patientdetailsForListScreen[i].status=="Submitted"){
+          submittedArray.push(this.patientdetailsForListScreen[i]);
         }
-        else if(this.filteredFinalArray[i].status=="Processed"){
-          processedArray.push(this.filteredFinalArray[i]);
+        else if(this.patientdetailsForListScreen[i].status=="Processed"){
+          processedArray.push(this.patientdetailsForListScreen[i]);
         }
       }
       pendingReviewArray=this.sortByDateOfService(pendingReviewArray);
@@ -139,7 +153,7 @@ export class PatientListComponent implements OnInit {
       processedArray=this.sortByDateOfService(processedArray);
       this.filteredFinalArray=[,...pendingReviewArray,...submittedArray,...processedArray];
       this.filteredFinalArrayCopy=JSON.parse(JSON.stringify(this.filteredFinalArray));
-      console.log(this.totalitems);
+      console.log(this.filteredFinalArrayCopy);
       this.pagenumber=pageNumber;
   });
   

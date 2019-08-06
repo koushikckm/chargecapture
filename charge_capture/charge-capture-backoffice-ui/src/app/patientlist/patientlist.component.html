@@ -37,9 +37,9 @@
                  <div class="form-group col-md-6" style="margin-right: -15px;margin-left: -50px ">
                       <label class="control-label col-lg-4">Status</label>
                       <div class="col-md-8">
-                           <select class="form-control"  id="sel1" name="status" [(ngModel)]="this.patientSearchDTO.status" [value]='All'>
-                                <option value='All'>Select</option>
-                                <option value="PendingReview">PendingReview</option>
+                           <select class="form-control" name="status" [(ngModel)]="this.patientSearchDTO.status">
+                                <option value="All">Select</option>
+                                <option value="PendingReview">Pending Review</option>
                                 <option value="Submitted">Submitted</option>
                                 <option value="Processed">Processed</option>
                            </select>
@@ -129,7 +129,7 @@
               <td>{{getPatientName(detail.provider)}}</td>
               <td>{{detail.patientDetail.facility.name}}</td>
               <td>{{detail.dateOfService | date: 'MM-dd-yyyy'}}</td>
-              <td>{{detail.cpdValues}}</td>
+              <td>{{detail.cptValues}}</td>
               <td>{{detail.icdValues}}</td>
               <td>{{(detail.status=='PendingReview'?'Pending Review':detail.status)}}</td>
               <td>

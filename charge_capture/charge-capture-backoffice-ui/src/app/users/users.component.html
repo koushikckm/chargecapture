@@ -87,7 +87,7 @@
                 <span *ngIf="statusIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
                 <i class="fa" [ngClass]="{'fa-sort': column != 'status', 'fa-sort-asc': (column == 'status' && isDesc), 'fa-sort-desc': (column == 'status' && !isDesc) }" aria-hidden="true"> </i>
               </th>
-              <!-- <th width="5%">Action</th> -->
+              <th width="5%">Action</th>
             </tr>
           </thead>
           <tbody *ngIf="!showLoader">
@@ -98,9 +98,9 @@
               <td>{{user.dateOfBirth | date: 'MM-dd-yyyy'}}</td>
               <td>{{user.lastDateOfService | date: 'MM-dd-yyyy'}}</td>
               <td>{{user.status}}</td>             
-              <!-- <td>
-                <button title="Edit patient details" (click)="navigateToDetails(detail)" class="ng-scope"><i class="fa fa-pencil"></i></button>
-              </td> -->
+              <td>
+                <button title="Edit patient details" [routerLink]="['userdetail', user._id]" class="ng-scope"><i class="fa fa-pencil"></i></button>
+              </td>
             </tr>
           </tbody>
           <tbody *ngIf="showLoader">
