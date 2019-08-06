@@ -23,7 +23,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415c1a0fc4f8ec2a35a26",
@@ -33,7 +34,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415c1db64612ae8d22081",
@@ -43,7 +45,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415c1a46ba02ac7b3de9a",
@@ -53,7 +56,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415c13c1bd4a3435c8eb3",
@@ -63,7 +67,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415c1d4188d84b3ce13be",
@@ -73,7 +78,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415ad8babaa62696eeba0",
@@ -83,7 +89,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "InActive"
+        "status": "InActive",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415adbbc4a6ed3ec585d1",
@@ -93,7 +100,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "InActive"
+        "status": "InActive",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415adda0361869921569e",
@@ -103,7 +111,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "InActive"
+        "status": "InActive",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415ada9e25b8ec706e360",
@@ -113,7 +122,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "InActive"
+        "status": "InActive",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415ad83255b2885ed8f60",
@@ -123,7 +133,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "InActive"
+        "status": "InActive",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415ad34cd5d269b03e0ff",
@@ -133,7 +144,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "InActive"
+        "status": "InActive",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df2cf71edd27266826",
@@ -143,7 +155,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df1320cf7fe42d6d67",
@@ -153,7 +166,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df2c36c23a90166e21",
@@ -163,7 +177,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df568cd7f5b5aefa40",
@@ -173,7 +188,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df2638f5390fc9b7b9",
@@ -183,7 +199,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df6bcb93bf192e5fa4",
@@ -193,7 +210,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df8c2537567f7df583",
@@ -203,7 +221,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df1f64307b83369849",
@@ -213,7 +232,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df8cbce04db72f229b",
@@ -223,7 +243,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415dfaa003d16974ed28e",
@@ -233,7 +254,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df9ba0775dfa4465b1",
@@ -243,7 +265,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       },
       {
         "_id": "5d4415df82c98f8fd2c29c66",
@@ -253,7 +276,8 @@ export class UsersComponent implements OnInit {
         "userName": "johnDoe@mail.com",
         "dateOfBirth": "2014-05-23T06:03:26",
         "lastDateOfService": "2014-05-23T06:03:26",
-        "status": "Active"
+        "status": "Active",
+        "email":"test@mail.com"
       }
     ]
   }

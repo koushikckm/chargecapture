@@ -66,7 +66,7 @@
                   
                   <i class="fa" [ngClass]="{'fa-sort': column != 'lastName', 'fa-sort-asc': (column == 'lastName' && isDesc), 'fa-sort-desc': (column == 'lastName' && !isDesc) }" aria-hidden="true"> </i>
                 </th>
-                <th (click)="sort('userName')">User Name
+                <th (click)="sort('email')">Email
                     <!-- <span style="float: right;" class="glyphicon sort-icon" *ngIf="key =='firstName'" [ngClass]="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
                     <span *ngIf="firstNameIconSHow"><i class="fa fa-sort" aria-hidden="true"></i></span> -->
                     
@@ -94,7 +94,7 @@
             <tr *ngFor="let user of usersArray | orderBy: {property: column, direction: direction} | filter : 'user.firstName' : searchString | paginate: { itemsPerPage: 10, currentPage: pagenumber } ; let i = index">
               <td>{{user.firstName}}</td>
               <td>{{user.lastName}}</td>
-              <td>{{user.userName}}</td>
+              <td>{{user.email}}</td>
               <td>{{user.dateOfBirth | date: 'MM-dd-yyyy'}}</td>
               <td>{{user.lastDateOfService | date: 'MM-dd-yyyy'}}</td>
               <td>{{user.status}}</td>             

@@ -1,3 +1,153 @@
-<p>
-  {{id}}
-</p>
+<form *ngIf="!showLoader">
+  <!-- patient details -->
+  <br/>
+  <div class="panel panel-default" style="padding-top: 1%;width: 99%;">
+    <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">
+      <!-- Demographics - <span style="font-size: 16px;">{{ this.user.firstName +' '+this.user.lastName}}</span> -->
+
+      <!-- <a (click)="hidePanel('userDetailsShow')" *ngIf="userDetailsShow" class="pull-right">
+          <i class="fa fa-angle-up fa-2x" style="color: black"></i>
+        </a>
+        <a (click)="hidePanel('userDetailsShow')" *ngIf="!userDetailsShow" class="pull-right">
+          <i class="fa fa-angle-down fa-2x" style="color: black"></i>
+        </a> -->
+
+    </div>
+    <div class="panel-body" *ngIf="userShow">
+      <div class="row">
+        <div class="col-md-6 form-group">
+          <label class="control-label col-lg-4">First Name
+            <span class="mandatory-star">*</span>
+          </label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="First Name" maxlength="50" name="firstName" [(ngModel)]="this.user.firstName"
+            />
+            <span class="help-block" *ngIf="isfirstNameValidMsg">{{isfirstNameValidMsg}}</span>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Last Name
+            <span class="mandatory-star">*</span>
+          </label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Last Name" maxlength="50" name="lastName" [(ngModel)]="this.user.lastName"
+            />
+            <span class="help-block" *ngIf="islastNameValidMsg">{{islastNameValidMsg}}</span>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Middle Name</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Middle Name" maxlength="50" name="middleName" [(ngModel)]="this.user.middleName"
+            />
+            <!-- <span class="help-block" *ngIf="ismiddleNameValid">{{ismiddleNameValidMsg}}</span> -->
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Date Of Birth
+            <span class="mandatory-star">*</span>
+          </label>
+          <div class="col-lg-6">
+            <!-- <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="dateOfBirth" 
+                [(ngModel)]="this.user.dateOfBirth" />  -->
+            <div class='input-group date' id='datetimepicker4' style="position: relative;" [ngStyle]="{'z-index':indexValue}">
+              <input class="form-control" a2e-datetimepicker name="memberDOB" [(ngModel)]="this.user.dateOfBirth" [options]="a2eOptions"
+                placeholder="MM/dd/yyyy" readonly="readonly" (ngModelChange)="getAge(this.user.dateOfBirth)" />
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+            <span class="help-block" *ngIf="memberDOBValidationMsg">{{memberDOBValidationMsg}}</span>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Date Of Service
+            <span class="mandatory-star">*</span>
+          </label>
+          <div class="col-lg-6">
+            <!-- <input class="form-control" type="text" id="" placeholder="Keyword Search" maxlength="100" name="dateOfBirth" 
+                  [(ngModel)]="this.user.dateOfBirth" />  -->
+            <div class='input-group date' id='datetimepicker5' style="position: relative;" [ngStyle]="{'z-index':indexValue}">
+              <input class="form-control" a2e-datetimepicker name="memberDOS" [(ngModel)]="this.user.lastDateOfService" [options]="a2eOptions"
+                placeholder="MM/dd/yyyy" readonly="readonly" (ngModelChange)="getAge(this.user.lastDateOfService)" />
+              <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+            <span class="help-block" *ngIf="memberDOBValidationMsg">{{memberDOBValidationMsg}}</span>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Email</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Email" maxlength="100" name="email" [(ngModel)]="this.user.email"
+            /> </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Mobile Phone</label>
+          <div class="col-lg-6">
+            <input class="form-control" type="text" id="" placeholder="Mobile Phone" name="mobilePhone" [(ngModel)]="this.user.mobilePhone"
+              maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.user.mobilePhone,'mobilePhone')"
+              onlynumber="true" [pattern]="phoneNumberRegex" />
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+          <label class="control-label col-lg-4">Status</label>
+          <div class="col-lg-6">
+            <select class="form-control" name="status" [(ngModel)]="this.user.status">
+              <option value="Active">Active</option>
+              <option value="InActive">Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12 form-group">
+            <label class="control-label col-lg-4">Facilities</label>
+            <div class="col-lg-6">
+              <select class="selectpicker form-control" name="facility" [(ngModel)]="this.user.facility" multiple>
+                <option value="">Select</option>
+                <option *ngFor="let option of facilities" >
+                    {{option.name}}
+                 </option>
+              </select>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</form>
+<button id="modelPopUpButton" data-toggle="modal" data-target="#myModal" [hidden]="true">Open Modal</button>
+<div *ngIf="showLoader">
+  <div style="margin-left: 44%;margin-top: 3%" class="loader"></div>
+</div>
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" style="z-index:99999999">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Updated Patient Details</h4>
+      </div>
+      <div class="modal-body" id="submitModelMessage">
+        <p [hidden]="printToggle">Patient Details updated successfully.</p>
+
+        <p [hidden]="!printToggle">
+          <img [src]="labelPath">
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <!-- <button type="button" *ngIf="printToggle" class="btn btn-default" data-dismiss="modal"  style="background-color:#faa730;color:white;font-weight: bold;" (click)="printDiv()" >Print</button> -->
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="closeButtonModel()" style="font-weight: bold;">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
