@@ -4,7 +4,7 @@
     <br/>
     <div class="panel panel-default" style="padding-top: 1%;width: 99%;">
       <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">
-          Demographics - <span style="font-size: 16px;">{{ this.patientdetails.firstName +' '+this.patientdetails.lastName}}</span>
+          Demographics - <span style="font-size: 16px;">{{ this.patientdetails.firstName +' '+this.patientdetails.lastName}} ({{(this.patientdetails.gender=='M'?'Male':'Female')}},Age:{{getAge(this.patientdetails.dateOfBirth)}})</span>
         
         <a (click)="hidePanel('patientDetailsShow')" *ngIf="patientDetailsShow" class="pull-right">
           <i class="fa fa-angle-up fa-2x" style="color: black"></i>
@@ -13,8 +13,8 @@
           <i class="fa fa-angle-down fa-2x" style="color: black"></i>
         </a>
         <div class="pull-right" style="margin-right: 1%" *ngIf="patientDetailsShow">
-          <button class="btn btn-primary" style="margin-top: -6px" (click)="save(patientdetails)">Save</button>&nbsp;
-          <button class="btn btn-primary" style="margin-top: -6px" (click)="cancel()">Cancel</button>
+          <!-- <button class="btn btn-primary" style="margin-top: -6px" (click)="save(patientdetails)">Save</button>&nbsp;
+          <button class="btn btn-primary" style="margin-top: -6px" (click)="cancel()">Cancel</button> -->
         </div>
       </div>
       <div class="panel-body" *ngIf="patientDetailsShow">
@@ -23,7 +23,7 @@
             <label class="control-label col-lg-4">First Name<span class="mandatory-star">*</span></label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="First Name" maxlength="50" name="firstName" [(ngModel)]="this.patientdetails.firstName"
-              />
+              disabled/>
               <span class="help-block" *ngIf="isfirstNameValidMsg">{{isfirstNameValidMsg}}</span>
             </div>
           </div>
@@ -31,15 +31,17 @@
             <label class="control-label col-lg-4">Last Name<span class="mandatory-star">*</span></label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Last Name" maxlength="50" name="lastName" [(ngModel)]="this.patientdetails.lastName"
-              />
+              disabled/>
               <span class="help-block" *ngIf="islastNameValidMsg">{{islastNameValidMsg}}</span>
             </div>
           </div>
+          </div>
+          <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">Middle Name</label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Middle Name" maxlength="50" name="middleName" [(ngModel)]="this.patientdetails.middleName"
-              />
+              disabled/>
               <!-- <span class="help-block" *ngIf="ismiddleNameValid">{{ismiddleNameValidMsg}}</span> -->
             </div>
           </div>
@@ -50,7 +52,7 @@
                 [(ngModel)]="this.patientdetails.dateOfBirth" />  -->
               <div class='input-group date' id='datetimepicker4' style="position: relative;" [ngStyle]="{'z-index':indexValue}">
                 <input class="form-control" a2e-datetimepicker name="memberDOB" [(ngModel)]="this.patientdetails.dateOfBirth" [options]="a2eOptions"
-                  placeholder="MM/dd/yyyy" readonly="readonly" (ngModelChange)="getAge(this.patientdetails.dateOfBirth)"/>
+                  placeholder="MM/dd/yyyy" readonly="readonly" (ngModelChange)="getAge(this.patientdetails.dateOfBirth)" disabled/>
                 <span class="input-group-addon">
                   <span class="glyphicon glyphicon-calendar"></span>
                 </span>
@@ -58,7 +60,8 @@
               <span class="help-block" *ngIf="memberDOBValidationMsg">{{memberDOBValidationMsg}}</span>
             </div>
           </div>
-  
+          </div>
+          <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">Gender</label>
             <div class="col-lg-6">
@@ -70,8 +73,8 @@
               <label class="form-check-inline">
                   <input class="form-check-input" type="radio" name="GenderFemale" [value]="F" [(ngModel)]="this.patientdetails.gender">
               </label> -->
-              <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="M"> Male
-              <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="F"> Female
+              <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="M" disabled> Male
+              <input type="radio" name="options" [(ngModel)]="this.patientdetails.gender" value="F" disabled> Female
             </div>
           </div>
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
@@ -79,38 +82,45 @@
             <div class="col-lg-6">
               <!-- <input class="form-control" type="text" id="" placeholder="Age" maxlength="3" name="age" [(ngModel)]="this.patientdetails.age"
                 onlynumber="true" /> </div> -->
-                <label class="form-control">{{getAge(this.patientdetails.dateOfBirth)}}</label>
+                <label class="form-control" disabled>{{getAge(this.patientdetails.dateOfBirth)}}</label>
               </div>
           </div>
+        </div>
+        <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">SSN</label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="SSN" maxlength="11" name="ssn" [(ngModel)]="this.patientdetails.ssn" 
-              onlynumber="true"  [pattern]="ssnRegex" (ngModelChange)="changeModel(this.patientdetails.ssn,'ssn')"  /> </div>
+              onlynumber="true"  [pattern]="ssnRegex" (ngModelChange)="changeModel(this.patientdetails.ssn,'ssn')"  disabled/> </div>
           </div>
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">Email</label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Email" maxlength="100" name="email" [(ngModel)]="this.patientdetails.email"
-              /> </div>
+              disabled/> </div>
           </div>
+        </div>
+        <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">Address Line1</label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Address Line1" maxlength="100" name="addressLine1" [(ngModel)]="this.patientdetails.addressLine1"
-              /> </div>
+              disabled/> </div>
           </div>
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">Address Line2</label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Address Line2" maxlength="100" name="addressLine2" [(ngModel)]="this.patientdetails.addressLine2"
-              /> </div>
+              disabled/> </div>
           </div>
+        </div>
+
+        <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">City</label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="City" maxlength="100" name="city" [(ngModel)]="this.patientdetails.city"
-              /> </div>
+              disabled/> </div>
           </div>
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">State</label>
@@ -119,7 +129,7 @@
               /> </div> -->
               <div class="col-lg-6">
               <select  class="form-control"   
-                                      name="memberState" [(ngModel)]="this.patientdetails.state" required >
+                                      name="memberState" [(ngModel)]="this.patientdetails.state" required disabled>
                                       <option value="">Select</option>
   
       
@@ -179,11 +189,13 @@
                   </select> 
                 </div>
           </div>
+        </div>
+        <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">Zip</label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Zip" maxlength="5" name="zip" onlynumber="true" [(ngModel)]="this.patientdetails.zip"
-              /> </div>
+              disabled/> </div>
           </div>
   
   
@@ -192,14 +204,17 @@
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Home Phone" name="homePhone" [(ngModel)]="this.patientdetails.homePhone"
                 maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.homePhone,'homePhone')"
-                onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
+                onlynumber="true" [pattern]="phoneNumberRegex" disabled/> </div>
           </div>
+
+        </div>
+        <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">Mobile Phone</label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Mobile Phone" name="mobilePhone" [(ngModel)]="this.patientdetails.mobilePhone"
                 maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.mobilePhone,'mobilePhone')"
-                onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
+                onlynumber="true" [pattern]="phoneNumberRegex" disabled/> </div>
           </div>
   
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
@@ -207,20 +222,20 @@
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Work Phone" name="workPhone" [(ngModel)]="this.patientdetails.workPhone"
                 maxlength="12" placeholder="XXX-XXX-XXXX" (ngModelChange)="changeModel(this.patientdetails.workPhone,'workPhone')"
-                onlynumber="true" [pattern]="phoneNumberRegex" /> </div>
+                onlynumber="true" [pattern]="phoneNumberRegex" disabled/> </div>
           </div>
-  
+        </div>
+        <div class="row">
           <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">Chart Number</label>
             <div class="col-lg-6">
               <input class="form-control" type="text" id="" placeholder="Chart Number" name="chartNumber" [(ngModel)]="this.patientdetails.chartNumber"
-                maxlength="12" onlynumber="true" /> </div>
+                maxlength="12" onlynumber="true" disabled/> </div>
           </div>
-  
+        </div>
   
         </div>
-      </div>
-    </div>
+      </div>    
   
     <div class="panel panel-default" style="padding-top: 1%;width: 99%;" *ngIf="patientdetails.patientServiceDetail && patientdetails.patientServiceDetail.length!=0 && patientdetails.patientServiceDetail!=null">
       <div class="panel-heading" style="background-color: #e9ecef;margin-top: -1%;height: 3em">Patient Service Details
@@ -256,16 +271,16 @@
                 </th> -->
               </tr>
             </thead>
-            <tbody *ngFor="let details of patientdetails.patientServiceDetail | orderBy: {property: column, direction: direction}  | paginate: { itemsPerPage: 5, currentPage: pagenumber } ; let i = index">
+            <tbody *ngFor="let details of patientdetails.patientServiceDetail | orderBy: {property: column, direction: direction}  | paginate: { itemsPerPage: itemsPerPage, currentPage: pagenumber } ; let i = index">
               <tr [ngStyle]="details.showDiagnosisAndProcedures?{'background-color': '#ddd'} : {'background-color': ''}">
                 <!-- <td>
                   <input type="checkbox" name="detailCheckbox{{detail.serviceId}}{{i}}" [(ngModel)]="detail.checked" (ngModelChange)="getServiceDetails(detail)">
                 </td> -->
                 <td>
-                  <a *ngIf="!details.showDiagnosisAndProcedures" title="View Servcie Details" style="text-decoration: underline; color: #23527c;cursor: pointer;" (click)="showServiceDetails(details,i,patientdetails,'expand')">
+                  <a *ngIf="!details.showDiagnosisAndProcedures" title="View Servcie Details" style="text-decoration: underline; color: #23527c;cursor: pointer;" (click)="showServiceDetails(details,i,patientdetails,'expand',pagenumber)">
                     <i style="font-size: 20px;color:black" class="fa fa-plus" aria-hidden="true"></i>
                   </a>
-                  <a *ngIf="details.showDiagnosisAndProcedures" title="View Servcie Details" style="text-decoration: underline; color: #23527c;cursor: pointer;" (click)="showServiceDetails(details,i,patientdetails,'collapse')">
+                  <a *ngIf="details.showDiagnosisAndProcedures" title="View Servcie Details" style="text-decoration: underline; color: #23527c;cursor: pointer;" (click)="showServiceDetails(details,i,patientdetails,'collapse',pagenumber)">
                       <i style="font-size: 20px;color:black" class="fa fa-minus" aria-hidden="true"></i>
                     </a>
                   {{details.serviceId}}                  
@@ -297,7 +312,7 @@
                             </a> -->
                             <div class="pull-right" style="margin-right: 1%" *ngIf="showPatientServiceDetailsPanel">
                                 <button class="btn btn-primary" style="margin-top: -6px" (click)="save(patientdetails,'saveDiagnosisAndProcedures',details.serviceId)">Save and Approve</button>&nbsp;
-                                <button class="btn btn-primary" style="margin-top: -6px" (click)="showServiceDetails(details,i,patientdetails)">Cancel</button>
+                                <button class="btn btn-primary" style="margin-top: -6px" (click)="showServiceDetails(details,i,patientdetails,'collapse',pagenumber)">Cancel</button>
                             </div>
                           </div>
                           <div class="panel-body" *ngIf="showPatientServiceDetailsPanel">

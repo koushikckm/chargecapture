@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { DataService } from "../services/data.service";
+import { DataService } from "../../services/data.service";
 import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
-import { Constants } from '../shared/constants';
+import { Constants } from '../../shared/constants';
+import { ActivatedRoute } from "@angular/router";
+declare var $: any;
 @Component({
   selector: 'app-patientdetails',
   templateUrl: './patientdetails.component.html',
-  styleUrls: ['./patientdetails.component.css','../app.component.css']
+  styleUrls: ['./patientdetails.component.css','../../app.component.css']
 })
 export class PatientdetailsComponent implements OnInit {
 
@@ -16,7 +18,8 @@ export class PatientdetailsComponent implements OnInit {
     private router: Router,
     private data: DataService,
     private httpClient: HttpClient,
-    private datePipe:DatePipe
+    private datePipe:DatePipe,
+    private activatedRoute:ActivatedRoute
   ) { }
   patientdetails: any = {};
   patientDetailsShow: boolean = false;
@@ -43,6 +46,7 @@ export class PatientdetailsComponent implements OnInit {
   isDesc: boolean = true;
   column: string = 'status';
   direction: number;
+  highlightedServiceId:any;
   sort(key){
     // this[this.key+'IconSHow']=true;
     // this.key = key;
@@ -57,21 +61,30 @@ export class PatientdetailsComponent implements OnInit {
 
   ngOnInit() {
     this.indexValue=999999;
-    if (this.data.getData() != null) {
-      this.patientdetails = this.data.getData();
-      //console.log(this.patientdetails);
-      this.oldPatientDetails = JSON.parse(JSON.stringify(this.patientdetails));
-      this.patientdetails.dateOfBirth = new Date(this.patientdetails.dateOfBirth);
-      this.patientdetails.ssn = this.formatData(this.patientdetails.ssn, 'ssn');
-      this.patientdetails.homePhone = this.formatData(this.patientdetails.homePhone, 'homePhone');
-      this.patientdetails.workPhone = this.formatData(this.patientdetails.workPhone, 'workPhone');
-      this.patientdetails.mobilePhone = this.formatData(this.patientdetails.mobilePhone, 'mobilePhone');
-    }
-    else {
-      this.router.navigate(['/home']); //else call api
-    }
+    console.log(this.activatedRoute.snapshot.paramMap.get("patientId"));
+    this.getPatientData(this.activatedRoute.snapshot.paramMap.get("patientId"));
   }
-  
+
+  getPatientData(patientId){
+    this.httpClient.post(Constants.GET_PATIENT_DATA,{patientId:patientId}).subscribe((res)=>{
+     // console.log(res);
+      this.patientdetails=res;
+      this.patientdetails.dateOfBirth = new Date(this.patientdetails.dateOfBirth); 
+      if(this.data.getData()!=null){
+        this.highlightedServiceId=this.data.getData().serviceId;
+        console.log("highlightedServiceId--> "+this.highlightedServiceId);
+        for(let i in this.patientdetails.patientServiceDetail){
+          if(this.highlightedServiceId==this.patientdetails.patientServiceDetail[i].serviceId){
+            //console.log("i--> "+i);
+            this.pagenumber=Math.ceil(Number(i)/5);
+            //if(this.pagenumber>1){}
+            this.showServiceDetails(this.patientdetails.patientServiceDetail[i],i,this.patientdetails,'expand',this.pagenumber) ;
+          }
+        }     
+        
+      }
+    })
+  }
   formatData(data, identifier) {
     if (data != null && data != "" && data.length > 0) {
       data = this.replaceAll(data, '-', '');
@@ -109,12 +122,19 @@ export class PatientdetailsComponent implements OnInit {
 
   serviceDetails: any = null;
   oldServiceDetails: {};
-  
-  showServiceDetails(details,index,patientdetails,icon) {    
+  itemsPerPage:any=5;
+  showServiceDetails(details,index,patientdetails,icon,pagenumber) {    
+    
+    console.log(pagenumber);
+    console.log(index);
     this.oldServiceDetails = JSON.parse(JSON.stringify(details));
     this.serviceDetails = this.oldServiceDetails;
+    let arrayIndex=((pagenumber-1)*this.itemsPerPage)+index;//since index in pagination changesn with page number
+    if(patientdetails.patientServiceDetail.length==1){
+      arrayIndex=0;
+    }
     for(let i in patientdetails.patientServiceDetail){
-      if(i!=index){
+      if(i!=arrayIndex){
         patientdetails.patientServiceDetail[i].showDiagnosisAndProcedures=false;
       }
     }

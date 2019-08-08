@@ -13,6 +13,8 @@ public class PatientsSearchDTO {
 
 	private String patientName;
 	
+	private String patientId;
+	
 	public Date getFromDate() {
 		return fromDate;
 	}
@@ -52,5 +54,13 @@ public class PatientsSearchDTO {
 	public void setPatientName(String patientName) {
 		this.patientName = patientName;
 	}
-	
+
+	public String getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(String patientId) {
+		this.patientId = patientId;
+	}
+
 }

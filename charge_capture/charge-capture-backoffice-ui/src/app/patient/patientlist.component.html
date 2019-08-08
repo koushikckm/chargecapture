@@ -38,7 +38,7 @@
                       <label class="control-label col-lg-4">Status</label>
                       <div class="col-md-8">
                            <select class="form-control" name="status" [(ngModel)]="this.patientSearchDTO.status">
-                                <option value="All">Select</option>
+                                <option value="All">All</option>
                                 <option value="PendingReview">Pending Review</option>
                                 <option value="Submitted">Submitted</option>
                                 <option value="Processed">Processed</option>
@@ -124,16 +124,16 @@
           </thead>
           <tbody *ngIf="!showLoader">
             <tr *ngFor="let detail of filteredFinalArrayCopy | orderBy: {property: column, direction: direction} | filter : 'patientDetail.firstName' : searchString | paginate: { itemsPerPage: 10, currentPage: pagenumber ,totalItems:totalitems} ; let i = index">
-              <td>{{getPatientName(detail.patientDetail)}}</td>
-              <td>{{getDateFormat(detail.patientDetail.dateOfBirth)}}</td>
-              <td>{{getPatientName(detail.provider)}}</td>
-              <td>{{detail.patientDetail.facility.name}}</td>
+              <td>{{detail.patientName}}</td>
+              <td>{{getDateFormat(detail.dateOfBirth)}}</td>
+              <td>{{detail.providerName}}</td>
+              <td>{{detail.facilityName}}</td>
               <td>{{detail.dateOfService | date: 'MM-dd-yyyy'}}</td>
               <td>{{detail.cptValues}}</td>
               <td>{{detail.icdValues}}</td>
               <td>{{(detail.status=='PendingReview'?'Pending Review':detail.status)}}</td>
               <td>
-                <button title="Edit patient details" (click)="navigateToDetails(detail)" class="ng-scope"><i class="fa fa-pencil"></i></button>
+                <button title="Edit patient details" [routerLink]="['patientdetails', detail.patientId]" (click)="navigateToDetails(detail)" class="ng-scope"><i class="fa fa-pencil"></i></button>
               </td>
             </tr>
           </tbody>

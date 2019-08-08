@@ -97,6 +97,17 @@ public class ChargeCaptureAPI {
 
 		return PatientSearchResponseDTO;
 	}
+	
+	@PostMapping(value = "/getPatientDetailById")
+	public PatientDetail getPatientDetailById(@RequestBody  PatientsSearchDTO patientsSearchDTO) {
+
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetailById()");
+		PatientDetail patientDetail=null;
+
+		patientDetail = chargeCaptureService.getPatientDetail(patientsSearchDTO.getPatientId());
+
+		return patientDetail;
+	}
 
 	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })
 	public long submitPatientDetail(@RequestBody @Valid PatientServiceDetailDTO patientServiceDetailDTO) {

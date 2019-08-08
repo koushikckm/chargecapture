@@ -4,6 +4,7 @@ import { DatePipe } from '@angular/common';
 import * as moment from 'moment';
 import { HttpClient } from '@angular/common/http';
 import { Constants } from '../../shared/constants';
+declare var $: any;
 @Component({
   selector: 'app-user-detail',
   templateUrl: './user-detail.component.html',
@@ -48,8 +49,18 @@ export class UserDetailComponent implements OnInit {
   getAge(dateOfBirth: any): number {
     return moment().diff(dateOfBirth, 'years');
   }
+  clear(){
+    this.user={};
+  }
+  onSubmit(){
+    console.log(this.user);
+  }
   ngOnInit() {
-    //jQuery('select').selectpicker();
+
+    $(document).ready(function(){
+      $('select').selectpicker();
+    });
+    
     this.id = this.route.snapshot.paramMap.get("userid");   
     this.getAllFacility(); 
     this.users=[

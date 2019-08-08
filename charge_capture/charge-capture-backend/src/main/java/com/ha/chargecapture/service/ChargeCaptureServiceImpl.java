@@ -440,5 +440,11 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getCptGroups() ");
 		return chargeCaptureDAO.getCptGroups();
 	}
+
+	@Override
+	public PatientDetail getPatientDetail(String patientId) {
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getPatientDetailByServiceId() ");
+		return chargeCaptureDAO.getPatient(patientId);
+	}
 	
 }

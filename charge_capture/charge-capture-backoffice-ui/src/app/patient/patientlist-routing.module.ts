@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: PatientListComponent
-  }
+  },
+  
+    { path: 'patientdetails/:patientId',
+    loadChildren:'./patientdetails/patientdetails.module#PatientDetailsModule'},
+  
 ];
 
 @NgModule({

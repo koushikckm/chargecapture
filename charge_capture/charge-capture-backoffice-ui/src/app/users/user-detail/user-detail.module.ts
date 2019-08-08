@@ -10,6 +10,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
 import { UserDetailComponent } from './user-detail.component';
 import { DatePipe } from '@angular/common';
+import * as $ from 'jquery';
 @NgModule({
   declarations: [UserDetailComponent],
   imports: [

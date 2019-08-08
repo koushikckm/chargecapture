@@ -27,6 +27,8 @@ public interface ChargeCaptureService {
 	List<PatientDetail> getPatientDetailList();
 	
 	Map<Integer, List<PatientSearchResponseDTO>> getPatientDetailList(PatientsSearchDTO patientsSearchDTO);
+	
+	PatientDetail getPatientDetail(String patientId);
 
 	long submitPatientServiceDetail(PatientServiceDetailDTO patientServiceDetailDTO);
 
