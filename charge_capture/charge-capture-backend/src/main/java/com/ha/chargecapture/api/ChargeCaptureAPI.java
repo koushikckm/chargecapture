@@ -77,6 +77,7 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getPatientDetail")
+	@Deprecated
 	public List<PatientDetail> getPatientDetail() {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetail()");

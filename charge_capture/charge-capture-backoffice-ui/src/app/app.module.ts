@@ -12,9 +12,10 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import * as $ from 'jquery';
 import { LayoutModule } from "./common/layout/layout.module";
 import { LoginModule } from "./login/login.module";
+
 @NgModule({
   declarations: [
-    AppComponent    
+    AppComponent
   ],
   imports: [
     BrowserModule,
@@ -29,6 +30,7 @@ import { LoginModule } from "./login/login.module";
     LoginModule
   ],
   providers: [DataService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports:[]
 })
 export class AppModule { }

@@ -99,7 +99,7 @@
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
           <label class="control-label col-lg-4">Status</label>
           <div class="col-lg-6">
-            <select class="selectpicker form-control" name="status" [(ngModel)]="this.user.status">
+            <select class="selectpicker form-control "   name="status" [(ngModel)]="this.user.status">
               <option value="Active">Active</option>
               <option value="InActive">Inactive</option>
             </select>
@@ -108,7 +108,7 @@
         <div class="col-md-6 col-sm-12 col-xs-12 form-group">
             <label class="control-label col-lg-4">Facilities</label>
             <div class="col-lg-6">
-              <select class="selectpicker form-control" id="facility" name="facility" [(ngModel)]="this.user.facility" title="Select" multiple>                
+              <select class="selectpicker form-control "  name="facility" [(ngModel)]="this.user.facility" title="Select" multiple>                
                 <option *ngFor="let option of facilities" [ngValue]="option">
                     {{option.name}}
                  </option>

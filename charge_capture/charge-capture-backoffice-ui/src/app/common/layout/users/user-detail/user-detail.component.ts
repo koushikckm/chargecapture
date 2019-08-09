@@ -14,7 +14,7 @@ export class UserDetailComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
     private datePipe:DatePipe,
-  private http:HttpClient) { }
+  private http:HttpClient) {}
   id:any;
   users:any;
   user:any;
@@ -30,6 +30,7 @@ export class UserDetailComponent implements OnInit {
   getAllFacility(){
     this.http.get(Constants.GET_ALL_FACILITY).subscribe((res)=>{
       this.facilities=res;
+      //$('.selectpicker').selectpicker('refresh');
       console.log(this.facilities[0]);
     })
   }
@@ -55,11 +56,14 @@ export class UserDetailComponent implements OnInit {
   onSubmit(){
     console.log(this.user);
   }
+ ngAfterViewInit(){
+  setTimeout(() => {
+    $('.selectpicker').selectpicker();      
+  },100);
+ }
   ngOnInit() {
 
-    $(document).ready(function(){
-      $('select').selectpicker();
-    });
+
     
     this.id = this.route.snapshot.paramMap.get("userid");   
     this.getAllFacility(); 

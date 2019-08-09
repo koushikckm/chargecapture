@@ -1,26 +1,19 @@
 package com.ha.chargecapture.dao;
 
-import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.criterion.Projection;
-import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
@@ -29,6 +22,7 @@ import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.stereotype.Repository;
 
+import com.ha.chargecapture.constants.Constants;
 import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
 import com.ha.chargecapture.entity.CPTCodes;
@@ -86,9 +80,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		try {
 			Query query = null;
 
-			String patientQuery = "SELECT patient_id AS patientId,first_name AS firstName,last_name AS lastName,middle_name AS middleName,name_suffix AS nameSuffix,date_of_birth AS dateOfBirth,gender AS gender,"
-					+ "address_line_1 AS address1,address_line_2 AS address2,city AS city,state AS state,zip AS zip,home_phone AS homePhone,mobile_phone AS mobilePhone,email AS email,work_phone AS workPhone,ssn AS ssn "
-					+ "FROM patientdetail where facility_id = :facilityId";
+			String patientQuery = Constants.GET_PATIENTS_FOR_FACILITY_QUERY;
 			query = getSession().createSQLQuery(patientQuery).addScalar("patientId", StringType.INSTANCE)
 					.addScalar("firstName", StringType.INSTANCE).addScalar("lastName", StringType.INSTANCE)
 					.addScalar("middleName", StringType.INSTANCE).addScalar("nameSuffix", StringType.INSTANCE)
@@ -250,11 +242,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		try {
 			Session session = (Session) entityManager.getDelegate();
 			
-			String query = "select psd.service_id as serviceId,psd.patient_id as patientId,concat(pd.first_name,' ',pd.middle_name,' ',pd.last_name) as patientName,pd.date_of_birth as dateOfBirth,"
-					+ "psd.date_of_service as dateOfService,psd.status as status,GROUP_CONCAT(icdcode) as icdValues,concat(p.first_name,\" \",p.last_name) as providerName\r\n" + 
-					",fac.name as facilityName,GROUP_CONCAT(cptcode) as cptValues "
-					+ "from patientservicedetail psd join patientserviceicdcodes icd on psd.service_id=icd.service_id "
-					+ "join patientservicecptcodes cpt on psd.service_id=cpt.service_id  join patientdetail pd on pd.patient_id=psd.patient_id join provider p on p.provider_id=psd.provider_id join facility fac on fac.facility_id=pd.facility_id " ;
+			String query = Constants.GET_PATIENT_DETAILS_LIST_BY_SEARCH_QUERY;
 					
 			if(patientsSearchDTO.getFromDate()!=null && patientsSearchDTO.getToDate()!=null) {
 				query+="where psd.date_of_service>=:fromDate and " + 
@@ -369,8 +357,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 			}
 
 			// insert to pat serv icd tbl
-			Query query = session.createSQLQuery(
-					"insert into patientserviceicdcodes (service_id,icdcode) values (:serviceId,:icdCode)");
+			Query query = session.createSQLQuery(Constants.INSERT_TO_PATIENT_SERVICE_ICD_CODE);
 			query.setParameter("serviceId", serviceId);
 			query.setParameter("icdCode", icdCode);
 			query.executeUpdate();
@@ -397,8 +384,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 			}
 
 			// insert to pat serv cpt tbl
-			Query query = session.createSQLQuery(
-					"insert into patientservicecptcodes (service_id,cptcode) values (:serviceId,:cptCode)");
+			Query query = session.createSQLQuery(Constants.INSERT_TO_PATIENT_SERVICE_CPD_CODE);
 			query.setParameter("serviceId", serviceId);
 			query.setParameter("cptCode", cptCode);
 			query.executeUpdate();
@@ -413,10 +399,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		Query query = null;
 		List<String> icdList = new ArrayList<>();
 		try {
-			String icdQuery = "SELECT picd.icdcode FROM patientserviceicdcodes picd "
-					+ "JOIN patientservicedetail psd ON picd.service_id=psd.service_id and psd.provider_id=:providerId ";
-
-			query = getSession().createSQLQuery(icdQuery);
+			query = getSession().createSQLQuery(Constants.GET_FAVORITE_ICDS_FOR_PROVIDER);
 			query.setParameter("providerId", providerId);
 
 			if (!query.list().isEmpty()) {
@@ -434,10 +417,7 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		Query query = null;
 		List<String> cptList = new ArrayList<>();
 		try {
-			String cptQuery = "SELECT pcpt.cptcode FROM patientservicecptcodes pcpt "
-					+ "JOIN patientservicedetail psd ON pcpt.service_id=psd.service_id and psd.provider_id=:providerId ";
-
-			query = getSession().createSQLQuery(cptQuery);
+			query = getSession().createSQLQuery(Constants.GET_FAVORITE_CPTS_FOR_PROVIDER);
 			query.setParameter("providerId", providerId);
 
 			if (!query.list().isEmpty()) {

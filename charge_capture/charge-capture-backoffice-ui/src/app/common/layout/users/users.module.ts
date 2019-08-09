@@ -11,6 +11,7 @@ import { FilterPipe } from './filter.pipe';
 import { OrderrByPipe } from "./orderby.pipe";
 import {A2Edatetimepicker} from 'ng2-eonasdan-datetimepicker';
 import { UsersRoutingModule } from "./users-routing.module";
+import * as $ from 'jquery';
 @NgModule({
   declarations: [
     FilterPipe,OrderrByPipe,UsersComponent
