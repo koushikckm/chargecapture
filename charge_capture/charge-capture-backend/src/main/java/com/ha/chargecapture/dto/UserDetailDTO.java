@@ -1,3 +1,4 @@
+
 package com.ha.chargecapture.dto;
 
  public class UserDetailDTO {
@@ -62,9 +63,5 @@ package com.ha.chargecapture.dto;
  	public void setStatus(boolean status) {
 		this.status = status;
 	}*/
-
-
-
-
-
  }
+

@@ -15,6 +15,7 @@ import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.entity.Provider;
+import com.ha.chargecapture.entity.UserDetail;
 
 public interface ChargeCaptureDAO {
 

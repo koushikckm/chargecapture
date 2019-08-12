@@ -1,8 +1,9 @@
 package com.ha.chargecapture.entity;
 
- import java.io.Serializable;
 
- import javax.persistence.Column;
+import java.io.Serializable;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -86,8 +87,5 @@ public class UserDetail implements Serializable {
  	public void setStatus(boolean status) {
 		this.status = status;
 	}
-
-
-
-
  }
+

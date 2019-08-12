@@ -14,6 +14,7 @@ import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
+import com.ha.chargecapture.entity.UserDetail;
 
 public interface ChargeCaptureService {
 
@@ -28,8 +29,6 @@ public interface ChargeCaptureService {
 	List<PatientDetail> getPatientDetailList();
 	
 	Map<Integer, List<PatientSearchResponseDTO>> getPatientDetailList(PatientsSearchDTO patientsSearchDTO);
-	
-	PatientDetail getPatientDetail(String patientId);
 
 	long submitPatientServiceDetail(PatientServiceDetailDTO patientServiceDetailDTO);
 

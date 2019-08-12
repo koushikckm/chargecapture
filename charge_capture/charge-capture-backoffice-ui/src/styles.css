@@ -375,9 +375,6 @@ color: #333;
 .gray {
     color: lightgray;
 }
-.green{
-    color: #346107
-}
 .login-form .form-group {
     margin-bottom: 35px !important;
 }
@@ -1004,11 +1001,4 @@ z-index:0;
   td{
       font-size: 16px;
   }
-
-  .dropdown-menu>.active>a, .dropdown-menu>.active>a:focus, .dropdown-menu>.active>a:hover {
-    color: #0e0e0e !important;
-    text-decoration: none;
-    background-color: #f0f0f0 !important;
-    outline: 0;
-}
 

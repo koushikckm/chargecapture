@@ -29,6 +29,7 @@ import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.entity.Provider;
+import com.ha.chargecapture.entity.UserDetail;
 import com.ha.chargecapture.exception.ChargeCaptureDaoException;
 import com.ha.chargecapture.exception.ChargeCaptureServiceException;
 
@@ -443,9 +444,10 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 	}
 
 	@Override
-	public PatientDetail getPatientDetail(String patientId) {
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getPatientDetailByServiceId() ");
-		return chargeCaptureDAO.getPatient(patientId);
+	public List<UserDetailDTO> getUserDetailByFacilityId(int facilityId) {
+		
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getUserDetails() ");
+		return chargeCaptureDAO.getUserDetailByFacilityId(facilityId);
 	}
 
 	@Override

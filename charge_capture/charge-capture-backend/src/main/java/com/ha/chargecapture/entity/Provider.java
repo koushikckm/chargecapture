@@ -64,4 +64,5 @@ public class Provider implements Serializable {
  	public void setFacility(List<Facility> facility) {
 		this.facility = facility;
 	}
+
 }
