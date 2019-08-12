@@ -1,5 +1,6 @@
 package com.ha.chargecapture.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,12 +24,14 @@ import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
+import com.ha.chargecapture.dto.UserDetailDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
 import com.ha.chargecapture.entity.ICDCodes;
 import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
+import com.ha.chargecapture.entity.UserDetail;
 import com.ha.chargecapture.service.AppointmentService;
 import com.ha.chargecapture.service.ChargeCaptureService;
 
@@ -77,7 +80,6 @@ public class ChargeCaptureAPI {
 	}
 
 	@GetMapping(value = "/getPatientDetail")
-	@Deprecated
 	public List<PatientDetail> getPatientDetail() {
 
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetail()");
@@ -97,17 +99,6 @@ public class ChargeCaptureAPI {
 		PatientSearchResponseDTO = chargeCaptureService.getPatientDetailList(patientsSearchDTO);
 
 		return PatientSearchResponseDTO;
-	}
-	
-	@PostMapping(value = "/getPatientDetailById")
-	public PatientDetail getPatientDetailById(@RequestBody  PatientsSearchDTO patientsSearchDTO) {
-
-		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureAPI::getPatientDetailById()");
-		PatientDetail patientDetail=null;
-
-		patientDetail = chargeCaptureService.getPatientDetail(patientsSearchDTO.getPatientId());
-
-		return patientDetail;
 	}
 
 	@PostMapping(value = "/submitPatientServiceDetail", produces = { "application/json" })
@@ -172,5 +163,13 @@ public class ChargeCaptureAPI {
 		cptGroups = chargeCaptureService.getCptGroups();
 
 		return cptGroups;
+	}
+	
+	@GetMapping(value = "/getUserDetails")
+	public List<UserDetailDTO> getUserDetails(@RequestParam(required=true) int facilityId)
+	{
+		List<UserDetailDTO> userDetails = null;
+		userDetails = chargeCaptureService.getUserDetailByFacilityId(facilityId);
+		return userDetails;
 	}
 }

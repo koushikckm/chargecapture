@@ -1,19 +1,25 @@
 package com.ha.chargecapture.dao;
 
+import java.lang.reflect.InvocationTargetException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.transform.Transformers;
@@ -22,9 +28,9 @@ import org.owasp.esapi.ESAPI;
 import org.owasp.esapi.Logger;
 import org.springframework.stereotype.Repository;
 
-import com.ha.chargecapture.constants.Constants;
 import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
+import com.ha.chargecapture.dto.UserDetailDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -33,6 +39,7 @@ import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.entity.Provider;
+import com.ha.chargecapture.entity.UserDetail;
 import com.ha.chargecapture.exception.ChargeCaptureDaoException;
 
 @Repository
@@ -80,7 +87,9 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		try {
 			Query query = null;
 
-			String patientQuery = Constants.GET_PATIENTS_FOR_FACILITY_QUERY;
+			String patientQuery = "SELECT patient_id AS patientId,first_name AS firstName,last_name AS lastName,middle_name AS middleName,name_suffix AS nameSuffix,date_of_birth AS dateOfBirth,gender AS gender,"
+					+ "address_line_1 AS address1,address_line_2 AS address2,city AS city,state AS state,zip AS zip,home_phone AS homePhone,mobile_phone AS mobilePhone,email AS email,work_phone AS workPhone,ssn AS ssn "
+					+ "FROM patientdetail where facility_id = :facilityId";
 			query = getSession().createSQLQuery(patientQuery).addScalar("patientId", StringType.INSTANCE)
 					.addScalar("firstName", StringType.INSTANCE).addScalar("lastName", StringType.INSTANCE)
 					.addScalar("middleName", StringType.INSTANCE).addScalar("nameSuffix", StringType.INSTANCE)
@@ -242,44 +251,71 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		try {
 			Session session = (Session) entityManager.getDelegate();
 			
-			String query = Constants.GET_PATIENT_DETAILS_LIST_BY_SEARCH_QUERY;
-					
-			if(patientsSearchDTO.getFromDate()!=null && patientsSearchDTO.getToDate()!=null) {
-				query+="where psd.date_of_service>=:fromDate and " + 
-						"psd.date_of_service<=:toDate  ";
-			}
+			Criteria patientServiceDetailsCriteria = session.createCriteria(PatientServiceDetail.class,PATIENTSERVICEDETAIL_TABLE);
+			
 			if(patientsSearchDTO.getStatus()!=null && patientsSearchDTO.getStatus()!="") {
-				if(patientsSearchDTO.getFromDate()==null) {
-					query+="where psd.status=:status ";
+				patientServiceDetailsCriteria.add(Restrictions.eq("status", patientsSearchDTO.getStatus()));
+			}
+			if(patientsSearchDTO.getFromDate()!=null && patientsSearchDTO.getToDate()!=null) {
+				patientServiceDetailsCriteria.add(Restrictions.between("dateOfService", sdf.format(patientsSearchDTO.getFromDate()), sdf.format(patientsSearchDTO.getToDate())));
+			}
+			
+			patientServiceDetailsCriteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+			patientservicedetailList= patientServiceDetailsCriteria.list();
+			if (null == patientservicedetailList || patientservicedetailList.isEmpty()) {
+				LOGGER.debug(Logger.EVENT_SUCCESS,
+						"In ChargeCaptureDAOImpl:getPatientDetailList() - patientdetailList is null or empty ");
+				results.put(0, null);
+				return results;
+			}
+			Integer count=patientServiceDetailsCriteria.list().size();
+			
+			if(patientsSearchDTO.getPageNumber()>0) {
+				patientServiceDetailsCriteria.setFirstResult((patientsSearchDTO.getPageNumber() - 1) * pageSize);
+				patientServiceDetailsCriteria.setMaxResults(pageSize);
+				patientservicedetailList=patientServiceDetailsCriteria.list();
+			}
+			
+			Map<String,List<PatientSearchResponseDTO>> patientDetailsMap=new HashMap<>();
+			
+			for(PatientServiceDetail patientServiceDetail:patientservicedetailList) {
+				if(patientDetailsMap.containsKey(patientServiceDetail.getPatientId())) {
+					List<PatientSearchResponseDTO> patientSearchResponseDTOs=patientDetailsMap.get(patientServiceDetail.getPatientId());
+					PatientSearchResponseDTO patientSearchResponseDTO=new PatientSearchResponseDTO();
+					BeanUtils.copyProperties(patientSearchResponseDTO,patientServiceDetail);
+					patientSearchResponseDTOs.add(patientSearchResponseDTO);
+					patientDetailsMap.put(patientServiceDetail.getPatientId(), patientSearchResponseDTOs);
 				}
 				else {
-					query+="and psd.status=:status ";
+					List<PatientSearchResponseDTO> patientSearchResponseDTOs=new ArrayList();
+					PatientSearchResponseDTO patientSearchResponseDTO=new PatientSearchResponseDTO();
+					BeanUtils.copyProperties(patientSearchResponseDTO,patientServiceDetail);
+					patientSearchResponseDTOs.add(patientSearchResponseDTO);
+					patientDetailsMap.put(patientServiceDetail.getPatientId(), patientSearchResponseDTOs);
+					
 				}
+				
 			}
-			query+=" group by psd.patient_id,psd.date_of_service";
+			Set<String> keySet=patientDetailsMap.keySet();
+			Iterator iterator=keySet.iterator();
 			
-			Query pharmaQuery = getSession().createSQLQuery(query).setResultTransformer(Transformers.aliasToBean(PatientSearchResponseDTO.class));;
-			if(patientsSearchDTO.getFromDate()!=null && patientsSearchDTO.getToDate()!=null) {
-				pharmaQuery.setString("fromDate", sdf.format(patientsSearchDTO.getFromDate()));
-				pharmaQuery.setString("toDate", sdf.format(patientsSearchDTO.getToDate()));
+			while(iterator.hasNext()) {
+				PatientDetail patientDetail=getPatient(iterator.next().toString());
+				List<PatientSearchResponseDTO> patientSearchResponseDTOs=patientDetailsMap.get(patientDetail.getPatientId());
+				patientSearchResponseDTOs.forEach(pd->pd.setPatientDetail(patientDetail));	
+				patientSearchResponseDTOList.addAll(patientSearchResponseDTOs);
 			}
-			if(patientsSearchDTO.getStatus()!=null && patientsSearchDTO.getStatus()!="") {
-				pharmaQuery.setString("status", patientsSearchDTO.getStatus());
-			}
-
-			int rowCount = pharmaQuery.list().size();
-			
-			if (patientsSearchDTO.getPageNumber() > 0) {
-				pharmaQuery.setFirstResult((patientsSearchDTO.getPageNumber() - 1) * pageSize);
-				pharmaQuery.setMaxResults(10);
-			}
-			
-			List<PatientSearchResponseDTO> list=pharmaQuery.list();
-			results.put(rowCount,list);
+			results.put(count,patientSearchResponseDTOList);
 		} catch (ChargeCaptureDaoException cde) {
 			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailList ", cde);
 			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailList ", cde);
-		} 
+		} catch (IllegalAccessException e) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailList ", e);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailList ", e);
+		} catch (InvocationTargetException e) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailList ", e);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailList ", e);
+		}
 		
 		return results;
 	}
@@ -357,7 +393,8 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 			}
 
 			// insert to pat serv icd tbl
-			Query query = session.createSQLQuery(Constants.INSERT_TO_PATIENT_SERVICE_ICD_CODE);
+			Query query = session.createSQLQuery(
+					"insert into patientserviceicdcodes (service_id,icdcode) values (:serviceId,:icdCode)");
 			query.setParameter("serviceId", serviceId);
 			query.setParameter("icdCode", icdCode);
 			query.executeUpdate();
@@ -384,7 +421,8 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 			}
 
 			// insert to pat serv cpt tbl
-			Query query = session.createSQLQuery(Constants.INSERT_TO_PATIENT_SERVICE_CPD_CODE);
+			Query query = session.createSQLQuery(
+					"insert into patientservicecptcodes (service_id,cptcode) values (:serviceId,:cptCode)");
 			query.setParameter("serviceId", serviceId);
 			query.setParameter("cptCode", cptCode);
 			query.executeUpdate();
@@ -399,7 +437,10 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		Query query = null;
 		List<String> icdList = new ArrayList<>();
 		try {
-			query = getSession().createSQLQuery(Constants.GET_FAVORITE_ICDS_FOR_PROVIDER);
+			String icdQuery = "SELECT picd.icdcode FROM patientserviceicdcodes picd "
+					+ "JOIN patientservicedetail psd ON picd.service_id=psd.service_id and psd.provider_id=:providerId ";
+
+			query = getSession().createSQLQuery(icdQuery);
 			query.setParameter("providerId", providerId);
 
 			if (!query.list().isEmpty()) {
@@ -417,7 +458,10 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		Query query = null;
 		List<String> cptList = new ArrayList<>();
 		try {
-			query = getSession().createSQLQuery(Constants.GET_FAVORITE_CPTS_FOR_PROVIDER);
+			String cptQuery = "SELECT pcpt.cptcode FROM patientservicecptcodes pcpt "
+					+ "JOIN patientservicedetail psd ON pcpt.service_id=psd.service_id and psd.provider_id=:providerId ";
+
+			query = getSession().createSQLQuery(cptQuery);
 			query.setParameter("providerId", providerId);
 
 			if (!query.list().isEmpty()) {
@@ -524,5 +568,33 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		return patientServiceList;
 	}
 
+	@Override
+	public List<UserDetailDTO> getUserDetailByFacilityId(int facilityId) {
+		
+		Query query = null;
+		String userQuery = null;
+		List<UserDetail> userDetails = new ArrayList<>();
+		try {
+			
+			userQuery = "SELECT user.user_id as userId, user.user_name as userName, user.first_name as firstName, user.last_name as lastName, user.email_id as emailId FROM chargecaptureuser user " + 
+					"Join provider provider on provider.provider_id = user.provider_id " + 
+					"Join providerfacilitymapping mapping on mapping.provider_id = provider.provider_id " + 
+					"where mapping.facility_id =:facilityId";
+					
+			 
+			query = getSession().createSQLQuery(userQuery);
+			query.setParameter("facilityId", facilityId);
+					
+					
+		}
+		catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailListById ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailListById ", cde);
+		}
+		
+		
+		return query.setResultTransformer(Transformers.aliasToBean(UserDetailDTO.class)).list();
+			
+	}
 
 }

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
+import com.ha.chargecapture.dto.UserDetailDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -14,6 +15,7 @@ import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.entity.Provider;
+import com.ha.chargecapture.entity.UserDetail;
 
 public interface ChargeCaptureDAO {
 
@@ -52,4 +54,6 @@ public interface ChargeCaptureDAO {
 	List<PatientDetail> getPatientDetailListById(List<String> patientIdList);
 	
 	List<PatientServiceDetail> getPatientServiceListById(List<Integer> patientIdList);
+	
+	List<UserDetailDTO> getUserDetailByFacilityId(int providerId);
 }

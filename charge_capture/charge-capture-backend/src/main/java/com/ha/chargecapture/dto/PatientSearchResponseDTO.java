@@ -1,6 +1,5 @@
 package com.ha.chargecapture.dto;
 
-import java.util.Date;
 import java.util.List;
 
 import com.ha.chargecapture.entity.PatientDetail;
@@ -13,23 +12,12 @@ public class PatientSearchResponseDTO {
 
 	private String patientId;
 
-	private Date dateOfBirth;
-	
-	private Date dateOfService;
+	private String dateOfService;
 
 	private String comments;
 
 	private String status;
-	
-	private String providerName;
-	
-	private String patientName;
-	
-	private String facilityName;
-	
-private String icdValues;
-	
-	private String cptValues;
+
 	private Integer charges;
 
 	private List<PatientServiceICDCodes> icdCodes;
@@ -56,12 +44,11 @@ private String icdValues;
 		this.patientId = patientId;
 	}
 
-
-	public Date getDateOfService() {
+	public String getDateOfService() {
 		return dateOfService;
 	}
 
-	public void setDateOfService(Date dateOfService) {
+	public void setDateOfService(String dateOfService) {
 		this.dateOfService = dateOfService;
 	}
 
@@ -120,53 +107,6 @@ private String icdValues;
 	public void setPatientDetail(PatientDetail patientDetail) {
 		this.patientDetail = patientDetail;
 	}
-
-	public String getProviderName() {
-		return providerName;
-	}
-
-	public void setProviderName(String providerName) {
-		this.providerName = providerName;
-	}
-
-	public String getFacilityName() {
-		return facilityName;
-	}
-
-	public void setFacilityName(String facilityName) {
-		this.facilityName = facilityName;
-	}
-
-	public String getPatientName() {
-		return patientName;
-	}
-
-	public void setPatientName(String patientName) {
-		this.patientName = patientName;
-	}
-
-	public String getIcdValues() {
-		return icdValues;
-	}
-
-	public void setIcdValues(String icdValues) {
-		this.icdValues = icdValues;
-	}
-
-	public String getCptValues() {
-		return cptValues;
-	}
-
-	public void setCptValues(String cptValues) {
-		this.cptValues = cptValues;
-	}
-
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
-
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-
+	
+	
 }
