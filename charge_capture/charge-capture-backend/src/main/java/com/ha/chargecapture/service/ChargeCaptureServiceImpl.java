@@ -20,6 +20,7 @@ import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
+import com.ha.chargecapture.dto.UserDetailDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -445,6 +446,12 @@ public class ChargeCaptureServiceImpl implements ChargeCaptureService {
 	public PatientDetail getPatientDetail(String patientId) {
 		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getPatientDetailByServiceId() ");
 		return chargeCaptureDAO.getPatient(patientId);
+	}
+
+	@Override
+	public List<UserDetailDTO> getUserDetailByFacilityId(int facilityId) {
+		LOGGER.debug(Logger.EVENT_SUCCESS, "Entering ChargeCaptureServiceImpl::getUserDetails() ");
+		return chargeCaptureDAO.getUserDetailByFacilityId(facilityId);
 	}
 	
 }

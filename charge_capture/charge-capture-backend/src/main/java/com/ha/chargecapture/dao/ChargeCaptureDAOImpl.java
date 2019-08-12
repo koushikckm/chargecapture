@@ -25,6 +25,7 @@ import org.springframework.stereotype.Repository;
 import com.ha.chargecapture.constants.Constants;
 import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
+import com.ha.chargecapture.dto.UserDetailDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -33,6 +34,7 @@ import com.ha.chargecapture.entity.ICDGroup;
 import com.ha.chargecapture.entity.PatientDetail;
 import com.ha.chargecapture.entity.PatientServiceDetail;
 import com.ha.chargecapture.entity.Provider;
+import com.ha.chargecapture.entity.UserDetail;
 import com.ha.chargecapture.exception.ChargeCaptureDaoException;
 
 @Repository
@@ -524,5 +526,33 @@ public class ChargeCaptureDAOImpl implements ChargeCaptureDAO {
 		return patientServiceList;
 	}
 
+	@Override
+	public List<UserDetailDTO> getUserDetailByFacilityId(int facilityId) {
+		
+		Query query = null;
+		String userQuery = null;
+		List<UserDetail> userDetails = new ArrayList<>();
+		try {
+			
+			userQuery = "SELECT user.user_id as userId, user.user_name as userName, user.first_name as firstName, user.last_name as lastName, user.email_id as emailId FROM chargecaptureuser user " + 
+					"Join provider provider on provider.provider_id = user.provider_id " + 
+					"Join providerfacilitymapping mapping on mapping.provider_id = provider.provider_id " + 
+					"where mapping.facility_id =:facilityId";
+					
+			 
+			query = getSession().createSQLQuery(userQuery);
+			query.setParameter("facilityId", facilityId);
+					
+					
+		}
+		catch (ChargeCaptureDaoException cde) {
+			LOGGER.error(Logger.EVENT_FAILURE, "ChargeCaptureDaoException in getPatientDetailListById ", cde);
+			throw new ChargeCaptureDaoException("ChargeCaptureDaoException in getPatientDetailListById ", cde);
+		}
+		
+		
+		return query.setResultTransformer(Transformers.aliasToBean(UserDetailDTO.class)).list();
+			
+	}
 
 }

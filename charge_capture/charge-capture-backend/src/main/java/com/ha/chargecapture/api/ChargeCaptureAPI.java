@@ -23,6 +23,7 @@ import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
+import com.ha.chargecapture.dto.UserDetailDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -172,5 +173,13 @@ public class ChargeCaptureAPI {
 		cptGroups = chargeCaptureService.getCptGroups();
 
 		return cptGroups;
+	}
+	
+	@GetMapping(value = "/getUserDetails")
+	public List<UserDetailDTO> getUserDetails(@RequestParam(required=true) int facilityId)
+	{
+		List<UserDetailDTO> userDetails = null;
+		userDetails = chargeCaptureService.getUserDetailByFacilityId(facilityId);
+		return userDetails;
 	}
 }

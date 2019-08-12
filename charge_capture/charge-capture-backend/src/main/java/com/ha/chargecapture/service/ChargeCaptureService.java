@@ -7,6 +7,7 @@ import com.ha.chargecapture.dto.PatientDetailDTO;
 import com.ha.chargecapture.dto.PatientSearchResponseDTO;
 import com.ha.chargecapture.dto.PatientServiceDetailDTO;
 import com.ha.chargecapture.dto.PatientsSearchDTO;
+import com.ha.chargecapture.dto.UserDetailDTO;
 import com.ha.chargecapture.entity.CPTCodes;
 import com.ha.chargecapture.entity.CPTGroup;
 import com.ha.chargecapture.entity.Facility;
@@ -41,4 +42,6 @@ public interface ChargeCaptureService {
 	List<CPTGroup> getCptGroups();
 	
 	void approvePatientService(PatientDetailDTO patientDetailDto);
+	
+	List<UserDetailDTO> getUserDetailByFacilityId(int facilityId);
 }

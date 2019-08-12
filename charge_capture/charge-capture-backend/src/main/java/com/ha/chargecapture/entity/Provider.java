@@ -1,10 +1,13 @@
 package com.ha.chargecapture.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -25,6 +28,10 @@ public class Provider implements Serializable {
 
 	@Column(name = "last_name")
 	private String lastName;
+	
+	@JoinColumn(name="facility_id")
+	@OneToMany
+	private List<Facility> facility;
 
 	public int getProviderId() {
 		return providerId;
@@ -50,4 +57,11 @@ public class Provider implements Serializable {
 		this.lastName = lastName;
 	}
 
+	public List<Facility> getFacility() {
+		return facility;
+	}
+
+ 	public void setFacility(List<Facility> facility) {
+		this.facility = facility;
+	}
 }
