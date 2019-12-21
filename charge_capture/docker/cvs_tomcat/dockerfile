@@ -1,0 +1,51 @@
+from tomcat:8-jre8
+
+MAINTAINER KOUSHIK
+ENV CATALINA_HOME /usr/local/tomcat
+ENV PATH $CATALINA_HOME/bin:$PATH
+ENV JAVA_OPTS="-XX:PermSize=1024m -XX:MaxPermSize=512m"
+RUN mkdir -p "$CATALINA_HOME"
+WORKDIR $CATALINA_HOME
+
+ENV AWS_ACCESS_KEY_ID AKIAJUDJC5WT4KCPEEVA
+ENV AWS_SECRET_ACCESS_KEY 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
+
+RUN apt-get update;exit 0
+
+RUN apt-get -y install openssh-client
+
+RUN apt-get -y install openssh-server
+
+
+#Clam AV config
+#RUN apt-get -y install clamav-daemon clamav-freshclam
+#RUN freshclam -v
+#ADD clamd.conf /etc/clamav/clamd.conf
+#RUN clamd
+
+ 
+ADD tomcat-users.xml /usr/local/tomcat/conf/
+ADD context.xml /usr/local/tomcat/webapps/manager/META-INF
+#ADD keystore /usr/local/tomcat/conf/
+#ADD keystore /usr/local/tomcat/
+
+
+ADD server.xml /usr/local/tomcat/conf/
+RUN ["rm", "-fr", "/usr/local/tomcat/webapps/ROOT"]
+RUN ["rm", "-fr", "/usr/local/tomcat/webapps/ROOT.war"]
+
+#Newly added
+#RUN mkdir "$CATALINA_HOME/keystoredir"
+#RUN keytool -genkey -noprompt -trustcacerts -keyalg RSA -alias tomcat -dname "CN=Palash Ray, OU=Demo, O=Swayam, L=Bangalore, ST=Karnataka, C=IN" -keypass changeme -keystore "$CATALINA_HOME/keystoredir/my_keystore" -storepass changeme
+#COPY server.xml "$CATALINA_HOME/conf/server.xml"
+#Newly added
+
+ADD ROOT.war /usr/local/tomcat/webapps/
+
+
+# Expose tomcat
+# EXPOSE 8443
+
+
+CMD ["catalina.sh","run"]
+
